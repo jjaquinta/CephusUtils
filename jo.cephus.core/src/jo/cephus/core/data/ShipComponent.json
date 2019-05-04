@@ -1,0 +1,1115 @@
+{
+	"shipComponents": [
+		{
+			"id": "hull100",
+			"name": { "ident": "HULL_NAME", "args":[100] },
+			"description": { "ident": "HULL_DESC", "args":[100] },
+			"volume": -100,
+			"price": 2,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "1",
+				"constructionTime": "36"
+			}
+		},
+		{
+			"id": "hull200",
+			"name": { "ident": "HULL_NAME", "args":[200] },
+			"description": { "ident": "HULL_DESC", "args":[200] },
+			"volume": -200,
+			"price": 8,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "2",
+				"constructionTime": "44"
+			}
+		},
+		{
+			"id": "hull300",
+			"name": { "ident": "HULL_NAME", "args":[300] },
+			"description": { "ident": "HULL_DESC", "args":[300] },
+			"volume": -300,
+			"price": 12,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "3",
+				"constructionTime": "52"
+			}
+		},
+		{
+			"id": "hull400",
+			"name": { "ident": "HULL_NAME", "args":[400] },
+			"description": { "ident": "HULL_DESC", "args":[400] },
+			"volume": -400,
+			"price": 16,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "4",
+				"constructionTime": "60"
+			}
+		},
+		{
+			"id": "hull500",
+			"name": { "ident": "HULL_NAME", "args":[500] },
+			"description": { "ident": "HULL_DESC", "args":[500] },
+			"volume": -500,
+			"price": 32,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "5",
+				"constructionTime": "68"
+			}
+		},
+		{
+			"id": "hull600",
+			"name": { "ident": "HULL_NAME", "args":[600] },
+			"description": { "ident": "HULL_DESC", "args":[600] },
+			"volume": -600,
+			"price": 48,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "6",
+				"constructionTime": "76"
+			}
+		},
+		{
+			"id": "hull700",
+			"name": { "ident": "HULL_NAME", "args":[700] },
+			"description": { "ident": "HULL_DESC", "args":[700] },
+			"volume": -700,
+			"price": 64,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "7",
+				"constructionTime": "84"
+			}
+		},
+		{
+			"id": "hull800",
+			"name": { "ident": "HULL_NAME", "args":[800] },
+			"description": { "ident": "HULL_DESC", "args":[800] },
+			"volume": -800,
+			"price": 80,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "8",
+				"constructionTime": "92"
+			}
+		},
+		{
+			"id": "hull900",
+			"name": { "ident": "HULL_NAME", "args":[900] },
+			"description": { "ident": "HULL_DESC", "args":[900] },
+			"volume": -900,
+			"price": 90,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "9",
+				"constructionTime": "100"
+			}
+		},
+		{
+			"id": "hull1000",
+			"name": { "ident": "HULL_NAME", "args":[1000] },
+			"description": { "ident": "HULL_DESC", "args":[1000] },
+			"volume": -1000,
+			"price": 100,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "A",
+				"constructionTime": "108"
+			}
+		},
+		{
+			"id": "hull1200",
+			"name": { "ident": "HULL_NAME", "args":[1200] },
+			"description": { "ident": "HULL_DESC", "args":[1200] },
+			"volume": -1200,
+			"price": 120,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "C",
+				"constructionTime": "124"
+			}
+		},
+		{
+			"id": "hull1400",
+			"name": { "ident": "HULL_NAME", "args":[1400] },
+			"description": { "ident": "HULL_DESC", "args":[1400] },
+			"volume": -1400,
+			"price": 140,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "E",
+				"constructionTime": "140"
+			}
+		},
+		{
+			"id": "hull1600",
+			"name": { "ident": "HULL_NAME", "args":[1600] },
+			"description": { "ident": "HULL_DESC", "args":[1600] },
+			"volume": -1600,
+			"price": 160,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "G",
+				"constructionTime": "156"
+			}
+		},
+		{
+			"id": "hull1800",
+			"name": { "ident": "HULL_NAME", "args":[1800] },
+			"description": { "ident": "HULL_DESC", "args":[1800] },
+			"volume": -1800,
+			"price": 180,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "J",
+				"constructionTime": "172"
+			}
+		},
+		{
+			"id": "hull2000",
+			"name": { "ident": "HULL_NAME", "args":[2000] },
+			"description": { "ident": "HULL_DESC", "args":[2000] },
+			"volume": -2000,
+			"price": 200,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "L",
+				"constructionTime": "188"
+			}
+		},
+		{
+			"id": "hull3000",
+			"name": { "ident": "HULL_NAME", "args":[3000] },
+			"description": { "ident": "HULL_DESC", "args":[3000] },
+			"volume": -3000,
+			"price": 300,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "M",
+				"constructionTime": "268"
+			}
+		},
+		{
+			"id": "hull4000",
+			"name": { "ident": "HULL_NAME", "args":[4000] },
+			"description": { "ident": "HULL_DESC", "args":[4000] },
+			"volume": -4000,
+			"price": 400,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "N",
+				"constructionTime": "348"
+			}
+		},
+		{
+			"id": "hull5000",
+			"name": { "ident": "HULL_NAME", "args":[5000] },
+			"description": { "ident": "HULL_DESC", "args":[5000] },
+			"volume": -5000,
+			"price": 500,
+			"maxCopies": 1,
+			"type": "HULL",
+			"techLevel": 7,
+			"params": {
+				"hullCode": "P",
+				"constructionTime": "428"
+			}
+		},
+		{
+			"id": "configDistributed",
+			"name": { "ident": "CONFIG_DISTRIBUTED_NAME" },
+			"description": { "ident": "CONFIG_DISTRIBUTED_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "CONFIG",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$config$price",
+				"hullCostModifier": "0.9"
+			}
+		},
+		{
+			"id": "configStandard",
+			"name": { "ident": "CONFIG_STANDARD_NAME" },
+			"description": { "ident": "CONFIG_STANDARD_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "CONFIG",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$config$price",
+				"hullCostModifier": "1.0"
+			}
+		},
+		{
+			"id": "configStreamlined",
+			"name": { "ident": "CONFIG_STREAMLINED_NAME" },
+			"description": { "ident": "CONFIG_STREAMLINED_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "CONFIG",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$config$price",
+				"hullCostModifier": "1.1"
+			}
+		},
+		{
+			"id": "armorTitanium",
+			"name": { "ident": "ARMOR_TITANIUM_NAME" },
+			"description": { "ident": "ARMOR_TITANIUM_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 20,
+			"type": "ARMOR",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$armor$price",
+				"hullCostModifier": ".05",
+				"protection": 2
+			}
+		},
+		{
+			"id": "armorCrystaliron",
+			"name": { "ident": "ARMOR_CRYSTALIRON_NAME" },
+			"description": { "ident": "ARMOR_CRYSTALIRON_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 20,
+			"type": "ARMOR",
+			"techLevel": 10,
+			"params": {
+				"func$price": "comp$armor$price",
+				"hullCostModifier": ".2",
+				"protection": 4
+			}
+		},
+		{
+			"id": "armorSuperdense",
+			"name": { "ident": "ARMOR_SUPERDENSE_NAME" },
+			"description": { "ident": "ARMOR_SUPERDENSE_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 20,
+			"type": "ARMOR",
+			"techLevel": 14,
+			"params": {
+				"func$price": "comp$armor$price",
+				"hullCostModifier": ".5",
+				"protection": 6
+			}
+		},
+		{"id":"jdriveA","name":{"ident":"JDRIVE_NAME","args":["A"]},"description":{"ident":"JDRIVE_DESC","args":["A"]},"volume": 10,"price": 10,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "A"}},
+		{"id":"jdriveB","name":{"ident":"JDRIVE_NAME","args":["B"]},"description":{"ident":"JDRIVE_DESC","args":["B"]},"volume": 15,"price": 20,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "B"}},
+		{"id":"jdriveC","name":{"ident":"JDRIVE_NAME","args":["C"]},"description":{"ident":"JDRIVE_DESC","args":["C"]},"volume": 20,"price": 30,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "C"}},
+		{"id":"jdriveD","name":{"ident":"JDRIVE_NAME","args":["D"]},"description":{"ident":"JDRIVE_DESC","args":["D"]},"volume": 25,"price": 40,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "D"}},
+		{"id":"jdriveE","name":{"ident":"JDRIVE_NAME","args":["E"]},"description":{"ident":"JDRIVE_DESC","args":["E"]},"volume": 30,"price": 50,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "E"}},
+		{"id":"jdriveF","name":{"ident":"JDRIVE_NAME","args":["F"]},"description":{"ident":"JDRIVE_DESC","args":["F"]},"volume": 35,"price": 60,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "F"}},
+		{"id":"jdriveG","name":{"ident":"JDRIVE_NAME","args":["G"]},"description":{"ident":"JDRIVE_DESC","args":["G"]},"volume": 40,"price": 70,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "G"}},
+		{"id":"jdriveH","name":{"ident":"JDRIVE_NAME","args":["H"]},"description":{"ident":"JDRIVE_DESC","args":["H"]},"volume": 45,"price": 80,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "H"}},
+		{"id":"jdriveJ","name":{"ident":"JDRIVE_NAME","args":["J"]},"description":{"ident":"JDRIVE_DESC","args":["J"]},"volume": 50,"price": 90,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "J"}},
+		{"id":"jdriveK","name":{"ident":"JDRIVE_NAME","args":["K"]},"description":{"ident":"JDRIVE_DESC","args":["K"]},"volume": 55,"price":100,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "K"}},
+		{"id":"jdriveL","name":{"ident":"JDRIVE_NAME","args":["L"]},"description":{"ident":"JDRIVE_DESC","args":["L"]},"volume": 60,"price":110,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "L"}},
+		{"id":"jdriveM","name":{"ident":"JDRIVE_NAME","args":["M"]},"description":{"ident":"JDRIVE_DESC","args":["M"]},"volume": 65,"price":120,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "M"}},
+		{"id":"jdriveN","name":{"ident":"JDRIVE_NAME","args":["N"]},"description":{"ident":"JDRIVE_DESC","args":["N"]},"volume": 70,"price":130,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "N"}},
+		{"id":"jdriveP","name":{"ident":"JDRIVE_NAME","args":["P"]},"description":{"ident":"JDRIVE_DESC","args":["P"]},"volume": 75,"price":140,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "P"}},
+		{"id":"jdriveQ","name":{"ident":"JDRIVE_NAME","args":["Q"]},"description":{"ident":"JDRIVE_DESC","args":["Q"]},"volume": 80,"price":150,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "Q"}},
+		{"id":"jdriveR","name":{"ident":"JDRIVE_NAME","args":["R"]},"description":{"ident":"JDRIVE_DESC","args":["R"]},"volume": 85,"price":160,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "R"}},
+		{"id":"jdriveS","name":{"ident":"JDRIVE_NAME","args":["S"]},"description":{"ident":"JDRIVE_DESC","args":["S"]},"volume": 90,"price":170,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "S"}},
+		{"id":"jdriveT","name":{"ident":"JDRIVE_NAME","args":["T"]},"description":{"ident":"JDRIVE_DESC","args":["T"]},"volume": 95,"price":180,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "T"}},
+		{"id":"jdriveU","name":{"ident":"JDRIVE_NAME","args":["U"]},"description":{"ident":"JDRIVE_DESC","args":["U"]},"volume":100,"price":190,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "U"}},
+		{"id":"jdriveV","name":{"ident":"JDRIVE_NAME","args":["V"]},"description":{"ident":"JDRIVE_DESC","args":["V"]},"volume":105,"price":200,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "V"}},
+		{"id":"jdriveW","name":{"ident":"JDRIVE_NAME","args":["W"]},"description":{"ident":"JDRIVE_DESC","args":["W"]},"volume":110,"price":210,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "W"}},
+		{"id":"jdriveX","name":{"ident":"JDRIVE_NAME","args":["X"]},"description":{"ident":"JDRIVE_DESC","args":["X"]},"volume":115,"price":220,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "X"}},
+		{"id":"jdriveY","name":{"ident":"JDRIVE_NAME","args":["Y"]},"description":{"ident":"JDRIVE_DESC","args":["Y"]},"volume":120,"price":230,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "Y"}},
+		{"id":"jdriveZ","name":{"ident":"JDRIVE_NAME","args":["Z"]},"description":{"ident":"JDRIVE_DESC","args":["Z"]},"volume":125,"price":240,"maxCopies":1,"type": "JDRIVE","techLevel": 11,"params":{"driveCode": "Z"}},
+		{"id":"mdriveA","name":{"ident":"MDRIVE_NAME","args":["A"]},"description":{"ident":"MDRIVE_DESC","args":["A"]},"volume":  2,"price":  4,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "A"}},
+		{"id":"mdriveB","name":{"ident":"MDRIVE_NAME","args":["B"]},"description":{"ident":"MDRIVE_DESC","args":["B"]},"volume":  3,"price":  8,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "B"}},
+		{"id":"mdriveC","name":{"ident":"MDRIVE_NAME","args":["C"]},"description":{"ident":"MDRIVE_DESC","args":["C"]},"volume":  5,"price": 12,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "C"}},
+		{"id":"mdriveD","name":{"ident":"MDRIVE_NAME","args":["D"]},"description":{"ident":"MDRIVE_DESC","args":["D"]},"volume":  7,"price": 16,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "D"}},
+		{"id":"mdriveE","name":{"ident":"MDRIVE_NAME","args":["E"]},"description":{"ident":"MDRIVE_DESC","args":["E"]},"volume":  9,"price": 20,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "E"}},
+		{"id":"mdriveF","name":{"ident":"MDRIVE_NAME","args":["F"]},"description":{"ident":"MDRIVE_DESC","args":["F"]},"volume": 11,"price": 24,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "F"}},
+		{"id":"mdriveG","name":{"ident":"MDRIVE_NAME","args":["G"]},"description":{"ident":"MDRIVE_DESC","args":["G"]},"volume": 13,"price": 28,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "G"}},
+		{"id":"mdriveH","name":{"ident":"MDRIVE_NAME","args":["H"]},"description":{"ident":"MDRIVE_DESC","args":["H"]},"volume": 15,"price": 32,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "H"}},
+		{"id":"mdriveJ","name":{"ident":"MDRIVE_NAME","args":["J"]},"description":{"ident":"MDRIVE_DESC","args":["J"]},"volume": 17,"price": 36,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "J"}},
+		{"id":"mdriveK","name":{"ident":"MDRIVE_NAME","args":["K"]},"description":{"ident":"MDRIVE_DESC","args":["K"]},"volume": 19,"price": 40,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "K"}},
+		{"id":"mdriveL","name":{"ident":"MDRIVE_NAME","args":["L"]},"description":{"ident":"MDRIVE_DESC","args":["L"]},"volume": 21,"price": 44,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "L"}},
+		{"id":"mdriveM","name":{"ident":"MDRIVE_NAME","args":["M"]},"description":{"ident":"MDRIVE_DESC","args":["M"]},"volume": 23,"price": 48,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "M"}},
+		{"id":"mdriveN","name":{"ident":"MDRIVE_NAME","args":["N"]},"description":{"ident":"MDRIVE_DESC","args":["N"]},"volume": 25,"price": 52,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "N"}},
+		{"id":"mdriveP","name":{"ident":"MDRIVE_NAME","args":["P"]},"description":{"ident":"MDRIVE_DESC","args":["P"]},"volume": 27,"price": 56,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "P"}},
+		{"id":"mdriveQ","name":{"ident":"MDRIVE_NAME","args":["Q"]},"description":{"ident":"MDRIVE_DESC","args":["Q"]},"volume": 29,"price": 60,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "Q"}},
+		{"id":"mdriveR","name":{"ident":"MDRIVE_NAME","args":["R"]},"description":{"ident":"MDRIVE_DESC","args":["R"]},"volume": 31,"price": 64,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "R"}},
+		{"id":"mdriveS","name":{"ident":"MDRIVE_NAME","args":["S"]},"description":{"ident":"MDRIVE_DESC","args":["S"]},"volume": 33,"price": 68,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "S"}},
+		{"id":"mdriveT","name":{"ident":"MDRIVE_NAME","args":["T"]},"description":{"ident":"MDRIVE_DESC","args":["T"]},"volume": 35,"price": 72,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "T"}},
+		{"id":"mdriveU","name":{"ident":"MDRIVE_NAME","args":["U"]},"description":{"ident":"MDRIVE_DESC","args":["U"]},"volume": 37,"price": 76,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "U"}},
+		{"id":"mdriveV","name":{"ident":"MDRIVE_NAME","args":["V"]},"description":{"ident":"MDRIVE_DESC","args":["V"]},"volume": 39,"price": 80,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "V"}},
+		{"id":"mdriveW","name":{"ident":"MDRIVE_NAME","args":["W"]},"description":{"ident":"MDRIVE_DESC","args":["W"]},"volume": 41,"price": 84,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "W"}},
+		{"id":"mdriveX","name":{"ident":"MDRIVE_NAME","args":["X"]},"description":{"ident":"MDRIVE_DESC","args":["X"]},"volume": 43,"price": 88,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "X"}},
+		{"id":"mdriveY","name":{"ident":"MDRIVE_NAME","args":["Y"]},"description":{"ident":"MDRIVE_DESC","args":["Y"]},"volume": 45,"price": 92,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "Y"}},
+		{"id":"mdriveZ","name":{"ident":"MDRIVE_NAME","args":["Z"]},"description":{"ident":"MDRIVE_DESC","args":["Z"]},"volume": 47,"price": 96,"maxCopies":1,"type": "MDRIVE","techLevel": 11,"params":{"driveCode": "Z"}},
+		{"id":"pplantA","name":{"ident":"PPLANT_NAME","args":["A"]},"description":{"ident":"PPLANT_DESC","args":["A"]},"volume":  4,"price":  8,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "A"}},
+		{"id":"pplantB","name":{"ident":"PPLANT_NAME","args":["B"]},"description":{"ident":"PPLANT_DESC","args":["B"]},"volume":  7,"price": 16,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "B"}},
+		{"id":"pplantC","name":{"ident":"PPLANT_NAME","args":["C"]},"description":{"ident":"PPLANT_DESC","args":["C"]},"volume": 10,"price": 24,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "C"}},
+		{"id":"pplantD","name":{"ident":"PPLANT_NAME","args":["D"]},"description":{"ident":"PPLANT_DESC","args":["D"]},"volume": 13,"price": 32,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "D"}},
+		{"id":"pplantE","name":{"ident":"PPLANT_NAME","args":["E"]},"description":{"ident":"PPLANT_DESC","args":["E"]},"volume": 16,"price": 40,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "E"}},
+		{"id":"pplantF","name":{"ident":"PPLANT_NAME","args":["F"]},"description":{"ident":"PPLANT_DESC","args":["F"]},"volume": 19,"price": 48,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "F"}},
+		{"id":"pplantG","name":{"ident":"PPLANT_NAME","args":["G"]},"description":{"ident":"PPLANT_DESC","args":["G"]},"volume": 22,"price": 56,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "G"}},
+		{"id":"pplantH","name":{"ident":"PPLANT_NAME","args":["H"]},"description":{"ident":"PPLANT_DESC","args":["H"]},"volume": 25,"price": 64,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "H"}},
+		{"id":"pplantJ","name":{"ident":"PPLANT_NAME","args":["J"]},"description":{"ident":"PPLANT_DESC","args":["J"]},"volume": 28,"price": 72,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "J"}},
+		{"id":"pplantK","name":{"ident":"PPLANT_NAME","args":["K"]},"description":{"ident":"PPLANT_DESC","args":["K"]},"volume": 31,"price": 80,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "K"}},
+		{"id":"pplantL","name":{"ident":"PPLANT_NAME","args":["L"]},"description":{"ident":"PPLANT_DESC","args":["L"]},"volume": 34,"price": 88,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "L"}},
+		{"id":"pplantM","name":{"ident":"PPLANT_NAME","args":["M"]},"description":{"ident":"PPLANT_DESC","args":["M"]},"volume": 37,"price": 96,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "M"}},
+		{"id":"pplantN","name":{"ident":"PPLANT_NAME","args":["N"]},"description":{"ident":"PPLANT_DESC","args":["N"]},"volume": 40,"price":104,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "N"}},
+		{"id":"pplantP","name":{"ident":"PPLANT_NAME","args":["P"]},"description":{"ident":"PPLANT_DESC","args":["P"]},"volume": 43,"price":112,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "P"}},
+		{"id":"pplantQ","name":{"ident":"PPLANT_NAME","args":["Q"]},"description":{"ident":"PPLANT_DESC","args":["Q"]},"volume": 46,"price":120,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "Q"}},
+		{"id":"pplantR","name":{"ident":"PPLANT_NAME","args":["R"]},"description":{"ident":"PPLANT_DESC","args":["R"]},"volume": 49,"price":128,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "R"}},
+		{"id":"pplantS","name":{"ident":"PPLANT_NAME","args":["S"]},"description":{"ident":"PPLANT_DESC","args":["S"]},"volume": 52,"price":136,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "S"}},
+		{"id":"pplantT","name":{"ident":"PPLANT_NAME","args":["T"]},"description":{"ident":"PPLANT_DESC","args":["T"]},"volume": 55,"price":144,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "T"}},
+		{"id":"pplantU","name":{"ident":"PPLANT_NAME","args":["U"]},"description":{"ident":"PPLANT_DESC","args":["U"]},"volume": 58,"price":152,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "U"}},
+		{"id":"pplantV","name":{"ident":"PPLANT_NAME","args":["V"]},"description":{"ident":"PPLANT_DESC","args":["V"]},"volume": 61,"price":160,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "V"}},
+		{"id":"pplantW","name":{"ident":"PPLANT_NAME","args":["W"]},"description":{"ident":"PPLANT_DESC","args":["W"]},"volume": 64,"price":168,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "W"}},
+		{"id":"pplantX","name":{"ident":"PPLANT_NAME","args":["X"]},"description":{"ident":"PPLANT_DESC","args":["X"]},"volume": 67,"price":176,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "X"}},
+		{"id":"pplantY","name":{"ident":"PPLANT_NAME","args":["Y"]},"description":{"ident":"PPLANT_DESC","args":["Y"]},"volume": 70,"price":184,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "Y"}},
+		{"id":"pplantZ","name":{"ident":"PPLANT_NAME","args":["Z"]},"description":{"ident":"PPLANT_DESC","args":["Z"]},"volume": 73,"price":192,"maxCopies":1,"type": "PPLANT","techLevel": 11,"params":{"driveCode": "Z"}},
+		{
+			"id": "fuel",
+			"name": { "ident": "FUEL_NAME" },
+			"description": { "ident": "FUEL_DESC" },
+			"volume": 1,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "FUEL",
+			"techLevel": 0,
+			"params": {
+			}
+		},
+		{
+			"id": "bridge10",
+			"name": { "ident":"BRIDGE_NAME","args":["10"] },
+			"description": { "ident":"BRIDGE_DESC","args":["10"] },
+			"volume": 10,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "BRIDGE",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$bridge$price"
+			}
+		},
+		{
+			"id": "bridge20",
+			"name": { "ident":"BRIDGE_NAME","args":["20"] },
+			"description": { "ident":"BRIDGE_DESC","args":["20"] },
+			"volume": 20,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "BRIDGE",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$bridge$price"
+			}
+		},
+		{
+			"id": "bridge40",
+			"name": { "ident":"BRIDGE_NAME","args":["40"] },
+			"description": { "ident":"BRIDGE_DESC","args":["40"] },
+			"volume": 40,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "BRIDGE",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$bridge$price"
+			}
+		},
+		{
+			"id": "bridge60",
+			"name": { "ident":"BRIDGE_NAME","args":["60"] },
+			"description": { "ident":"BRIDGE_DESC","args":["60"] },
+			"volume": 60,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "BRIDGE",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$bridge$price"
+			}
+		},
+		{
+			"id": "computer1",
+			"name": { "ident": "COMPUTER_1_NAME" },
+			"description": { "ident": "COMPUTER_1_DESC" },
+			"volume": 0,
+			"price": 0.03,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 7,
+			"params": {
+				"rating": "5"
+			}
+		},
+		{
+			"id": "computer2",
+			"name": { "ident": "COMPUTER_2_NAME" },
+			"description": { "ident": "COMPUTER_2_DESC" },
+			"volume": 0,
+			"price": 0.16,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 9,
+			"params": {
+				"rating": "10"
+			}
+		},
+		{
+			"id": "computer3",
+			"name": { "ident": "COMPUTER_3_NAME" },
+			"description": { "ident": "COMPUTER_3_DESC" },
+			"volume": 0,
+			"price": 2,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 1,
+			"params": {
+				"rating": "15"
+			}
+		},
+		{
+			"id": "computer4",
+			"name": { "ident": "COMPUTER_4_NAME" },
+			"description": { "ident": "COMPUTER_4_DESC" },
+			"volume": 0,
+			"price": 5,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 12,
+			"params": {
+				"rating": "20"
+			}
+		},
+		{
+			"id": "computer5",
+			"name": { "ident": "COMPUTER_5_NAME" },
+			"description": { "ident": "COMPUTER_5_DESC" },
+			"volume": 0,
+			"price": 10,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 13,
+			"params": {
+				"rating": "25"
+			}
+		},
+		{
+			"id": "computer6",
+			"name": { "ident": "COMPUTER_6_NAME" },
+			"description": { "ident": "COMPUTER_6_DESC" },
+			"volume": 0,
+			"price": 20,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 14,
+			"params": {
+				"rating": "30"
+			}
+		},
+		{
+			"id": "computer7",
+			"name": { "ident": "COMPUTER_7_NAME" },
+			"description": { "ident": "COMPUTER_7_DESC" },
+			"volume": 0,
+			"price": 30,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 15,
+			"params": {
+				"rating": "35"
+			}
+		},
+		{
+			"id": "computer_bis",
+			"name": { "ident": "COMPUTER_BIS_NAME" },
+			"description": { "ident": "COMPUTER_BIS_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$comp$bis$price",
+				"func$maxCopies": "comp$comp$bis$maxCopies"
+			}
+		},
+		{
+			"id": "computer_fib",
+			"name": { "ident": "COMPUTER_FIB_NAME" },
+			"description": { "ident": "COMPUTER_FIB_DESC" },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 7,
+			"params": {
+				"func$price": "comp$comp$fib$price",
+				"func$maxCopies": "comp$comp$fib$maxCopies"
+			}
+		},
+		{
+			"id": "electronics_civilian",
+			"name": { "ident": "ELECTRONICS_CIV_NAME" },
+			"description": { "ident": "ELECTRONICS_CIV_DESC" },
+			"volume": 1,
+			"price": 0.05,
+			"maxCopies": -1,
+			"type": "ELECTRONICS",
+			"techLevel": 9,
+			"params": {
+				"dm": "-2",
+				"includes": ["radar","lidar"]
+			}
+		},
+		{
+			"id": "electronics_military",
+			"name": { "ident": "ELECTRONICS_MIL_NAME" },
+			"description": { "ident": "ELECTRONICS_MIL_DESC" },
+			"volume": 2,
+			"price": 1,
+			"maxCopies": -1,
+			"type": "ELECTRONICS",
+			"techLevel": 10,
+			"params": {
+				"dm": "0",
+				"includes": ["radar","lidar","jammers"]
+			}
+		},
+		{
+			"id": "electronics_advanced",
+			"name": { "ident": "ELECTRONICS_ADV_NAME" },
+			"description": { "ident": "ELECTRONICS_ADV_DESC" },
+			"volume": 3,
+			"price": 2,
+			"maxCopies": -1,
+			"type": "ELECTRONICS",
+			"techLevel": 11,
+			"params": {
+				"dm": "1",
+				"includes": ["radar","lidar","densiometer","jammers"]
+			}
+		},
+		{
+			"id": "electronics_advanced2",
+			"name": { "ident": "ELECTRONICS_ADV2_NAME" },
+			"description": { "ident": "ELECTRONICS_ADV2_DESC" },
+			"volume": 5,
+			"price": 4,
+			"maxCopies": -1,
+			"type": "ELECTRONICS",
+			"techLevel": 12,
+			"params": {
+				"dm": "1",
+				"includes": ["radar","lidar","densiometer","jammers","neural activity sensor"]
+			}
+		},
+		{
+			"id": "stateroom",
+			"name": { "ident": "STATEROOM_NAME" },
+			"description": { "ident": "STATEROOM_DESC" },
+			"volume": 4,
+			"price": 0.5,
+			"maxCopies": -1,
+			"type": "STATEROOM",
+			"techLevel": 7,
+			"params": {
+				"occupancy": "2"
+			}
+		},
+		{
+			"id": "barracks",
+			"name": { "ident": "BARRACKS_NAME" },
+			"description": { "ident": "BARRACKS_DESC" },
+			"volume": 2,
+			"price": 0.1,
+			"maxCopies": -1,
+			"type": "STATEROOM",
+			"techLevel": 7,
+			"params": {
+				"occupancy": "1"
+			}
+		},
+		{
+			"id": "lowberth",
+			"name": { "ident": "LOW_BERTH_NAME" },
+			"description": { "ident": "LOW_BERTH_DESC" },
+			"volume": 0.5,
+			"price": 0.05,
+			"maxCopies": -1,
+			"type": "BERTH",
+			"techLevel": 7,
+			"params": {
+				"occupancy": "1"
+			}
+		},
+		{
+			"id": "emergency_lowberth",
+			"name": { "ident": "EMERGENCY_LOW_BERTH_NAME" },
+			"description": { "ident": "EMERGENCY_LOW_BERTH_DESC" },
+			"volume": 1,
+			"price": 0.1,
+			"maxCopies": -1,
+			"type": "BERTH",
+			"techLevel": 7,
+			"params": {
+				"occupancy": "4"
+			}
+		},
+		{
+			"id": "armory",
+			"name": { "ident": "ARMORY_NAME" },
+			"description": { "ident": "ARMORY_DESC" },
+			"volume": 2,
+			"price": 0.5,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7,
+			"params": {
+				"occupancy": "4"
+			}
+		},
+		{
+			"id": "briefing_room",
+			"name": { "ident": "BRIEFING_ROOM_NAME" },
+			"description": { "ident": "BRIEFING_ROOM_DESC" },
+			"volume": 10,
+			"price": 1.5,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "cargo_hold",
+			"name": { "ident": "CARGO_HOLD_NAME" },
+			"description": { "ident": "CARGO_HOLD_DESC" },
+			"volume": 1,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "detention_cell",
+			"name": { "ident": "DETENTION_CELL_NAME" },
+			"description": { "ident": "DETENTION_CELL_DESC" },
+			"volume": 2,
+			"price": 0.25,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "fuel_scoops",
+			"name": { "ident": "FUEL_SCOOPS_NAME" },
+			"description": { "ident": "FUEL_SCOOPS_DESC" },
+			"volume": 0,
+			"price": 1,
+			"maxCopies": 1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "fuel_processor",
+			"name": { "ident": "FUEL_PROCESSOR_NAME" },
+			"description": { "ident": "FUEL_PROCESSOR_DESC" },
+			"volume": 1,
+			"price": 0.05,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7,
+			"params": {
+				"tonsPerDay": "20"
+			}
+		},
+		{
+			"id": "lab",
+			"name": { "ident": "LAB_NAME" },
+			"description": { "ident": "LAB_DESC" },
+			"volume": 4,
+			"price": 1,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "launch_tube",
+			"name": { "ident": "LAUNCH_TUBE_NAME" },
+			"description": { "ident": "LAUNCH_TUBE_DESC" },
+			"volume": 25,
+			"price": 12.5,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "library",
+			"name": { "ident": "LIBRARY_NAME" },
+			"description": { "ident": "LIBRARY_DESC" },
+			"volume": 4,
+			"price": 4,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "luxuries",
+			"name": { "ident": "LUXURIES_NAME" },
+			"description": { "ident": "LUXURIES_DESC" },
+			"volume": 1,
+			"price": 0.1,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "vault",
+			"name": { "ident": "VAULT_NAME" },
+			"description": { "ident": "VAULT_DESC" },
+			"volume": 12,
+			"price": 6,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "hanger",
+			"name": { "ident": "HANGER_NAME" },
+			"description": { "ident": "HANGER_DESC" },
+			"volume": 1.3,
+			"price": 0.2,
+			"maxCopies": -1,
+			"type": "ETC",
+			"techLevel": 7
+		},
+		{
+			"id": "single_turret",
+			"name": { "ident": "TURRET_SINGLE_NAME" },
+			"description": { "ident": "TURRET_SINGLE_DESC" },
+			"volume": 1,
+			"price": 0.2,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 7,
+			"params": {
+				"capacity": "1"
+			}
+		},
+		{
+			"id": "double_turret",
+			"name": { "ident": "TURRET_DOUBLE_NAME" },
+			"description": { "ident": "TURRET_DOUBLE_DESC" },
+			"volume": 1,
+			"price": 0.5,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 8,
+			"params": {
+				"capacity": "2"
+			}
+		},
+		{
+			"id": "triple_turret",
+			"name": { "ident": "TURRET_TRIPLE_NAME" },
+			"description": { "ident": "TURRET_TRIPLE_DESC" },
+			"volume": 1,
+			"price": 1,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 9,
+			"params": {
+				"capacity": "3"
+			}
+		},
+		{
+			"id": "single_popup_turret",
+			"name": { "ident": "TURRET_POPUP_SINGLE_NAME" },
+			"description": { "ident": "TURRET_POPUP_SINGLE_DESC" },
+			"volume": 2,
+			"price": 1.2,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 7,
+			"params": {
+				"capacity": "1",
+				"hidden": true
+			}
+		},
+		{
+			"id": "double_popup_turret",
+			"name": { "ident": "TURRET_POPUP_DOUBLE_NAME" },
+			"description": { "ident": "TURRET_POPUP_DOUBLE_DESC" },
+			"volume": 2,
+			"price": 1.5,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 8,
+			"params": {
+				"capacity": "2",
+				"hidden": true
+			}
+		},
+		{
+			"id": "triple_popup_turret",
+			"name": { "ident": "TURRET_POPUP_TRIPLE_NAME" },
+			"description": { "ident": "TURRET_POPUP_TRIPLE_DESC" },
+			"volume": 2,
+			"price": 2,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 9,
+			"params": {
+				"capacity": "3",
+				"hidden": true
+			}
+		},
+		{
+			"id": "single_fixed_turret",
+			"name": { "ident": "TURRET_FIXED_SINGLE_NAME" },
+			"description": { "ident": "TURRET_FIXED_SINGLE_DESC" },
+			"volume": 1,
+			"price": 0.1,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 7,
+			"params": {
+				"capacity": "1",
+				"fixed": true
+			}
+		},
+		{
+			"id": "double_fixed_turret",
+			"name": { "ident": "TURRET_FIXED_DOUBLE_NAME" },
+			"description": { "ident": "TURRET_FIXED_DOUBLE_DESC" },
+			"volume": 1,
+			"price": 0.25,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 8,
+			"params": {
+				"capacity": "2",
+				"fixed": true
+			}
+		},
+		{
+			"id": "triple_fixed_turret",
+			"name": { "ident": "TURRET_FIXED_TRIPLE_NAME" },
+			"description": { "ident": "TURRET_FIXED_TRIPLE_DESC" },
+			"volume": 1,
+			"price": 0.5,
+			"maxCopies": -1,
+			"type": "TURRET",
+			"techLevel": 9,
+			"params": {
+				"capacity": "3",
+				"fixed": true
+			}
+		},
+		{
+			"id": "missile_rack",
+			"name": { "ident": "WEAPON_MISSILE_NAME" },
+			"description": { "ident": "WEAPON_MISSILE_DESC" },
+			"volume": 0,
+			"price": 0.75,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 6,
+			"params": {
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"optimumRange": "special",
+				"damage": "missile",
+				"attackDM": 0
+			}
+		},
+		{
+			"id": "pulse_laser",
+			"name": { "ident": "WEAPON_PULSE_NAME" },
+			"description": { "ident": "WEAPON_PULSE_DESC" },
+			"volume": 0,
+			"price": 0.5,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 7,
+			"params": {
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"optimumRange": "short",
+				"damage": "2d6",
+				"attackDM": -2
+			}
+		},
+		{
+			"id": "sandcaster_rack",
+			"name": { "ident": "WEAPON_SANDCASTER_NAME" },
+			"description": { "ident": "WEAPON_SANDCASTER_DESC" },
+			"volume": 0,
+			"price": 0.25,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 7,
+			"params": {
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"optimumRange": "special",
+				"damage": "special",
+				"attackDM": 0
+			}
+		},
+		{
+			"id": "particle_beam",
+			"name": { "ident": "WEAPON_PARTICLE_NAME" },
+			"description": { "ident": "WEAPON_PARTICLE_DESC" },
+			"volume": 0,
+			"price": 4,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 8,
+			"params": {
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"optimumRange": "long",
+				"damage": "3d6+radiation",
+				"attackDM": 0
+			}
+		},
+		{
+			"id": "beam_laser",
+			"name": { "ident": "WEAPON_BEAM_NAME" },
+			"description": { "ident": "WEAPON_BEAM_DESC" },
+			"volume": 0,
+			"price": 1,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 9,
+			"params": {
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"optimumRange": "medium",
+				"damage": "1d6",
+				"attackDM": 0
+			}
+		},
+		{
+			"id": "missile_bank",
+			"name": { "ident": "BAY_MISSILE_NAME" },
+			"description": { "ident": "BAY_MISSILE_DESC" },
+			"volume": 51,
+			"price": 12,
+			"maxCopies": -1,
+			"type": "BAY",
+			"techLevel": 6,
+			"params": {
+				"func$maxCopies": "comp$bay$maxCopies",
+				"optimumRange": "special",
+				"damage": "Launches 12 missiles"
+			}
+		},
+		{
+			"id": "particle_beam",
+			"name": { "ident": "BAY_PARTICLE_NAME" },
+			"description": { "ident": "BAY_PARTICLE_DESC" },
+			"volume": 51,
+			"price": 20,
+			"maxCopies": -1,
+			"type": "BAY",
+			"techLevel": 8,
+			"params": {
+				"func$maxCopies": "comp$bay$maxCopies",
+				"optimumRange": "long",
+				"damage": "6d6+radiation"
+			}
+		},
+		{
+			"id": "meson_gun",
+			"name": { "ident": "BAY_MESON_NAME" },
+			"description": { "ident": "BAY_MESON_DESC" },
+			"volume": 51,
+			"price": 50,
+			"maxCopies": -1,
+			"type": "BAY",
+			"techLevel": 11,
+			"params": {
+				"func$maxCopies": "comp$bay$maxCopies",
+				"optimumRange": "long",
+				"damage": "5d6+radiation"
+			}
+		},
+		{
+			"id": "fusion_gun",
+			"name": { "ident": "BAY_FUSION_NAME" },
+			"description": { "ident": "BAY_FUSION_DESC" },
+			"volume": 51,
+			"price": 8,
+			"maxCopies": -1,
+			"type": "BAY",
+			"techLevel": 12,
+			"params": {
+				"func$maxCopies": "comp$bay$maxCopies",
+				"optimumRange": "medium",
+				"damage": "5d6"
+			}
+		},
+		{
+			"id": "meson_screen",
+			"name": { "ident": "SCREEN_MESON_NAME" },
+			"description": { "ident": "SCREEN_MESON_DESC" },
+			"volume": 50,
+			"price": 60,
+			"maxCopies": -1,
+			"type": "SCREENS",
+			"techLevel": 12
+		},
+		{
+			"id": "nuclear_damper",
+			"name": { "ident": "SCREEN_NUCLEAR_NAME" },
+			"description": { "ident": "SCREEN_NUCLEAR_DESC" },
+			"volume": 50,
+			"price": 50,
+			"maxCopies": -1,
+			"type": "SCREENS",
+			"techLevel": 12
+		}
+	]
+}
