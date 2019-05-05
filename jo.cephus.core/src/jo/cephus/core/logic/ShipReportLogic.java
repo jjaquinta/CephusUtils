@@ -3,6 +3,7 @@ package jo.cephus.core.logic;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import jo.audio.util.model.data.AudioMessageBean;
 import jo.cephus.core.data.ShipComponentBean;
@@ -64,16 +65,52 @@ public class ShipReportLogic
                 report.setArmorType(armor.getComponent().getName());
                 report.setArmorRating(IntegerUtils.parseInt(armor.getComponent().getParams().get("protection")));
             }
-            /*
-    private AudioMessageBean mAdditionalComponents;
-    private int mCrewTotal;
-    private AudioMessageBean mCrewPositions;
-    private int mPassengersTotal;
-    private double mCost;
-    private int mConstructionTime;
-
-             */
-            
+            Map<String,Integer> crew = ShipDesignLogic.getMaximumCrew(ship);
+            int crewTotal = 0;
+            report.setCrewPositions(new AudioMessageBean(AudioMessageBean.LIST));
+            for (String position : crew.keySet())
+            {
+                int quan = crew.get(position);
+                if (quan <= 0)
+                    continue;
+                crewTotal += quan;
+                if (quan == 1)
+                    report.getCrewPositions().addToGroup(new AudioMessageBean(position));
+                else
+                    report.getCrewPositions().addToGroup(new AudioMessageBean("BY", new AudioMessageBean(position), quan));
+            }
+            report.setCrewTotal(crewTotal);
+            int pass = report.getNumberOfStaterooms() - crewTotal;
+            if (pass < 0)
+                report.getErrors().add("Insufficient staterooms. Need at least "+crewTotal+" for crew, only have "+report.getNumberOfStaterooms());
+            else if (pass > 0)
+                report.setPassengersTotal(pass*2);
+            double cost = 0;
+            for (ShipComponentInstanceBean comp : ship.getComponents())
+                cost += comp.getPrice()*comp.getCount();
+            report.setCost(cost);
+            ShipComponentInstanceBean hull = ShipDesignLogic.getHull(ship);
+            if (hull == null)
+                report.getErrors().add("No hull present");
+            else
+                report.setConstructionTime(IntegerUtils.parseInt(hull.getComponent().getParams().get("constructionTime")));
+            report.setAdditionalComponents(new AudioMessageBean(AudioMessageBean.LIST));
+            for (ShipComponentInstanceBean comp : ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC))
+            {
+                switch (comp.getComponentID())
+                {
+                    case "cargo_hold":
+                    case "fuel_processor":
+                    case "launch_tube":
+                    case "hanger":
+                        break;
+                    default:
+                        if (comp.getCount() == 1)
+                            report.getAdditionalComponents().addToGroup(comp.getComponent().getName());
+                        else
+                            report.getAdditionalComponents().addToGroup(new AudioMessageBean("BY", comp.getComponent().getName(), comp.getCount()));
+                }
+            }
             return report;
         }
         finally
