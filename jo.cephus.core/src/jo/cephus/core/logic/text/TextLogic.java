@@ -31,8 +31,7 @@ public class TextLogic
             for(int i = 0; i < args.length; i++)
                 if(args[i] instanceof AudioMessageBean)
                     args[i] = getString((AudioMessageBean)args[i]);
-
-            text = String.format(text, msg.getArgs());
+            text = String.format(text, args);
         }
         return text;
     }

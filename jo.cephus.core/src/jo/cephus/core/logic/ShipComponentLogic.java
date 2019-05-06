@@ -50,6 +50,15 @@ public class ShipComponentLogic
         return (ShipComponentBean)mIndex.get(id);
     }
 
+    public static ShipComponentInstanceBean getInstance(String id, int count)
+    {
+        init();
+        ShipComponentInstanceBean inst = new ShipComponentInstanceBean();
+        inst.setComponentID(id);
+        inst.setCount(count);
+        return inst;
+    }
+
     public static ShipComponentBean getComponent(ShipComponentInstanceBean component)
     {
         return getComponent(component.getComponentID());

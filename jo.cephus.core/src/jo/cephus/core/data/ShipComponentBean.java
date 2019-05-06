@@ -153,6 +153,7 @@ public class ShipComponentBean extends CephusBean
     public static final String STATEROOM = "STATEROOM";
     public static final String TURRET = "TURRET";
     public static final String WEAPON = "WEAPON";
+    public static final String HANGER = "HANGER";
     private String mID;
     private AudioMessageBean mName;
     private AudioMessageBean mDescription;

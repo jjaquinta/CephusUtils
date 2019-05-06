@@ -106,6 +106,24 @@ public class ShipEvals
 
         }
 );
+        ParameterizedLogic.addEval("comp$hanger$drone$volume", new IParamEval() {
+
+            public Object getParameterizedValue(Object base, Object hardCoded)
+            {
+                return ShipEvals.doHangerDroneVolume((ShipComponentBean)base, hardCoded);
+            }
+
+        }
+);
+        ParameterizedLogic.addEval("comp$hanger$drone$price", new IParamEval() {
+
+            public Object getParameterizedValue(Object base, Object hardCoded)
+            {
+                return ShipEvals.doHangerDronePrice((ShipComponentBean)base, hardCoded);
+            }
+
+        }
+);
     }
 
     private static ShipDesignBean getShip()
@@ -203,12 +221,18 @@ public class ShipEvals
         return Integer.valueOf(val);
     }
 
+    private static Object doHangerDroneVolume(ShipComponentBean base, Object hardCoded)
+    {
+        int disp = ShipDesignLogic.getHullDisplacement(getShip());
+        double volume = disp / 100.0;
+        return volume;
+    }
 
-
-
-
-
-
-
+    private static Object doHangerDronePrice(ShipComponentBean base, Object hardCoded)
+    {
+        int disp = ShipDesignLogic.getHullDisplacement(getShip());
+        double price = disp * 0.2;
+        return price;
+    }
 
 }
