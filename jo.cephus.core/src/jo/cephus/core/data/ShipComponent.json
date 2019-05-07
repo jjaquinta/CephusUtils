@@ -1,6 +1,16 @@
 {
 	"shipComponents": [
 		{
+			"id": "none",
+			"name": { "ident": "NONE_NAME", "args":[100] },
+			"description": { "ident": "NONE_DESC", "args":[100] },
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 0,
+			"type": "NONE",
+			"techLevel": 0
+		},
+		{
 			"id": "hull100",
 			"name": { "ident": "HULL_NAME", "args":[100] },
 			"description": { "ident": "HULL_DESC", "args":[100] },

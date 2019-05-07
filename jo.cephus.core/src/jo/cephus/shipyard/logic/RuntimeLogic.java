@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 
 import jo.audio.util.JSONUtils;
 import jo.cephus.core.data.ShipDesignBean;
+import jo.cephus.core.logic.ShipComponentLogic;
 import jo.cephus.core.logic.ShipReportLogic;
 import jo.cephus.shipyard.data.RuntimeBean;
 
@@ -20,13 +21,15 @@ public class RuntimeLogic
     
     public static void init()
     {
-        mRuntime.addPropertyChangeListener("ship", new PropertyChangeListener() {            
+        PropertyChangeListener pcl = new PropertyChangeListener() {            
             @Override
             public void propertyChange(PropertyChangeEvent evt)
             {
                 doNewShip();
             }
-        });
+        };
+        mRuntime.addPropertyChangeListener("ship", pcl);
+        mRuntime.addPropertyChangeListener("ship.components", pcl);
     }
     
     public static void shutdown()
@@ -154,6 +157,8 @@ public class RuntimeLogic
         ship.setShipID(String.valueOf(System.currentTimeMillis()));
         ship.setShipName("Lollipop");
         ship.setShipFunction("is a sweet trip to the candy shop.");
+        ship.getComponents().add(ShipComponentLogic.getInstance("hull100", 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance("configStandard", 1));
         mRuntime.getShips().add(ship);
         mRuntime.fireMonotonicPropertyChange("ships", mRuntime.getShips());
         mRuntime.setShip(ship);

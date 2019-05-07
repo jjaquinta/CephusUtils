@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import jo.cephus.core.data.ShipDesignBean;
@@ -30,6 +31,9 @@ public class ShipyardPanel extends JComponent
     private JComboBox<ShipDesignBean>            mSelectShip;
     private JButton                              mNewShip;
     private JButton                              mDelShip;
+    
+    private DesignPanel mDesign;
+    private ReportPanel mReport;
 
     private JTextField                           mStatus;
 
@@ -51,6 +55,9 @@ public class ShipyardPanel extends JComponent
         mNewShip = new JButton("New");
         mDelShip = new JButton("Del");
         
+        mDesign = new DesignPanel();
+        mReport = new ReportPanel();
+        
         mStatus = new JTextField();
         mStatus.setEditable(false);
     }
@@ -68,8 +75,12 @@ public class ShipyardPanel extends JComponent
         header.add("Center", mSelectShip);
         header.add("East", headerCmds);
         
+        JSplitPane client = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mDesign, mReport);
+        client.setDividerLocation(.5);
+        
         setLayout(new BorderLayout());
         add("North", header);
+        add("Center", client);
         add("South", mStatus);
     }
 
