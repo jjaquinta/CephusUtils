@@ -18,11 +18,6 @@ import jo.util.utils.obj.DoubleUtils;
 
 public class ShipEvals
 {
-
-    public ShipEvals()
-    {
-    }
-
     public static void init()
     {
         ParameterizedLogic.addEval("comp$bay$maxCopies", new IParamEval() {
@@ -128,7 +123,10 @@ public class ShipEvals
 
     private static ShipDesignBean getShip()
     {
-        return (ShipDesignBean)ParameterizedLogic.getContext(ShipDesignBean.class);
+        ShipDesignBean ship = (ShipDesignBean)ParameterizedLogic.getContext(ShipDesignBean.class);
+        if (ship == null)
+            System.out.println("QUACK");
+        return ship;
     }
 
     private static ShipComponentInstanceBean getInstance()
@@ -154,7 +152,7 @@ public class ShipEvals
 
     private static Object doCompBisMaxCopies(ShipComponentBean base, Object hardCoded)
     {
-        int computers = ShipDesignLogic.totalAllInstances(getShip(), ShipComponentBean.COMPUTER);
+        int computers = ShipDesignLogic.countAllInstances(getShip(), ShipComponentBean.COMPUTER);
         return Integer.valueOf(computers);
     }
 
@@ -173,7 +171,7 @@ public class ShipEvals
 
     private static Object doCompFibMaxCopies(ShipComponentBean base, Object hardCoded)
     {
-        int computers = ShipDesignLogic.totalAllInstances(getShip(), ShipComponentBean.COMPUTER);
+        int computers = ShipDesignLogic.countAllInstances(getShip(), ShipComponentBean.COMPUTER);
         return Integer.valueOf(computers);
     }
 

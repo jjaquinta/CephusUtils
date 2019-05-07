@@ -34,6 +34,7 @@ public class ShipyardPanel extends JComponent
     
     private DesignPanel mDesign;
     private ReportPanel mReport;
+    private ErrorPanel  mErrors;
 
     private JTextField                           mStatus;
 
@@ -57,6 +58,7 @@ public class ShipyardPanel extends JComponent
         
         mDesign = new DesignPanel();
         mReport = new ReportPanel();
+        mErrors = new ErrorPanel();
         
         mStatus = new JTextField();
         mStatus.setEditable(false);
@@ -75,7 +77,12 @@ public class ShipyardPanel extends JComponent
         header.add("Center", mSelectShip);
         header.add("East", headerCmds);
         
-        JSplitPane client = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mDesign, mReport);
+        JPanel right = new JPanel();
+        right.setLayout(new GridLayout(2, 1));
+        right.add(mReport);
+        right.add(mErrors);
+        
+        JSplitPane client = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mDesign, right);
         client.setDividerLocation(.5);
         
         setLayout(new BorderLayout());

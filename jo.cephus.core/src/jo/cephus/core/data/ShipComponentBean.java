@@ -37,7 +37,6 @@ public class ShipComponentBean extends CephusBean
     private AudioMessageBean mDescription;
     private double mVolume;
     private double mPrice;
-    private JSONObject mParams;
     private int mMaxCopies;
     private String mType;
     private boolean mValidToAdd;
@@ -49,14 +48,12 @@ public class ShipComponentBean extends CephusBean
     {
         mName = new AudioMessageBean();
         mDescription = new AudioMessageBean();
-        mParams = new JSONObject();
     }
 
     public ShipComponentBean(JSONObject json)
     {
         mName = new AudioMessageBean();
         mDescription = new AudioMessageBean();
-        mParams = new JSONObject();
         fromJSON(json);
     }
     
@@ -127,16 +124,6 @@ public class ShipComponentBean extends CephusBean
     public void setPrice(double price)
     {
         mPrice = price;
-    }
-
-    public JSONObject getParams()
-    {
-        return mParams;
-    }
-
-    public void setParams(JSONObject params)
-    {
-        mParams = params;
     }
 
     public String getType()

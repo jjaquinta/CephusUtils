@@ -5,30 +5,42 @@ import jo.cephus.core.data.IParamEval;
 
 public class ParameterizedLogic
 {
-
-    public ParameterizedLogic()
-    {
-    }
+    private static Map<Thread,List<Object>> mContextCache = new HashMap<>();
+    private static Map<String,IParamEval> mEvaluators = new HashMap<>();
 
     public static void addContext(Object context)
     {
-        List<Object> contexts = (List<Object>)mContextCache.get(Thread.currentThread());
-        if(contexts == null)
+        synchronized (mContextCache)
         {
-            contexts = new ArrayList<Object>();
-            mContextCache.put(Thread.currentThread(), contexts);
+            List<Object> contexts = (List<Object>)mContextCache.get(Thread.currentThread());
+            if(contexts == null)
+            {
+                contexts = new ArrayList<Object>();
+                mContextCache.put(Thread.currentThread(), contexts);
+            }
+            contexts.add(0, context);
+            //System.out.println(Thread.currentThread().hashCode()+" +context "+context.getClass().getSimpleName()+" ("+contexts.size()+")");
+            //Throwable t = new Throwable();
+            //System.out.println("   @ "+t.getStackTrace()[1].toString());
         }
-        contexts.add(context);
     }
 
     public static void removeContext(Object context)
     {
-        List<Object> contexts = (List<Object>)mContextCache.get(Thread.currentThread());
-        if(contexts != null)
+        synchronized (mContextCache)
         {
-            contexts.remove(context);
-            if(contexts.size() == 0)
-                mContextCache.remove(Thread.currentThread());
+            List<Object> contexts = (List<Object>)mContextCache.get(Thread.currentThread());
+            if (contexts != null)
+            {
+                contexts.remove(context);
+                if(contexts.size() == 0)
+                    mContextCache.remove(Thread.currentThread());
+                //System.out.println(Thread.currentThread().hashCode()+" -context "+context.getClass().getSimpleName()+" ("+contexts.size()+")");
+            }
+            //else
+            //    System.out.println(Thread.currentThread().hashCode()+" -context "+context.getClass().getSimpleName()+" (-)");
+            //Throwable t = new Throwable();
+            //System.out.println("   @ "+t.getStackTrace()[1].toString());
         }
     }
 
@@ -42,14 +54,16 @@ public class ParameterizedLogic
 
     public static Object getContext(Class<?> clazz)
     {
-        for(Iterator<Object> iterator = getContexts().iterator(); iterator.hasNext();)
+        synchronized (mContextCache)
         {
-            Object context = iterator.next();
-            if(clazz.isAssignableFrom(context.getClass()))
-                return context;
+            for(Iterator<Object> iterator = getContexts().iterator(); iterator.hasNext();)
+            {
+                Object context = iterator.next();
+                if(clazz.isAssignableFrom(context.getClass()))
+                    return context;
+            }
+            return null;
         }
-
-        return null;
     }
 
     public static void addEval(String id, IParamEval eval)
@@ -65,8 +79,5 @@ public class ParameterizedLogic
         else
             return hardCoded;
     }
-
-    private static Map<Thread,List<Object>> mContextCache = new HashMap<>();
-    private static Map<String,IParamEval> mEvaluators = new HashMap<>();
 
 }

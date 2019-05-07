@@ -1,5 +1,6 @@
 package jo.cephus.shipyard.ui.steps;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,11 +9,15 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import jo.cephus.core.data.ShipComponentBean;
+import jo.cephus.core.data.ShipDesignBean;
+import jo.cephus.core.logic.ShipDesignLogic;
 import jo.cephus.shipyard.data.RuntimeBean;
+import jo.cephus.shipyard.logic.FormatUtils;
 import jo.cephus.shipyard.logic.RuntimeLogic;
 import jo.cephus.shipyard.logic.ShipEditLogic;
 import jo.cephus.shipyard.ui.ctrl.ArmorChooser;
 import jo.cephus.shipyard.ui.ctrl.ConfigChooser;
+import jo.cephus.shipyard.ui.ctrl.DesignStatPanel;
 import jo.cephus.shipyard.ui.ctrl.HullChooser;
 
 @SuppressWarnings("serial")
@@ -24,6 +29,7 @@ public class Step1Panel extends JComponent
     private HullChooser mHull;
     private ConfigChooser mConfig;
     private ArmorChooser mArmor;
+    private DesignStatPanel mCost;
     
     public Step1Panel()
     {
@@ -38,15 +44,26 @@ public class Step1Panel extends JComponent
         mHull = new HullChooser();
         mConfig = new ConfigChooser();
         mArmor = new ArmorChooser();
+        mCost = new DesignStatPanel("Cost:", new DesignStatPanel.IDesignStat() {
+            @Override
+            public String getStat(ShipDesignBean ship)
+            {
+                return getHullCost(ship);
+            }
+        });
     }
 
     private void initLayout()
     {
-        setLayout(new GridLayout(4, 1));
-        add(new JLabel("Step 1: Hull"));
+        setLayout(new GridLayout(5, 1));
+        JLabel jLabel = new JLabel("Step 1: Hull");
+        Font oldFont = jLabel.getFont();
+        jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
+        add(jLabel);
         add(mHull);
         add(mConfig);
         add(mArmor);
+        add(mCost);
     }
 
     private void initLink()
@@ -125,5 +142,16 @@ public class Step1Panel extends JComponent
             if (armor != mArmor.getComponent())
                 mArmor.setComponent(armor);
         }
+    }
+    
+    private String getHullCost(ShipDesignBean ship)
+    {
+        if (ship == null)
+            return "";
+        double hullCost = ShipDesignLogic.priceAllInstances(ship, ShipComponentBean.HULL);
+        double armorCost = ShipDesignLogic.priceAllInstances(ship, ShipComponentBean.ARMOR);
+        double configCost = ShipDesignLogic.priceAllInstances(ship, ShipComponentBean.CONFIG);
+        double cost = (hullCost + armorCost + configCost)*1000000.0;
+        return FormatUtils.sCurrency(hullCost)+"/"+FormatUtils.sCurrency(armorCost)+"/"+FormatUtils.sCurrency(configCost)+"="+FormatUtils.sCurrency(cost);
     }
 }

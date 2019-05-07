@@ -443,7 +443,8 @@
 			"type": "BRIDGE",
 			"techLevel": 7,
 			"params": {
-				"func$price": "comp$bridge$price"
+				"func$price": "comp$bridge$price",
+				"tonsSupported": 200
 			}
 		},
 		{
@@ -456,7 +457,8 @@
 			"type": "BRIDGE",
 			"techLevel": 7,
 			"params": {
-				"func$price": "comp$bridge$price"
+				"func$price": "comp$bridge$price",
+				"tonsSupported": 1000
 			}
 		},
 		{
@@ -469,7 +471,8 @@
 			"type": "BRIDGE",
 			"techLevel": 7,
 			"params": {
-				"func$price": "comp$bridge$price"
+				"func$price": "comp$bridge$price",
+				"tonsSupported": 2000
 			}
 		},
 		{
@@ -482,7 +485,8 @@
 			"type": "BRIDGE",
 			"techLevel": 7,
 			"params": {
-				"func$price": "comp$bridge$price"
+				"func$price": "comp$bridge$price",
+				"tonsSupported": 10000
 			}
 		},
 		{

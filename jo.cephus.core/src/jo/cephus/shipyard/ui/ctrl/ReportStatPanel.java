@@ -1,28 +1,32 @@
-package jo.cephus.shipyard.ui;
+package jo.cephus.shipyard.ui.ctrl;
 
 import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import jo.cephus.core.data.ShipReportBean;
-import jo.cephus.core.logic.text.TextLogic;
 import jo.cephus.shipyard.data.RuntimeBean;
 import jo.cephus.shipyard.logic.RuntimeLogic;
 
 @SuppressWarnings("serial")
-public class ReportPanel extends JComponent
+public class ReportStatPanel extends JComponent
 {
     private final static RuntimeBean             mRuntime = RuntimeLogic
             .getInstance();
 
-    private JTextArea   mClient;
+    private IReportStat mGetter;
+    private String      mLabel;
+    
+    private JTextField  mClient;
 
-    public ReportPanel()
+    public ReportStatPanel(String label, IReportStat getter)
     {
+        mLabel = label;
+        mGetter = getter;
         initInstantiate();
         initLayout();
         initLink();
@@ -31,16 +35,15 @@ public class ReportPanel extends JComponent
 
     private void initInstantiate()
     {
-        mClient = new JTextArea();
+        mClient = new JTextField();
         mClient.setEditable(false);
-        mClient.setLineWrap(true);
-        mClient.setWrapStyleWord(true);
     }
 
     private void initLayout()
     {
         setLayout(new BorderLayout());
-        add("Center", new JScrollPane(mClient));
+        add("West", new JLabel(mLabel));
+        add("Center", mClient);
     }
 
     private void initLink()
@@ -62,6 +65,11 @@ public class ReportPanel extends JComponent
         if (report == null)
             mClient.setText("");
         else
-            mClient.setText(TextLogic.getString(report.getProse()));
+            mClient.setText(mGetter.getStat(report));
+    }
+    
+    public interface IReportStat
+    {
+        public String getStat(ShipReportBean report);
     }
 }

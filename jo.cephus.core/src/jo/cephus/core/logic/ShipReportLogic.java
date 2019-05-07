@@ -15,12 +15,7 @@ import jo.util.utils.obj.IntegerUtils;
 
 public class ShipReportLogic
 {
-
-    public ShipReportLogic()
-    {
-    }
-
-    public static ShipReportBean report(ShipDesignBean ship)
+    public static synchronized ShipReportBean report(ShipDesignBean ship)
     {
         try
         {
@@ -36,20 +31,19 @@ public class ShipReportLogic
                     (int)ShipDesignLogic.volumeAllInstances(ship, "FUEL"));
             reportPower(ship, report);
             int compRating = reportComputer(ship, report);
-            ShipComponentBean jump = reportJump(ship, report,
-                    compRating);
-            reportManeuver(ship, report, jump);
+            reportJump(ship, report, compRating);
+            reportManeuver(ship, report);
             reportRefinery(ship, report);
             reportSensors(ship, report);
             report.setNumberOfStaterooms(
-                    ShipDesignLogic.totalAllInstances(ship, "$stateroom"));
+                    ShipDesignLogic.countAllInstances(ship, "$stateroom"));
             report.setNumberOfBerths(
-                    ShipDesignLogic.totalAllInstances(ship, "$lowberth"));
+                    ShipDesignLogic.countAllInstances(ship, "$lowberth"));
             report.setNumberOfHardpoints(
                     Math.max(1, report.getHullDisplacement() / 100));
             report.setFireControlTonnage(report.getNumberOfHardpoints());
             report.setCargoTonnage(
-                    ShipDesignLogic.totalAllInstances(ship, "$cargo_hold"));
+                    ShipDesignLogic.countAllInstances(ship, "$cargo_hold"));
             reportTurrets(ship, report);
             reportScreens(ship, report);
             reportHangers(ship, report);
@@ -64,34 +58,18 @@ public class ShipReportLogic
             if (space > 0)
                 report.getErrors().add("Overrun: Ship can only hold "+report.getHullDisplacement()+"t; contains "+space+"t too much.");
             report.setCargoTonnage(report.getCargoTonnage() - space);
+            // check bridge
+            ShipComponentBean bridge = ShipDesignLogic.findHighestNumberParam(ship, ShipComponentBean.BRIDGE, "tonsSupported");
+            if (bridge == null)
+                report.getErrors().add("No bridge: A bridge is required for all starships.");
+            else
+            {
+                int tonsSupported = IntegerUtils.parseInt(bridge.getParams().get("tonsSupported"));
+                if (report.getHullDisplacement() > tonsSupported)
+                    report.getErrors().add("Small bridge: This bridge can only support up to "+tonsSupported+" tons");
+            }
             
-            report.setProse(new AudioMessageBean(AudioMessageBean.GROUP));
-            report.getProse().addToGroup(new AudioMessageBean("USD_PROLOGUE", report.getTechLevel(), ship.getShipName()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE1", report.getHullDisplacement(), report.getHullDamageValue(),
-                    report.getStructureDamageValue(), ship.getShipName(), ship.getShipFunction()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE2", report.getJumpCode(), report.getManeuverCode(),
-                    report.getPowerCode(), report.getJumpNumber(), report.getThrustNumber()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE3", report.getFuelTonnage(), report.getWeeksofPower(),
-                    report.getNumberOfJumps(), report.getJumpNumber()));
-            report.getProse().addToGroup(report.getFuelUsageNotes());
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE4", report.getComputerModel()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE5", report.getSensorsType(), 
-                    report.getSensorsDM()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE6", report.getNumberOfStaterooms(), report.getNumberOfBerths()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE7", report.getNumberOfHardpoints(), report.getFireControlTonnage()));
-            if (report.getTurrets().getArgs().length > 0)
-                report.getProse().addToGroup(new AudioMessageBean("USD_LINE8", report.getTurrets()));
-            if (report.getNumberOfScreens() > 0)
-                report.getProse().addToGroup(new AudioMessageBean("USD_LINE9", report.getNumberOfScreens(), report.getScreens()));
-            if (report.getNumberOfHangers() > 0)
-                report.getProse().addToGroup(new AudioMessageBean("USD_LINE10", report.getNumberOfHangers(), report.getHangers()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE11", report.getCargoTonnage()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE12", report.getHullConfiguration(), report.getArmorType(),
-                    report.getArmorRating()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE13", report.getAdditionalComponents()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE14", report.getCrewTotal(), report.getCrewPositions()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE15", report.getPassengersTotal(), report.getNumberOfBerths()));
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE16", report.getCost(), report.getConstructionTime()));
+            reportProse(ship, report);
             
             return report;
         }
@@ -99,6 +77,37 @@ public class ShipReportLogic
         {
             ParameterizedLogic.removeContext(ship);
         }
+    }
+
+    public static void reportProse(ShipDesignBean ship, ShipReportBean report)
+    {
+        report.setProse(new AudioMessageBean(AudioMessageBean.GROUP));
+        report.getProse().addToGroup(new AudioMessageBean("USD_PROLOGUE", report.getTechLevel(), ship.getShipName()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE1", report.getHullDisplacement(), report.getHullDamageValue(),
+                report.getStructureDamageValue(), ship.getShipName(), ship.getShipFunction()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE2", report.getJumpCode(), report.getManeuverCode(),
+                report.getPowerCode(), report.getJumpNumber(), report.getThrustNumber()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE3", report.getFuelTonnage(), report.getWeeksofPower(),
+                report.getNumberOfJumps(), report.getJumpNumber()));
+        report.getProse().addToGroup(report.getFuelUsageNotes());
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE4", report.getComputerModel()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE5", report.getSensorsType(), 
+                report.getSensorsDM()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE6", report.getNumberOfStaterooms(), report.getNumberOfBerths()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE7", report.getNumberOfHardpoints(), report.getFireControlTonnage()));
+        if (report.getTurrets().getArgs().length > 0)
+            report.getProse().addToGroup(new AudioMessageBean("USD_LINE8", report.getTurrets()));
+        if (report.getNumberOfScreens() > 0)
+            report.getProse().addToGroup(new AudioMessageBean("USD_LINE9", report.getNumberOfScreens(), report.getScreens()));
+        if (report.getNumberOfHangers() > 0)
+            report.getProse().addToGroup(new AudioMessageBean("USD_LINE10", report.getNumberOfHangers(), report.getHangers()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE11", report.getCargoTonnage()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE12", report.getHullConfiguration(), report.getArmorType(),
+                report.getArmorRating()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE13", report.getAdditionalComponents()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE14", report.getCrewTotal(), report.getCrewPositions()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE15", report.getPassengersTotal(), report.getNumberOfBerths()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE16", report.getCost(), report.getConstructionTime()));
     }
 
     public static void reportHullDetails(ShipDesignBean ship,
@@ -187,7 +196,7 @@ public class ShipReportLogic
             report.setSensorsDM(
                     Integer.parseInt(sensor.getParams().getString("dm")));
         }
-        report.setNumberOfSensors(ShipDesignLogic.totalAllInstances(ship, ShipComponentBean.ELECTRONICS));
+        report.setNumberOfSensors(ShipDesignLogic.countAllInstances(ship, ShipComponentBean.ELECTRONICS));
     }
 
     public static void reportRefinery(ShipDesignBean ship,
@@ -294,7 +303,7 @@ public class ShipReportLogic
     }
 
     public static void reportManeuver(ShipDesignBean ship,
-            ShipReportBean report, ShipComponentBean jump)
+            ShipReportBean report)
     {
         ShipComponentBean man = ShipDesignLogic.findHighestStringParam(ship,
                 ShipComponentBean.MDRIVE, "driveCode");
@@ -307,7 +316,7 @@ public class ShipReportLogic
         }
         else
         {
-            String manCode = jump.getParams().getString("driveCode");
+            String manCode = man.getParams().getString("driveCode");
             report.setManeuverCode(manCode);
             report.setThrustNumber(ShipDesignLogic.getDrivePerformance(manCode,
                     report.getHullDisplacement()));
