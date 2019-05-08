@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
@@ -82,7 +83,7 @@ public class ShipyardPanel extends JComponent
         right.add(mReport);
         right.add(mErrors);
         
-        JSplitPane client = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mDesign, right);
+        JSplitPane client = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(mDesign), right);
         client.setDividerLocation(.5);
         
         setLayout(new BorderLayout());

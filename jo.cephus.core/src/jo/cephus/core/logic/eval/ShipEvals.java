@@ -5,9 +5,6 @@
 
 package jo.cephus.core.logic.eval;
 
-import java.util.Iterator;
-import java.util.List;
-
 import jo.cephus.core.data.IParamEval;
 import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipComponentInstanceBean;
@@ -150,41 +147,43 @@ public class ShipEvals
         return Double.valueOf(factor * 0.5D);
     }
 
+    private static int countComputers()
+    {
+        int count = 0;
+        for (ShipComponentInstanceBean comp : ShipDesignLogic.getAllInstances(getShip(), ShipComponentBean.COMPUTER))
+            if (!comp.getComponentID().endsWith("_bis") && !comp.getComponentID().endsWith("fib"))
+                count += comp.getCount();
+        return count;
+    }
+
+    private static double priceComputers()
+    {
+        double price = 0;
+        for (ShipComponentInstanceBean comp : ShipDesignLogic.getAllInstances(getShip(), ShipComponentBean.COMPUTER))
+            if (!comp.getComponentID().endsWith("_bis") && !comp.getComponentID().endsWith("fib"))
+                price = Math.max(price, comp.getPrice());
+        return price;
+    }
+    
     private static Object doCompBisMaxCopies(ShipComponentBean base, Object hardCoded)
     {
-        int computers = ShipDesignLogic.countAllInstances(getShip(), ShipComponentBean.COMPUTER);
-        return Integer.valueOf(computers);
+        return countComputers();
     }
 
     private static Object doCompBisPrice(ShipComponentBean base, Object hardCoded)
     {
-        List<ShipComponentInstanceBean> computers = ShipDesignLogic.getAllInstances(getShip(), ShipComponentBean.COMPUTER);
-        double price = 0.0D;
-        for(Iterator<ShipComponentInstanceBean> iterator = computers.iterator(); iterator.hasNext();)
-        {
-            ShipComponentInstanceBean computer = (ShipComponentInstanceBean)iterator.next();
-            price = Math.max(price, computer.getComponent().getPrice());
-        }
-
+        double price = priceComputers();
         return Double.valueOf(price * 0.5D);
     }
 
     private static Object doCompFibMaxCopies(ShipComponentBean base, Object hardCoded)
     {
-        int computers = ShipDesignLogic.countAllInstances(getShip(), ShipComponentBean.COMPUTER);
-        return Integer.valueOf(computers);
+        return countComputers();
     }
 
     private static Object doCompFibPrice(ShipComponentBean base, Object hardCoded)
     {
-        List<ShipComponentInstanceBean> computers = ShipDesignLogic.getAllInstances(getShip(), ShipComponentBean.COMPUTER);
-        double price = 0.0D;
-        for(Iterator<ShipComponentInstanceBean> iterator = computers.iterator(); iterator.hasNext();)
-        {
-            ShipComponentInstanceBean computer = iterator.next();
-            price = Math.max(price, computer.getComponent().getPrice());
-        }
-
+        double price = priceComputers();
         return Double.valueOf(price * 0.5D);
     }
 

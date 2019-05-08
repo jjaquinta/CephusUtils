@@ -165,6 +165,9 @@ public class RuntimeLogic
         ship.getComponents().add(ShipComponentLogic.getInstance("pplantA", 1));
         ship.getComponents().add(ShipComponentLogic.getInstance("fuel", ShipDesignLogic.getMinFuel("A")));
         ship.getComponents().add(ShipComponentLogic.getInstance("bridge10", 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance("computer1", 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance("electronics_civilian", 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance("stateroom", 3));
         mRuntime.getShips().add(ship);
         mRuntime.fireMonotonicPropertyChange("ships", mRuntime.getShips());
         mRuntime.setShip(ship);

@@ -68,6 +68,10 @@ public class ShipReportLogic
                 if (report.getHullDisplacement() > tonsSupported)
                     report.getErrors().add("Small bridge: This bridge can only support up to "+tonsSupported+" tons");
             }
+            // check electroncis
+            ShipComponentInstanceBean elec = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.ELECTRONICS);
+            if (elec == null)
+                report.getErrors().add("No electronics: An electronics package must be installed.");
             
             reportProse(ship, report);
             
