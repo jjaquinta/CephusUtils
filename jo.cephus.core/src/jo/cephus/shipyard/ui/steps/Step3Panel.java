@@ -67,7 +67,7 @@ public class Step3Panel extends JComponent
         stats.add(mFuelStats);
         
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Step 3: Jump Drive");
+        JLabel jLabel = new JLabel("Jump Drive");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
         add("North", jLabel);

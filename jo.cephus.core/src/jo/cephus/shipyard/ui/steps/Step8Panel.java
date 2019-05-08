@@ -50,7 +50,7 @@ public class Step8Panel extends JComponent
     private void initLayout()
     {
         setLayout(new GridLayout(3, 1));
-        JLabel jLabel = new JLabel("Step 7: Computer");
+        JLabel jLabel = new JLabel("Electronics");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
         add(jLabel);

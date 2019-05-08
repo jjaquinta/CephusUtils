@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import jo.cephus.shipyard.ui.steps.Step0Panel;
 import jo.cephus.shipyard.ui.steps.Step10Panel;
 import jo.cephus.shipyard.ui.steps.Step1Panel;
 import jo.cephus.shipyard.ui.steps.Step2Panel;
@@ -18,6 +19,7 @@ import jo.cephus.shipyard.ui.steps.Step9Panel;
 @SuppressWarnings("serial")
 public class DesignPanel extends JPanel
 {
+    private Step0Panel  mStep0;
     private Step1Panel  mStep1;
     private Step2Panel  mStep2;
     private Step3Panel  mStep3;
@@ -38,6 +40,7 @@ public class DesignPanel extends JPanel
 
     private void initInstantiate()
     {
+        mStep0 = new Step0Panel();
         mStep1 = new Step1Panel();
         mStep2 = new Step2Panel();
         mStep3 = new Step3Panel();
@@ -52,7 +55,8 @@ public class DesignPanel extends JPanel
 
     private void initLayout()
     {
-        setLayout(new GridLayout(10, 1));
+        setLayout(new GridLayout(11, 1));
+        add(mStep0);
         add(mStep1);
         add(mStep2);
         add(mStep3);

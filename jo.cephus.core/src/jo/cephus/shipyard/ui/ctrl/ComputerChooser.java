@@ -1,16 +1,22 @@
 package jo.cephus.shipyard.ui.ctrl;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
 
 import jo.cephus.core.data.ShipComponentBean;
+import jo.cephus.shipyard.data.RuntimeBean;
+import jo.cephus.shipyard.logic.RuntimeLogic;
 import jo.cephus.shipyard.logic.ShipEditLogic;
 
 @SuppressWarnings("serial")
 public class ComputerChooser extends JComponent
 {
+    private final static RuntimeBean             mRuntime = RuntimeLogic
+            .getInstance();
+
     private ShipComponentChooser mChooser;
     
     public ComputerChooser()
@@ -33,31 +39,44 @@ public class ComputerChooser extends JComponent
 
     private void initLink()
     {
-    }
-
-    public ShipComponentBean getComponent()
-    {
-        return mChooser.getComponent();
-    }
-
-    public void setComponent(ShipComponentBean component)
-    {
-        mChooser.setComponent(component);
-    }
-    
-    public void addPropertyChangeListener(PropertyChangeListener pcl)
-    {
-        mChooser.addPropertyChangeListener(pcl);
-    }
-    
-    public void addPropertyChangeListener(String prop, PropertyChangeListener pcl)
-    {
-        mChooser.addPropertyChangeListener(prop, pcl);
+        // UI to Data
+        mChooser.addPropertyChangeListener(new PropertyChangeListener() {            
+            @Override
+            public void propertyChange(PropertyChangeEvent evt)
+            {
+                doActionChooser();
+            }
+        });
+        // data to UI        
+        mRuntime.addPropertyChangeListener("ship.components",
+                new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt)
+                    {
+                        doNewComponents();
+                    }
+                });
     }
     
-    public void removePropertyChangeListener(PropertyChangeListener pcl)
+    private void doActionChooser()
     {
-        mChooser.removePropertyChangeListener(pcl);
+        ShipComponentBean comp = mChooser.getComponent();
+        if (comp != ShipEditLogic.getSingletonType(ShipEditLogic.COMPUTER_IDS))
+            ShipEditLogic.setSingletonType(comp, ShipEditLogic.COMPUTER_IDS);
+    }
+    
+    private void doNewComponents()
+    {
+        if (mRuntime.getShip() == null)
+        {
+            mChooser.setComponent(null);
+        }
+        else
+        {
+            ShipComponentBean comp = ShipEditLogic.getSingletonType(ShipEditLogic.COMPUTER_IDS);
+            if (comp != mChooser.getComponent())
+                mChooser.setComponent(comp);
+        }
     }
 }
 

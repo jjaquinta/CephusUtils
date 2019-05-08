@@ -47,9 +47,17 @@ public class RuntimeBean extends PCSBean
         mShip = ship;
         firePropertyChange();
         if (mShip == null)
+        {
             fireMonotonicPropertyChange("ship.components");
+            fireMonotonicPropertyChange("ship.shipName");
+            fireMonotonicPropertyChange("ship.shipFunction");
+        }
         else
+        {
             fireMonotonicPropertyChange("ship.components", mShip.getComponents());
+            fireMonotonicPropertyChange("ship.shipName", mShip.getShipName());
+            fireMonotonicPropertyChange("ship.shipFunction", mShip.getShipFunction());
+        }
     }
     public ShipReportBean getReport()
     {

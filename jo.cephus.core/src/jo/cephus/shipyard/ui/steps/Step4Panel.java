@@ -58,7 +58,7 @@ public class Step4Panel extends JComponent
         stats.add(mFuelStats);
         
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Step 4: Power Plant");
+        JLabel jLabel = new JLabel("Power Plant");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
         add("North", jLabel);

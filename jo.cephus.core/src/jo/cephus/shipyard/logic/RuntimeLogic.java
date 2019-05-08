@@ -33,6 +33,8 @@ public class RuntimeLogic
         };
         mRuntime.addPropertyChangeListener("ship", pcl);
         mRuntime.addPropertyChangeListener("ship.components", pcl);
+        mRuntime.addPropertyChangeListener("ship.shipName", pcl);
+        mRuntime.addPropertyChangeListener("ship.shipFunction", pcl);
     }
     
     public static void shutdown()

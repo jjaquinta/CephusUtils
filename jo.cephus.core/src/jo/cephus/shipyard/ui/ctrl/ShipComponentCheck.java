@@ -4,10 +4,8 @@ import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -17,20 +15,19 @@ import jo.cephus.shipyard.data.RuntimeBean;
 import jo.cephus.shipyard.logic.FormatUtils;
 import jo.cephus.shipyard.logic.RuntimeLogic;
 import jo.cephus.shipyard.logic.ShipEditLogic;
-import jo.util.utils.obj.IntegerUtils;
 
 @SuppressWarnings("serial")
-public class ShipComponentSpinner extends JComponent
+public class ShipComponentCheck extends JComponent
 {
     private final static RuntimeBean mRuntime = RuntimeLogic.getInstance();
     
     private String                  mLabel;
     private IAccessor               mAccessor;
 
-    private JSpinner                 mSpinner;
+    private JCheckBox                mChecker;
     private DesignStatPanel          mCostStats;
 
-    public ShipComponentSpinner(String label, IAccessor accessor)
+    public ShipComponentCheck(String label, IAccessor accessor)
     {
         init(label, accessor);
     }
@@ -45,14 +42,14 @@ public class ShipComponentSpinner extends JComponent
         doNewComponents();
     }
 
-    public ShipComponentSpinner(String label, String id)
+    public ShipComponentCheck(String label, String id)
     {
-        init(label, new ShipComponentSpinner.SingletonAccessor(id));
+        init(label, new ShipComponentCheck.SingletonAccessor(id));
     }
 
     private void initInstantiate()
     {
-        mSpinner = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
+        mChecker = new JCheckBox(mLabel);
         mCostStats = new DesignStatPanel("Cost:", new DesignStatPanel.IDesignStat() {            
             @Override
             public String getStat(ShipDesignBean ship)
@@ -65,20 +62,19 @@ public class ShipComponentSpinner extends JComponent
 
     private void initLayout()
     {
-        setLayout(new GridLayout(1, 3));
-        add(new JLabel(mLabel));
-        add(mSpinner);
+        setLayout(new GridLayout(1, 2));
+        add(mChecker);
         add(mCostStats);
     }
 
     private void initLink()
     {
         // UI to Data
-        mSpinner.addChangeListener(new ChangeListener() {
+        mChecker.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e)
             {
-                doActionSpinner();
+                doActionChecker();
             }
         });
         // data to UI
@@ -92,36 +88,31 @@ public class ShipComponentSpinner extends JComponent
                 });
     }
 
-    private void doActionSpinner()
+    private void doActionChecker()
     {
-        int count = IntegerUtils.parseInt(mSpinner.getValue());
-        if (count != mAccessor.getValue())
-            mAccessor.setValue(count);
+        boolean val = mChecker.isSelected();
+        if (val != mAccessor.getValue())
+            mAccessor.setValue(val);
     }
 
     private void doNewComponents()
     {
         if (mRuntime.getReport() == null)
         {
-            mSpinner.setModel(new SpinnerNumberModel(0, 0, 0, 0));
+            mChecker.setSelected(false);
         }
         else
         {
-            int min = getMin();
-            int val = Math.max(min, mAccessor.getValue());
-            mSpinner.setModel(new SpinnerNumberModel(val, min, null, 1));
+            boolean val = mAccessor.getValue();
+            if (val != mChecker.isSelected())
+                mChecker.setSelected(val);
         }
-    }
-    
-    protected int getMin()
-    {
-        return 0;
     }
     
     public interface IAccessor
     {
-        public int getValue();
-        public void setValue(int val);
+        public boolean getValue();
+        public void setValue(boolean val);
         public double getCost(ShipDesignBean ship);
     }
     
@@ -133,14 +124,14 @@ public class ShipComponentSpinner extends JComponent
             mID = id;
         }
         @Override
-        public int getValue()
+        public boolean getValue()
         {
-            return ShipEditLogic.getSingletonCount(mID);
+            return ShipEditLogic.getSingletonCount(mID) > 0;
         }
         @Override
-        public void setValue(int val)
+        public void setValue(boolean val)
         {
-            ShipEditLogic.setSingletonCount(mID, val);
+            ShipEditLogic.setSingletonCount(mID, val ? 1 : 0);
         }
         @Override
         public double getCost(ShipDesignBean ship)

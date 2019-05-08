@@ -56,7 +56,7 @@ public class Step1Panel extends JComponent
     private void initLayout()
     {
         setLayout(new GridLayout(5, 1));
-        JLabel jLabel = new JLabel("Step 1: Hull");
+        JLabel jLabel = new JLabel("Hull");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
         add(jLabel);

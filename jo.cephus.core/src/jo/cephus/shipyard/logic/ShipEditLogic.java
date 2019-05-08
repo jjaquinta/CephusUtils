@@ -1,6 +1,7 @@
 package jo.cephus.shipyard.logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,33 +16,39 @@ import jo.util.utils.obj.IntegerUtils;
 
 public class ShipEditLogic
 {
-    private static final Set<String> COMPUTER_IDS = new HashSet<>();
+    // specials (singleton count)
+    public static final String VAULT = "$vault";
+    public static final String LUXURIES = "$luxuries";
+    public static final String LIBRARY = "$library";
+    public static final String LAB = "$lab";
+    public static final String FUEL_PROCESSOR = "$fuel_processor";
+    public static final String DETENTION_CELL = "$detention_cell";
+    public static final String BRIEFING_ROOM = "$briefing_room";
+    public static final String ARMORY = "$armory";
+    public static final String COMPUTER_FIB = "$computer_fib";
+    public static final String COMPUTER_BIS = "$computer_bis";
+    // accomodation (singleton count)
+    public static final String BARRACKS = "$barracks";
+    public static final String EMERGENCY_LOWBERTH = "$emergency_lowberth";
+    public static final String LOWBERTH = "$lowberth";
+    public static final String STATEROOM = "$stateroom";
+
+    // booleans
+    public static final String FUEL_SCOOPS = "$fuel_scoops";
+
+    public static final Set<String> COMPUTER_IDS = new HashSet<>();
     public static final List<ShipComponentBean> COMPUTERS = new ArrayList<>();
-    private static final Set<String> COMPUTER_FIB_IDS = new HashSet<>();
-    private static ShipComponentBean COMPUTER_FIB = null;
-    private static final Set<String> COMPUTER_BIS_IDS = new HashSet<>();
-    private static ShipComponentBean COMPUTER_BIS = null;
     static
     {
         for (ShipComponentBean comp : ShipComponentLogic.getComponentsByType(ShipComponentBean.COMPUTER))
-            if (comp.getID().endsWith("_fib"))
-            {
-                COMPUTER_FIB = comp;
-                COMPUTER_FIB_IDS.add("$"+comp.getID());
-            }
-            else if (comp.getID().endsWith("_bis"))
-            {
-                COMPUTER_BIS = comp;
-                COMPUTER_BIS_IDS.add("$"+comp.getID());
-            }
-            else
+            if (!comp.getID().endsWith("_fib") && !comp.getID().endsWith("_bis"))
             {
                 COMPUTERS.add(comp);
                 COMPUTER_IDS.add("$"+comp.getID());
             }
     }
 
-    private static ShipComponentBean getSingletonType(String type)
+    public static ShipComponentBean getSingletonType(String type)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
@@ -52,7 +59,7 @@ public class ShipEditLogic
         return inst.getComponent();
     }
 
-    private static void setSingletonType(ShipComponentBean item, String type)
+    public static void setSingletonType(ShipComponentBean item, String type)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
@@ -68,7 +75,7 @@ public class ShipEditLogic
         RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.components", ship.getComponents());
     }
 
-    private static ShipComponentBean getSingletonType(Set<String> types)
+    public static ShipComponentBean getSingletonType(Collection<String> types)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
@@ -79,7 +86,7 @@ public class ShipEditLogic
         return inst.getComponent();
     }
 
-    private static void setSingletonType(ShipComponentBean item, Set<String> types)
+    public static void setSingletonType(ShipComponentBean item, Collection<String> types)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
@@ -95,7 +102,7 @@ public class ShipEditLogic
         RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.components", ship.getComponents());
     }
 
-    private static int getSingletonCount(String type)
+    public static int getSingletonCount(String type)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
@@ -106,7 +113,7 @@ public class ShipEditLogic
         return inst.getCount();
     }
 
-    private static void setSingletonCount(int count, String type)
+    public static void setSingletonCount(String type, int count)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
@@ -267,36 +274,6 @@ public class ShipEditLogic
         RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.components", ship.getComponents());
     }
 
-    public static ShipComponentBean getComputer()
-    {
-        return getSingletonType(COMPUTER_IDS);
-    }
-
-    public static void setComputer(ShipComponentBean item)
-    {
-        setSingletonType(item, COMPUTER_IDS);
-    }
-
-    public static boolean getComputerFib()
-    {
-        return getSingletonType(COMPUTER_FIB_IDS) != null;
-    }
-
-    public static void setComputerFib(boolean item)
-    {
-        setSingletonType(item ? COMPUTER_FIB : null, COMPUTER_FIB_IDS);
-    }
-
-    public static boolean getComputerBis()
-    {
-        return getSingletonType(COMPUTER_BIS_IDS) != null;
-    }
-
-    public static void setComputerBis(boolean item)
-    {
-        setSingletonType(item ? COMPUTER_BIS : null, COMPUTER_BIS_IDS);
-    }
-
     public static ShipComponentBean getElectronics()
     {
         return getSingletonType(ShipComponentBean.ELECTRONICS);
@@ -307,44 +284,28 @@ public class ShipEditLogic
         setSingletonType(item, ShipComponentBean.ELECTRONICS);
     }
 
-    public static int getStaterooms()
+    public static void setShipName(String shipName)
     {
-        return getSingletonCount("$stateroom");
+        ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
+        if (ship == null)
+            return;
+        if (!shipName.equals(ship.getShipName()))
+        {
+            ship.setShipName(shipName);
+            RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.shipName", ship.getShipName());
+        }
     }
 
-    public static void setStaterooms(int count)
+    public static void setShipFunction(String shipFunction)
     {
-        setSingletonCount(count, "$stateroom");
+        ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
+        if (ship == null)
+            return;
+        if (!shipFunction.equals(ship.getShipFunction()))
+        {
+            ship.setShipFunction(shipFunction);
+            RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.shipFunction", ship.getShipFunction());
+        }
     }
 
-    public static int getBerths()
-    {
-        return getSingletonCount("$lowberth");
-    }
-
-    public static void setBerths(int count)
-    {
-        setSingletonCount(count, "$lowberth");
-    }
-
-    public static int getEmergencyBerths()
-    {
-        return getSingletonCount("$emergency_lowberth");
-    }
-
-    public static void setEmergencyBerths(int count)
-    {
-        setSingletonCount(count, "$emergency_lowberth");
-    }
-
-    public static int getBarracks() { return getSingletonCount("$barracks"); } public static void setBarracks(int count) { setSingletonCount(count, "$barracks"); }
-    public static int getArmory() { return getSingletonCount("$armory"); } public static void setArmory(int count) { setSingletonCount(count, "$armory"); }
-    public static int getBriefingRoom() { return getSingletonCount("$briefing_room"); } public static void setBriefingRoom(int count) { setSingletonCount(count, "$briefing_room"); }
-    public static int getDetentionCell() { return getSingletonCount("$detention_cell"); } public static void setDetentionCell(int count) { setSingletonCount(count, "$detention_cell"); }
-    public static int getFuelScoops() { return getSingletonCount("$fuel_scoops"); } public static void setFuelScoops(int count) { setSingletonCount(count, "$fuel_scoops"); }
-    public static int getFuelProcessor() { return getSingletonCount("$fuel_processor"); } public static void setFuelProcessor(int count) { setSingletonCount(count, "$fuel_processor"); }
-    public static int getLab() { return getSingletonCount("$lab"); } public static void setLab(int count) { setSingletonCount(count, "$lab"); }
-    public static int getLibrary() { return getSingletonCount("$library"); } public static void setLibrary(int count) { setSingletonCount(count, "$library"); }
-    public static int getLuxuries() { return getSingletonCount("$luxuries"); } public static void setLuxuries(int count) { setSingletonCount(count, "$luxuries"); }
-    public static int getVault() { return getSingletonCount("$vault"); } public static void setVault(int count) { setSingletonCount(count, "$vault"); }
 }

@@ -14,6 +14,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jo.cephus.core.data.ShipComponentBean;
+import jo.cephus.core.data.ShipComponentInstanceBean;
 import jo.cephus.core.data.ShipReportBean;
 import jo.cephus.core.logic.ShipDesignLogic;
 import jo.cephus.shipyard.data.RuntimeBean;
@@ -21,6 +23,7 @@ import jo.cephus.shipyard.logic.FormatUtils;
 import jo.cephus.shipyard.logic.RuntimeLogic;
 import jo.cephus.shipyard.logic.ShipEditLogic;
 import jo.cephus.shipyard.ui.ctrl.ReportStatPanel;
+import jo.cephus.shipyard.ui.ctrl.ShipComponentCheck;
 import jo.util.utils.obj.IntegerUtils;
 
 @SuppressWarnings("serial")
@@ -30,6 +33,7 @@ public class Step5Panel extends JComponent
 
     private JSpinner                 mWeeksOfPower;
     private JSpinner                 mNumberOfJumps;
+    private ShipComponentCheck       mFuelScoops;
     private ReportStatPanel          mFuelStats;
 
     public Step5Panel()
@@ -44,8 +48,8 @@ public class Step5Panel extends JComponent
     {
         mWeeksOfPower = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
         mNumberOfJumps = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
-        mFuelStats = new ReportStatPanel("Tankage:", new ReportStatPanel.IReportStat() {
-            
+        mFuelScoops = new ShipComponentCheck("Fuel Scoops", ShipEditLogic.FUEL_SCOOPS);
+        mFuelStats = new ReportStatPanel("Tankage:", new ReportStatPanel.IReportStat() {            
             @Override
             public String getStat(ShipReportBean report)
             {
@@ -57,14 +61,16 @@ public class Step5Panel extends JComponent
     private void initLayout()
     {
         JPanel client = new JPanel();
-        client.setLayout(new GridLayout(2, 2));
+        client.setLayout(new GridLayout(3, 2));
         client.add(new JLabel("Weeks of Power:"));
         client.add(mWeeksOfPower);
         client.add(new JLabel("Number of Jumps:"));
         client.add(mNumberOfJumps);
+        client.add(new JLabel(""));
+        client.add(mFuelScoops);
 
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Step 5: Fuel Requirements");
+        JLabel jLabel = new JLabel("Fuel Requirements");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(
                 new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
@@ -123,13 +129,30 @@ public class Step5Panel extends JComponent
         }
         else
         {
-            ShipReportBean report = RuntimeLogic.getInstance().getReport();
+            ShipReportBean report = mRuntime.getReport();
             int minFuel = ShipDesignLogic.getMinFuel(report.getManeuverCode());
             int val = Math.max(minFuel, report.getWeeksofPower());
             mWeeksOfPower
                     .setModel(new SpinnerNumberModel(val, minFuel, null, 1));
             mNumberOfJumps.setModel(new SpinnerNumberModel(
                     report.getNumberOfJumps(), 0, null, 1));
+            ShipComponentInstanceBean config = ShipDesignLogic.getFirstInstance(mRuntime.getShip(), ShipComponentBean.CONFIG);
+            if ((config == null) || "configDistributed".equals(config.getComponentID()))
+            {
+                if (ShipEditLogic.getSingletonCount(ShipEditLogic.FUEL_SCOOPS) > 0)
+                    ShipEditLogic.setSingletonCount(ShipEditLogic.FUEL_SCOOPS, 0);
+                mFuelScoops.setEnabled(false);
+            }
+            else if ("configStandard".equals(config.getComponentID()))
+            {
+                mFuelScoops.setEnabled(true);
+            }
+            else if ("configStreamlined".equals(config.getComponentID()))
+            {
+                if (ShipEditLogic.getSingletonCount(ShipEditLogic.FUEL_SCOOPS) == 0)
+                    ShipEditLogic.setSingletonCount(ShipEditLogic.FUEL_SCOOPS, 1);
+                mFuelScoops.setEnabled(false);
+            }
         }
     }
 }

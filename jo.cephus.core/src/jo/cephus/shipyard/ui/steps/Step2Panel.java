@@ -55,7 +55,7 @@ public class Step2Panel extends JComponent
         stats.add(mThrustStats);
         
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Step 2: Maneuver Drive");
+        JLabel jLabel = new JLabel("Maneuver Drive");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
         add("North", jLabel);

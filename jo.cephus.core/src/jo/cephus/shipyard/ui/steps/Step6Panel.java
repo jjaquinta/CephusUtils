@@ -42,7 +42,7 @@ public class Step6Panel extends JComponent
     private void initLayout()
     {
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Step 6: Bridge");
+        JLabel jLabel = new JLabel("Bridge");
         Font oldFont = jLabel.getFont();
         jLabel.setFont(
                 new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
