@@ -1,12 +1,11 @@
 package jo.cephus.shipyard.ui.steps;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipDesignBean;
@@ -68,6 +67,7 @@ public class Step9Panel extends JComponent
 
     private void initLayout()
     {
+        setBorder(new TitledBorder("Accomodation"));
         JPanel client = new JPanel();
         client.setLayout(new GridLayout(4, 1));
         client.add(mStaterooms);
@@ -81,11 +81,6 @@ public class Step9Panel extends JComponent
         footer.add(mCostStats);
 
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Accomodation");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(
-                new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add("North", jLabel);
         add("Center", client);
         add("South", footer);
     }

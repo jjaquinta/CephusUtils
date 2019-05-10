@@ -1,6 +1,7 @@
 package jo.cephus.shipyard.ui;
 
 import java.awt.FileDialog;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -12,6 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import jo.cephus.shipyard.data.RuntimeBean;
 import jo.cephus.shipyard.logic.RuntimeLogic;
@@ -39,6 +41,8 @@ public class ShipyardFrame extends JFrame
 
     private void initInstantiate()
     {
+        UIManager.getDefaults().put("TitledBorder.font", new javax.swing.plaf.FontUIResource( new Font( "Arial", Font.BOLD, 16 ) ) ) ;
+        
         mClient = new ShipyardPanel();
         
         mMenuBar = new JMenuBar();

@@ -1,14 +1,13 @@
 package jo.cephus.shipyard.ui.steps;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipReportBean;
@@ -50,15 +49,12 @@ public class Step2Panel extends JComponent
 
     private void initLayout()
     {
+        setBorder(new TitledBorder("Maneuver Drive"));
         JPanel stats = new JPanel();
         stats.setLayout(new GridLayout(1, 2));
         stats.add(mThrustStats);
         
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Maneuver Drive");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add("North", jLabel);
         add("Center", mManeuver);
         add("South", stats);
     }

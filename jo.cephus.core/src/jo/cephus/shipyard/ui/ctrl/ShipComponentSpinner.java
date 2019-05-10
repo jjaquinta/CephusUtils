@@ -11,8 +11,13 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jo.cephus.core.data.ShipComponentBean;
+import jo.cephus.core.data.ShipComponentInstanceBean;
 import jo.cephus.core.data.ShipDesignBean;
+import jo.cephus.core.logic.ParameterizedLogic;
+import jo.cephus.core.logic.ShipComponentLogic;
 import jo.cephus.core.logic.ShipDesignLogic;
+import jo.cephus.core.logic.text.TextLogic;
 import jo.cephus.shipyard.data.RuntimeBean;
 import jo.cephus.shipyard.logic.FormatUtils;
 import jo.cephus.shipyard.logic.RuntimeLogic;
@@ -26,6 +31,7 @@ public class ShipComponentSpinner extends JComponent
     
     private String                  mLabel;
     private IAccessor               mAccessor;
+    private ShipComponentBean       mComponent;
 
     private JSpinner                 mSpinner;
     private DesignStatPanel          mCostStats;
@@ -47,6 +53,9 @@ public class ShipComponentSpinner extends JComponent
 
     public ShipComponentSpinner(String label, String id)
     {
+        mComponent = ShipComponentLogic.getComponent(id);
+        if ((label == null) && (mComponent != null))
+            label = TextLogic.getString(mComponent.getName());
         init(label, new ShipComponentSpinner.SingletonAccessor(id));
     }
 
@@ -108,14 +117,44 @@ public class ShipComponentSpinner extends JComponent
         else
         {
             int min = getMin();
+            Comparable<Integer> max = getMax();
             int val = Math.max(min, mAccessor.getValue());
-            mSpinner.setModel(new SpinnerNumberModel(val, min, null, 1));
+            if ((max != null) && (max.compareTo(val) <= 0))
+                max = val;
+            //System.out.println("Spinner "+mLabel+" "+min+" < "+val+" < "+max);
+            mSpinner.setModel(new SpinnerNumberModel(val, min, max, 1));
         }
     }
     
     protected int getMin()
     {
         return 0;
+    }
+    
+    protected Comparable<Integer> getMax()
+    {
+        if (mComponent != null)
+        {
+            int max;
+            ShipComponentInstanceBean inst = ShipDesignLogic.getFirstInstance(mRuntime.getShip(), "$"+mComponent.getID());
+            try
+            {
+                ParameterizedLogic.addContext(mRuntime.getShip());
+                if (inst != null)
+                    ParameterizedLogic.addContext(inst);
+                max = mComponent.getMaxCopies();
+            }
+            finally
+            {
+                if (inst != null)
+                    ParameterizedLogic.removeContext(inst);
+                ParameterizedLogic.removeContext(mRuntime.getShip());
+            }
+            if (max < 0)
+                return null;
+            return max;
+        }
+        return null;
     }
     
     public interface IAccessor
@@ -135,7 +174,8 @@ public class ShipComponentSpinner extends JComponent
         @Override
         public int getValue()
         {
-            return ShipEditLogic.getSingletonCount(mID);
+            int count = ShipEditLogic.getSingletonCount(mID);
+            return count;
         }
         @Override
         public void setValue(int val)

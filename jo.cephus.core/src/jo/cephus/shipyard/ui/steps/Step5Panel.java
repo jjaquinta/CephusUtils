@@ -1,8 +1,6 @@
 package jo.cephus.shipyard.ui.steps;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -11,9 +9,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jo.audio.tools.TableLayout;
 import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipComponentInstanceBean;
 import jo.cephus.core.data.ShipReportBean;
@@ -24,6 +24,7 @@ import jo.cephus.shipyard.logic.RuntimeLogic;
 import jo.cephus.shipyard.logic.ShipEditLogic;
 import jo.cephus.shipyard.ui.ctrl.ReportStatPanel;
 import jo.cephus.shipyard.ui.ctrl.ShipComponentCheck;
+import jo.cephus.shipyard.ui.ctrl.ShipComponentSpinner;
 import jo.util.utils.obj.IntegerUtils;
 
 @SuppressWarnings("serial")
@@ -34,6 +35,7 @@ public class Step5Panel extends JComponent
     private JSpinner                 mWeeksOfPower;
     private JSpinner                 mNumberOfJumps;
     private ShipComponentCheck       mFuelScoops;
+    private ShipComponentSpinner     mFuelProcessors;
     private ReportStatPanel          mFuelStats;
 
     public Step5Panel()
@@ -48,7 +50,8 @@ public class Step5Panel extends JComponent
     {
         mWeeksOfPower = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
         mNumberOfJumps = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
-        mFuelScoops = new ShipComponentCheck("Fuel Scoops", ShipEditLogic.FUEL_SCOOPS);
+        mFuelScoops = new ShipComponentCheck(null, ShipEditLogic.FUEL_SCOOPS);
+        mFuelProcessors = new ShipComponentSpinner(null, ShipEditLogic.FUEL_PROCESSOR);
         mFuelStats = new ReportStatPanel("Tankage:", new ReportStatPanel.IReportStat() {            
             @Override
             public String getStat(ShipReportBean report)
@@ -60,21 +63,18 @@ public class Step5Panel extends JComponent
 
     private void initLayout()
     {
+        setBorder(new TitledBorder("Fuel Requirements"));
+
         JPanel client = new JPanel();
-        client.setLayout(new GridLayout(3, 2));
-        client.add(new JLabel("Weeks of Power:"));
-        client.add(mWeeksOfPower);
-        client.add(new JLabel("Number of Jumps:"));
-        client.add(mNumberOfJumps);
-        client.add(new JLabel(""));
-        client.add(mFuelScoops);
+        client.setLayout(new TableLayout());
+        client.add("1,+", new JLabel("Weeks of Power:"));
+        client.add("+,. fill=h", mWeeksOfPower);
+        client.add("+,. fill=h", mFuelProcessors);
+        client.add("1,+", new JLabel("Number of Jumps:"));
+        client.add("+,. fill=h", mNumberOfJumps);
+        client.add("+,. fill=h", mFuelScoops);
 
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Fuel Requirements");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(
-                new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add("North", jLabel);
         add("Center", client);
         add("South", mFuelStats);
     }
@@ -130,10 +130,12 @@ public class Step5Panel extends JComponent
         else
         {
             ShipReportBean report = mRuntime.getReport();
-            int minFuel = ShipDesignLogic.getMinFuel(report.getManeuverCode());
-            int val = Math.max(minFuel, report.getWeeksofPower());
+            int minFuelTons = ShipDesignLogic.getMinFuel(report.getManeuverCode());
+            int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(report.getManeuverCode());
+            int minWeeks = (fuelPerWeek == 0) ? 0 : minFuelTons/fuelPerWeek;
+            int val = Math.max(minWeeks, report.getWeeksofPower());
             mWeeksOfPower
-                    .setModel(new SpinnerNumberModel(val, minFuel, null, 1));
+                    .setModel(new SpinnerNumberModel(val, minWeeks, null, 1));
             mNumberOfJumps.setModel(new SpinnerNumberModel(
                     report.getNumberOfJumps(), 0, null, 1));
             ShipComponentInstanceBean config = ShipDesignLogic.getFirstInstance(mRuntime.getShip(), ShipComponentBean.CONFIG);

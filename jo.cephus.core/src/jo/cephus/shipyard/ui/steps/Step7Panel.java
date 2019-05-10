@@ -1,10 +1,9 @@
 package jo.cephus.shipyard.ui.steps;
 
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
 
 import jo.cephus.shipyard.logic.ShipEditLogic;
 import jo.cephus.shipyard.ui.ctrl.ComputerChooser;
@@ -33,12 +32,8 @@ public class Step7Panel extends JComponent
 
     private void initLayout()
     {
-        setLayout(new GridLayout(4, 1));
-        JLabel jLabel = new JLabel("Computer");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(
-                new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add(jLabel);
+        setBorder(new TitledBorder("Computer"));
+        setLayout(new GridLayout(3, 1));
         add(mComputer);
         add(mBIS);
         add(mFIB);

@@ -158,7 +158,7 @@ public class ShipComponentBean extends CephusBean
 
     public int getMaxCopies()
     {
-        return mMaxCopies;
+        return ((Integer)get("maxCopies", Integer.valueOf(mMaxCopies))).intValue();
     }
 
     public void setMaxCopies(int maxCopies)

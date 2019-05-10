@@ -1,7 +1,6 @@
 package jo.cephus.shipyard.ui.steps;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
@@ -12,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import jo.cephus.shipyard.data.RuntimeBean;
 import jo.cephus.shipyard.logic.RuntimeLogic;
@@ -45,6 +45,7 @@ public class Step0Panel extends JComponent
 
     private void initLayout()
     {
+        setBorder(new TitledBorder("Information"));
         JPanel line1 = new JPanel();
         line1.setLayout(new BorderLayout());
         line1.add("West", new JLabel("Name:"));
@@ -61,10 +62,6 @@ public class Step0Panel extends JComponent
         client.add("Center", line2);
         
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Information");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add("North", jLabel);
         add("Center", client);
     }
 
@@ -86,7 +83,7 @@ public class Step0Panel extends JComponent
             }
         });
         // data to UI        
-        mRuntime.addPropertyChangeListener("ship.shipName",
+        mRuntime.addUIPropertyChangeListener("ship.shipName",
                 new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt)
@@ -94,7 +91,7 @@ public class Step0Panel extends JComponent
                         doNewName();
                     }
                 });
-        mRuntime.addPropertyChangeListener("ship.shipFunction",
+        mRuntime.addUIPropertyChangeListener("ship.shipFunction",
                 new PropertyChangeListener() {
                     @Override
                     public void propertyChange(PropertyChangeEvent evt)

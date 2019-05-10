@@ -19,9 +19,7 @@ public class ParameterizedLogic
                 mContextCache.put(Thread.currentThread(), contexts);
             }
             contexts.add(0, context);
-            //System.out.println(Thread.currentThread().hashCode()+" +context "+context.getClass().getSimpleName()+" ("+contexts.size()+")");
-            //Throwable t = new Throwable();
-            //System.out.println("   @ "+t.getStackTrace()[1].toString());
+            debug(Thread.currentThread().hashCode()+" +context "+context.getClass().getSimpleName()+" ("+contexts.size()+")");
         }
     }
 
@@ -35,12 +33,10 @@ public class ParameterizedLogic
                 contexts.remove(context);
                 if(contexts.size() == 0)
                     mContextCache.remove(Thread.currentThread());
-                //System.out.println(Thread.currentThread().hashCode()+" -context "+context.getClass().getSimpleName()+" ("+contexts.size()+")");
+                debug(Thread.currentThread().hashCode()+" -context "+context.getClass().getSimpleName()+" ("+contexts.size()+")");
             }
-            //else
-            //    System.out.println(Thread.currentThread().hashCode()+" -context "+context.getClass().getSimpleName()+" (-)");
-            //Throwable t = new Throwable();
-            //System.out.println("   @ "+t.getStackTrace()[1].toString());
+            else
+                debug(Thread.currentThread().hashCode()+" -context "+context.getClass().getSimpleName()+" (-)");
         }
     }
 
@@ -80,4 +76,9 @@ public class ParameterizedLogic
             return hardCoded;
     }
 
+    private static void debug(String msg)
+    {
+        //Throwable t = new Throwable();
+        //System.out.println(msg+"   @ "+t.getStackTrace()[1].toString());
+    }
 }

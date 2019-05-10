@@ -12,20 +12,12 @@ import jo.cephus.core.data.ShipDesignBean;
 import jo.cephus.core.logic.ParameterizedLogic;
 import jo.cephus.core.logic.ShipDesignLogic;
 import jo.util.utils.obj.DoubleUtils;
+import jo.util.utils.obj.IntegerUtils;
 
 public class ShipEvals
 {
     public static void init()
     {
-        ParameterizedLogic.addEval("comp$bay$maxCopies", new IParamEval() {
-
-            public Object getParameterizedValue(Object base, Object hardCoded)
-            {
-                return ShipEvals.doBayMaxCopies((ShipComponentBean)base, hardCoded);
-            }
-
-        }
-);
         ParameterizedLogic.addEval("comp$bridge$price", new IParamEval() {
 
             public Object getParameterizedValue(Object base, Object hardCoded)
@@ -116,6 +108,15 @@ public class ShipEvals
 
         }
 );
+        ParameterizedLogic.addEval("comp$hardpoint$maxCopies", new IParamEval() {
+
+            public Object getParameterizedValue(Object base, Object hardCoded)
+            {
+                return ShipEvals.doHardpointMaxCopies((ShipComponentBean)base, hardCoded);
+            }
+
+        }
+);
     }
 
     private static ShipDesignBean getShip()
@@ -129,15 +130,6 @@ public class ShipEvals
     private static ShipComponentInstanceBean getInstance()
     {
         return (ShipComponentInstanceBean)ParameterizedLogic.getContext(ShipComponentInstanceBean.class);
-    }
-
-    private static Object doBayMaxCopies(ShipComponentBean base, Object hardCoded)
-    {
-        int val = ShipDesignLogic.getHardpointsFree(getShip());
-        ShipComponentInstanceBean inst = getInstance();
-        if(inst != null)
-            val += inst.getCount();
-        return Integer.valueOf(val);
     }
 
     private static Object doBridgePrice(ShipComponentBean base, Object hardCoded)
@@ -211,11 +203,26 @@ public class ShipEvals
 
     private static Object doWeaponMaxCopies(ShipComponentBean base, Object hardCoded)
     {
-        int val = ShipDesignLogic.getHardpointsFree(getShip());
+        int weaponSlots = 0;
+        for (ShipComponentInstanceBean turret : ShipDesignLogic.getAllInstances(getShip(), ShipComponentBean.TURRET))
+        {
+            int capacity = IntegerUtils.parseInt(turret.getComponent().getParams().get("capacity"));
+            weaponSlots += capacity*turret.getCount();
+        }
+        int weapons = ShipDesignLogic.countAllInstances(getShip(), ShipComponentBean.WEAPON);
         ShipComponentInstanceBean inst = getInstance();
-        if(inst != null)
-            val += inst.getCount();
-        return Integer.valueOf(val);
+        if (inst != null)
+        {
+            if (!inst.getType().equals(ShipComponentBean.WEAPON))
+                System.out.println(Thread.currentThread().hashCode()+" expected weapon, got "+inst.getComponentID());
+            weapons -= inst.getCount();
+            //System.out.println("Max for "+base.getID()+" slots="+weaponSlots+", weaps="+weapons+", this="+inst.getCount());
+        }
+        //else
+        //    System.out.println("Max for "+base.getID()+" slots="+weaponSlots+", weaps="+weapons);
+        int max = weaponSlots - weapons;
+        return max;
+
     }
 
     private static Object doHangerDroneVolume(ShipComponentBean base, Object hardCoded)
@@ -230,6 +237,26 @@ public class ShipEvals
         int disp = ShipDesignLogic.getHullDisplacement(getShip());
         double price = disp * 0.2;
         return price;
+    }
+
+    private static Object doHardpointMaxCopies(ShipComponentBean base, Object hardCoded)
+    {
+        ShipDesignBean ship = getShip();
+        int disp = ShipDesignLogic.getHullDisplacement(ship);
+        int hps = Math.max(1, disp/100);
+        int turrets = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.TURRET);
+        int bays = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BAY);
+        int weapons = turrets + bays;
+        ShipComponentInstanceBean inst = getInstance();
+        if (inst != null)
+        {
+            weapons -= inst.getCount();
+            //System.out.println("Max for "+base.getID()+" hp="+hps+", t="+turrets+", b="+bays+", this="+inst.getCount());
+        }
+        //else
+        //    System.out.println("Max for "+base.getID()+" hp="+hps+", t="+turrets+", b="+bays+", this=0");
+        int max = hps - weapons;
+        return max;
     }
 
 }

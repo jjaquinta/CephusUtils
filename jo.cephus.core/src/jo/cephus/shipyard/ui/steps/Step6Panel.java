@@ -1,10 +1,9 @@
 package jo.cephus.shipyard.ui.steps;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
 
 import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipDesignBean;
@@ -41,12 +40,8 @@ public class Step6Panel extends JComponent
 
     private void initLayout()
     {
+        setBorder(new TitledBorder("Bridge"));
         setLayout(new BorderLayout());
-        JLabel jLabel = new JLabel("Bridge");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(
-                new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add("North", jLabel);
         add("Center", mBridgeStats);
     }
 

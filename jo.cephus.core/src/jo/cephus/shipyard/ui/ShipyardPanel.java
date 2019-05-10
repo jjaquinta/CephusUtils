@@ -150,9 +150,11 @@ public class ShipyardPanel extends JComponent
     
     private void doNewShips()
     {
+        ShipDesignBean oldShip = mRuntime.getShip();
         mSelectShipModel.removeAllElements();
         for (ShipDesignBean ship : mRuntime.getShips())
             mSelectShipModel.addElement(ship);
+        mSelectShip.setSelectedItem(oldShip);
     }
     
     private void doNewShip()

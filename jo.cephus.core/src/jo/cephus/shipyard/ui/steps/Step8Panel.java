@@ -1,12 +1,11 @@
 package jo.cephus.shipyard.ui.steps;
 
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
+import javax.swing.border.TitledBorder;
 
 import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipDesignBean;
@@ -49,11 +48,8 @@ public class Step8Panel extends JComponent
 
     private void initLayout()
     {
-        setLayout(new GridLayout(3, 1));
-        JLabel jLabel = new JLabel("Electronics");
-        Font oldFont = jLabel.getFont();
-        jLabel.setFont(new Font(oldFont.getName(), Font.BOLD, oldFont.getSize() + 2));
-        add(jLabel);
+        setBorder(new TitledBorder("Electronics"));
+        setLayout(new GridLayout(2, 1));
         add(mElectronics);
         add(mCost);
     }

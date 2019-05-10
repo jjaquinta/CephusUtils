@@ -56,7 +56,7 @@ public class ReportPanel extends JComponent
                 });
     }
 
-    private void doNewReport()
+    private synchronized void doNewReport()
     {
         ShipReportBean report = mRuntime.getReport();
         if (report == null)

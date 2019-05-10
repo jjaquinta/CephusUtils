@@ -4,22 +4,22 @@ import jo.cephus.shipyard.logic.ShipEditLogic;
 import jo.cephus.shipyard.ui.ctrl.SpinnerPanel;
 
 @SuppressWarnings("serial")
-public class Step10Panel extends SpinnerPanel
+public class Step13Panel extends SpinnerPanel
 {
-    public Step10Panel()
+    public Step13Panel()
     {
     }
 
     @Override
     protected String getTitle()
     {
-        return "Extras";
+        return "Weapons";
     }
     
     @Override
     protected String[] getShipComponents()
     {
-        return new String[] { ShipEditLogic.ARMORY, ShipEditLogic.BRIEFING_ROOM, ShipEditLogic.DETENTION_CELL, 
-                ShipEditLogic.LAB, ShipEditLogic.LIBRARY, ShipEditLogic.LUXURIES, ShipEditLogic.VAULT};
+        return new String[] { ShipEditLogic.WEAPON_MISSILE, ShipEditLogic.WEAPON_PULSE, 
+                ShipEditLogic.WEAPON_SAND, ShipEditLogic.WEAPON_PARTICLE, ShipEditLogic.WEAPON_BEAM};
     }
 }

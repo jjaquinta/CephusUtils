@@ -47,12 +47,18 @@ public class ShipComponentLogic
     public static ShipComponentBean getComponent(String id)
     {
         init();
-        return (ShipComponentBean)mIndex.get(id);
+        if (mIndex.containsKey(id))
+            return mIndex.get(id);
+        else if (id.startsWith("$"))
+            return mIndex.get(id.substring(1));
+        return null;
     }
 
     public static ShipComponentInstanceBean getInstance(String id, int count)
     {
         init();
+        if (id.startsWith("$"))
+            id = id.substring(1);
         ShipComponentInstanceBean inst = new ShipComponentInstanceBean();
         inst.setComponentID(id);
         inst.setCount(count);

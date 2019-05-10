@@ -9,8 +9,11 @@ import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jo.cephus.core.data.ShipComponentBean;
 import jo.cephus.core.data.ShipDesignBean;
+import jo.cephus.core.logic.ShipComponentLogic;
 import jo.cephus.core.logic.ShipDesignLogic;
+import jo.cephus.core.logic.text.TextLogic;
 import jo.cephus.shipyard.data.RuntimeBean;
 import jo.cephus.shipyard.logic.FormatUtils;
 import jo.cephus.shipyard.logic.RuntimeLogic;
@@ -44,6 +47,9 @@ public class ShipComponentCheck extends JComponent
 
     public ShipComponentCheck(String label, String id)
     {
+        ShipComponentBean comp = ShipComponentLogic.getComponent(id);
+        if ((label == null) && (comp != null))
+            label = TextLogic.getString(comp.getName());
         init(label, new ShipComponentCheck.SingletonAccessor(id));
     }
 

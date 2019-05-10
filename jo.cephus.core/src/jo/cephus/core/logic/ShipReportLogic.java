@@ -11,6 +11,7 @@ import jo.cephus.core.data.ShipComponentInstanceBean;
 import jo.cephus.core.data.ShipDesignBean;
 import jo.cephus.core.data.ShipReportBean;
 import jo.cephus.core.logic.text.TextLogic;
+import jo.cephus.shipyard.logic.FormatUtils;
 import jo.util.utils.obj.IntegerUtils;
 
 public class ShipReportLogic
@@ -57,21 +58,9 @@ public class ShipReportLogic
             space += report.getFireControlTonnage();
             if (space > 0)
                 report.getErrors().add("Overrun: Ship can only hold "+report.getHullDisplacement()+"t; contains "+space+"t too much.");
+            report.setHullUsed(report.getHullDisplacement() + space);
             report.setCargoTonnage(report.getCargoTonnage() - space);
-            // check bridge
-            ShipComponentBean bridge = ShipDesignLogic.findHighestNumberParam(ship, ShipComponentBean.BRIDGE, "tonsSupported");
-            if (bridge == null)
-                report.getErrors().add("No bridge: A bridge is required for all starships.");
-            else
-            {
-                int tonsSupported = IntegerUtils.parseInt(bridge.getParams().get("tonsSupported"));
-                if (report.getHullDisplacement() > tonsSupported)
-                    report.getErrors().add("Small bridge: This bridge can only support up to "+tonsSupported+" tons");
-            }
-            // check electroncis
-            ShipComponentInstanceBean elec = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.ELECTRONICS);
-            if (elec == null)
-                report.getErrors().add("No electronics: An electronics package must be installed.");
+            checkErrors(ship, report);
             
             reportProse(ship, report);
             
@@ -81,6 +70,30 @@ public class ShipReportLogic
         {
             ParameterizedLogic.removeContext(ship);
         }
+    }
+
+    public static void checkErrors(ShipDesignBean ship, ShipReportBean report)
+    {
+        // check bridge
+        ShipComponentBean bridge = ShipDesignLogic.findHighestNumberParam(ship, ShipComponentBean.BRIDGE, "tonsSupported");
+        if (bridge == null)
+            report.getErrors().add("No bridge: A bridge is required for all starships.");
+        else
+        {
+            int tonsSupported = IntegerUtils.parseInt(bridge.getParams().get("tonsSupported"));
+            if (report.getHullDisplacement() > tonsSupported)
+                report.getErrors().add("Small bridge: This bridge can only support up to "+tonsSupported+" tons");
+        }
+        // check electronics
+        ShipComponentInstanceBean elec = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.ELECTRONICS);
+        if (elec == null)
+            report.getErrors().add("No electronics: An electronics package must be installed.");
+        // check turrets
+        int turrets = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.TURRET);
+        int bays = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BAY);
+        report.setNumberOfHardpointsUsed(turrets + bays);
+        if (turrets + bays > report.getNumberOfHardpoints())
+            report.getErrors().add("Too many weapons: Ship only has "+report.getNumberOfHardpoints()+" hard points but has "+turrets+" turrets and "+bays+" bays");
     }
 
     public static void reportProse(ShipDesignBean ship, ShipReportBean report)
@@ -111,7 +124,7 @@ public class ShipReportLogic
         report.getProse().addToGroup(new AudioMessageBean("USD_LINE13", report.getAdditionalComponents()));
         report.getProse().addToGroup(new AudioMessageBean("USD_LINE14", report.getCrewTotal(), report.getCrewPositions()));
         report.getProse().addToGroup(new AudioMessageBean("USD_LINE15", report.getPassengersTotal(), report.getNumberOfBerths()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE16", report.getCost(), report.getConstructionTime()));
+        report.getProse().addToGroup(new AudioMessageBean("USD_LINE16", FormatUtils.sCurrency(report.getCost()*1000000*.9), report.getConstructionTime()));
     }
 
     public static void reportHullDetails(ShipDesignBean ship,
@@ -386,27 +399,28 @@ public class ShipReportLogic
                 .getAllInstances(ship, ShipComponentBean.TURRET);
         List<ShipComponentInstanceBean> weapons = ShipDesignLogic
                 .getAllInstances(ship, ShipComponentBean.WEAPON);
+        int used = 0;
         for (int i = 0; i < weapons.size(); i++)
         {
             ShipComponentInstanceBean weapon = (ShipComponentInstanceBean)weapons
                     .get(i);
+            used += weapon.getCount();
             for (int j = 1; j < weapon.getCount(); j++)
             {
                 weapons.add(i, weapon);
                 i++;
             }
-
         }
 
         List<AudioMessageBean> turretsDesc = new ArrayList<>();
-        for (Iterator<ShipComponentInstanceBean> iterator = turrets
-                .iterator(); iterator.hasNext();)
+        int slots = 0;
+        for (ShipComponentInstanceBean turret : turrets)
         {
-            ShipComponentInstanceBean turret = iterator.next();
             int capacity = IntegerUtils.parseInt(
                     turret.getComponent().getParams().get("capacity"));
             for (int i = 0; i < turret.getCount(); i++)
             {
+                slots += capacity;
                 List<AudioMessageBean> contents = new ArrayList<>();
                 for (int j = 0; j < capacity && weapons.size() > 0; j++)
                 {
@@ -421,8 +435,9 @@ public class ShipReportLogic
             }
 
         }
-
         report.setTurrets(TextLogic.compress(turretsDesc));
+        report.setWeaponSlots(slots);
+        report.setWeaponSlotsUsed(used);
     }
 
     private static int findMaxTech(List<ShipComponentInstanceBean> components)
