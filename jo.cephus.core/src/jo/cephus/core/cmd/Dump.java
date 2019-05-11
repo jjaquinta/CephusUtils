@@ -1,5 +1,6 @@
 package jo.cephus.core.cmd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jo.cephus.core.data.ShipComponentBean;
@@ -9,6 +10,9 @@ import jo.cephus.core.data.ShipReportBean;
 import jo.cephus.core.logic.ShipComponentLogic;
 import jo.cephus.core.logic.ShipReportLogic;
 import jo.cephus.core.logic.text.TextLogic;
+import jo.ttg.ship.beans.plan.PlanItem;
+import jo.ttg.ship.beans.plan.ShipPlanBean;
+import jo.ttg.ship.logic.plan.ShipPlanLogic;
 import jo.util.utils.obj.StringUtils;
 
 public class Dump
@@ -44,6 +48,24 @@ public class Dump
         String prose = TextLogic.getString(report.getProse());
         prose = StringUtils.wrap(prose, 80, "\r\n");
         System.out.println(prose);
+        // test residuals
+        ArrayList<PlanItem> contents = new ArrayList<PlanItem>();
+        for (int configuration = ShipPlanBean.HULL_SPHERE; configuration <= ShipPlanBean.HULL_BOX; configuration++)
+        {
+            int count = 0;
+            double total = 0;
+            for (ShipComponentBean hull : ShipComponentLogic.getComponentsByType(ShipComponentBean.HULL))
+            {
+                double volume = -hull.getVolume()*13.5;
+                ShipPlanBean plan = ShipPlanLogic.generateFrame(volume, configuration, contents);
+                double designVolume = plan.getSquares().size()*6.25;
+                double pc = designVolume/volume;
+                total += pc;
+                count++;
+            }
+            int average = (int)(100*total/count);
+            System.out.println("Config #"+configuration+", average = "+average+"%");
+        }
     }
 
     public static ShipDesignBean constructAsteroidMiner()
