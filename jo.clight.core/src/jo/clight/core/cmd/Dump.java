@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jo.clight.core.data.ShipComponentBean;
-import jo.clight.core.data.ShipComponentInstanceBean;
 import jo.clight.core.data.ShipDesignBean;
 import jo.clight.core.data.ShipReportBean;
 import jo.clight.core.data.plan.PlanItem;

@@ -1,0 +1,53 @@
+package jo.clight.shipyard.ui.steps;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JComponent;
+import javax.swing.border.TitledBorder;
+
+import jo.clight.core.data.ShipComponentBean;
+import jo.clight.core.data.ShipDesignBean;
+import jo.clight.core.logic.FormatUtils;
+import jo.clight.core.logic.ShipDesignLogic;
+import jo.clight.shipyard.ui.ctrl.DesignStatPanel;
+
+@SuppressWarnings("serial")
+public class Step6Panel extends JComponent
+{
+    private DesignStatPanel          mBridgeStats;
+
+    public Step6Panel()
+    {
+        initInstantiate();
+        initLayout();
+        initLink();
+    }
+
+    private void initInstantiate()
+    {
+        mBridgeStats = new DesignStatPanel("Bridge:", new DesignStatPanel.IDesignStat() {            
+            @Override
+            public String getStat(ShipDesignBean ship)
+            {
+                ShipComponentBean bridge = ShipDesignLogic.findHighestNumberParam(ship, ShipComponentBean.BRIDGE, "tonsSupported");
+                if (bridge == null)
+                    return "-";
+                else
+                    return FormatUtils.sTons(bridge.getVolume())+" / "+FormatUtils.sCurrency(bridge.getPrice()*1000000);
+            }
+        });
+    }
+
+    private void initLayout()
+    {
+        setBorder(new TitledBorder("Bridge"));
+        setLayout(new BorderLayout());
+        add("Center", mBridgeStats);
+    }
+
+    private void initLink()
+    {
+        // UI to Data
+        // data to UI
+    }
+}

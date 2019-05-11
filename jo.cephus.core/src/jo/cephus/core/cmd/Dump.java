@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jo.cephus.core.data.ShipComponentBean;
-import jo.cephus.core.data.ShipComponentInstanceBean;
 import jo.cephus.core.data.ShipDesignBean;
 import jo.cephus.core.data.ShipReportBean;
 import jo.cephus.core.logic.ShipComponentLogic;
