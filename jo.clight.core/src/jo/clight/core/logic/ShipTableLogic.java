@@ -5,75 +5,58 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import jo.audio.util.model.data.AudioMessageBean;
+import jo.clight.core.data.ShipComponentBean;
 import jo.clight.core.data.ShipComponentInstanceBean;
 import jo.clight.core.data.ShipDesignBean;
+import jo.clight.core.data.ShipReportBean;
 import jo.clight.core.logic.text.TextLogic;
 import jo.util.utils.obj.IntegerUtils;
 import jo.util.utils.obj.StringUtils;
 
 public class ShipTableLogic
 {
-    public static List<List<Object>> toTable(ShipDesignBean ship)
+    public static List<List<Object>> toDesignSheet(ShipDesignBean ship)
     {
         try
         {
             ParameterizedLogic.addContext(ship);
             List<List<Object>> table = new ArrayList<>();
-            List<Object> line = new ArrayList<>();
-            line.add("{colspan|5}TL"+ShipDesignLogic.findMaxTech(ship)+" "+ShipDesignLogic.getHullDisplacement(ship)+" "+ship.getShipName()+" Design Sheet");
-            table.add(line);
-            line = new ArrayList<>();
-            line.add("---");
-            table.add(line);
-            line = new ArrayList<>();
-            line.add("Component");
-            line.add("Notes");
-            line.add("Count");
-            line.add("Volume");
-            line.add("Price");
-            table.add(line);
-            line = new ArrayList<>();
-            line.add("---");
-            table.add(line);
+            addLine(table, "{colspan|5}TL"+ShipDesignLogic.findMaxTech(ship)+" "+ShipDesignLogic.getHullDisplacement(ship)+" "+ship.getShipName()+" Design Sheet");
+            addLine(table, "---");
+            addLine(table, "Component","Notes","Count","Volume","Price");
+            addLine(table, "---");
             double volume = 0;
             double price = 0;
             for (ShipComponentInstanceBean comp : ship.getComponents())
             {
-                line = new ArrayList<>();
-                line.add(TextLogic.getString(comp.getComponent().getName()));
                 String desc = TextLogic.getString(comp.getComponent().getDescription());
-                line.add(desc);
-                line.add(comp.getCount());
                 double vol = comp.getCount()*comp.getVolume();
-                line.add(vol);
                 double pri = comp.getCount()*comp.getPrice();
-                line.add(pri);
-                table.add(line);
+                addLine(table, TextLogic.getString(comp.getComponent().getName()),
+                        desc,
+                        comp.getCount(),
+                        vol,
+                        pri);
                 volume += vol;
                 price += pri;
             }
             if (volume < 0)
             {
                 int cargo = (int)(-volume);
-                line = new ArrayList<>();
-                line.add(TextLogic.getString(new AudioMessageBean("CARGO_HOLD_NAME")));
                 String desc = TextLogic.getString(new AudioMessageBean("CARGO_HOLD_DESC"));
-                line.add(desc);
-                line.add(cargo);
-                line.add(cargo);
-                line.add(0);
-                table.add(line);
+                addLine(table, TextLogic.getString(new AudioMessageBean("CARGO_HOLD_NAME")),
+                        desc,
+                        cargo,
+                        cargo,
+                        0);
             }
-            line = new ArrayList<>();
-            line.add("---");
-            table.add(line);            line = new ArrayList<>();
-            line.add(TextLogic.getString(new AudioMessageBean("TOTAL")));
+            addLine(table, "---");
             String desc = TextLogic.getString(new AudioMessageBean("SPACE"));
-            line.add(desc);
-            line.add("");
-            line.add("");
-            line.add(price);
-            table.add(line);
+            addLine(table, TextLogic.getString(new AudioMessageBean("TOTAL")),
+                    desc,
+                    "",
+                    "",
+                    price);
             return table;
         }
         finally
@@ -82,13 +65,131 @@ public class ShipTableLogic
         }
     }
     
-    public static String toTableText(ShipDesignBean ship, String tableHints)
+    public static List<List<Object>> toShipSheet(ShipReportBean report)
+    {
+        ShipDesignBean ship = report.getShip();
+        try
+        {
+            ParameterizedLogic.addContext(ship);
+            List<List<Object>> table = new ArrayList<>();
+            addLine(table, "{colspan|4}TL"+ShipDesignLogic.findMaxTech(ship)+" "+ShipDesignLogic.getHullDisplacement(ship)+" "+ship.getShipName());
+            addLine(table, "{colspan|4|wrap}The "+ship.getShipName()+" "+ship.getShipFunction());
+            addLine(table, "---");
+            String tonnage = "Tonnage: "+report.getHullDisplacement();
+            String armor = "Armor: "+report.getArmorRating();
+            if (report.getArmor() != null)
+                armor += " " + TextLogic.getString(report.getArmor().getComponent().getName());
+            String config = "";
+            if (report.getConfig() != null)
+                config = TextLogic.getString(report.getConfig().getComponent().getName());
+            addLine(table, ship.getShipName(),
+                    tonnage,
+                    armor,
+                    config);
+            addLine(table, "---");
+            addLine(table,
+                    "Maneuver: "+report.getManeuverCode(),
+                    "Jump: "+report.getJumpCode(),
+                    "P-Plant: "+report.getPowerCode(),
+                    "Thrust: "+report.getThrustNumber()+" G");
+            String fuel = report.getFuelTonnage()+" tons for :";
+            if (report.getNumberOfJumps() > 0)
+            {
+                fuel += " "+report.getNumberOfJumps()+"x Jump";
+                if (report.getNumberOfJumps() > 1)
+                    fuel += "s";
+            }
+            if (report.getWeeksofPower() > 0)
+            {
+                if (!fuel.endsWith(":"))
+                    fuel += ", ";
+                if (report.getWeeksofPower() == 1)
+                    fuel += report.getWeeksofPower()+" week endurance";
+                else
+                    fuel += report.getWeeksofPower()+" weeks endurance";
+            }
+            addLine(table,
+                    "Jump Rating: "+report.getJumpNumber(),
+                    "{colspan|3}Fuel : "+fuel);
+            String computer = "no";
+            if (report.getComputer() != null)
+            {
+                computer = TextLogic.getString(report.getComputer().getComponent().getName());
+                if (report.getComputerBis() != null)
+                    computer += TextLogic.getString(report.getComputerBis().getComponent().getName());
+            }
+            String armament = "";
+            if (report.getTurrets().size() > 0)
+            {
+                if (armament.length() > 0)
+                    armament += ", ";
+                armament += TextLogic.getString(toCountedList(report.getTurrets()));
+            }
+            if (report.getBays().size() > 0)
+            {
+                if (armament.length() > 0)
+                    armament += ", ";
+                armament += TextLogic.getString(toCountedList(report.getBays()));
+            }
+            if (report.getWeapons().size() > 0)
+            {
+                if (armament.length() > 0)
+                    armament += "; ";
+                armament += TextLogic.getString(toCountedList(report.getWeapons()));
+            }
+            addLine(table,
+                    computer+" computer",
+                    "{colspan|3|wrap}Armament : "+armament);
+            List<ShipComponentInstanceBean> fittings = new ArrayList<>();
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.STATEROOM));
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.BERTH));
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.HANGER));
+            if (report.getCargoTonnage() > 0)
+                fittings.add(ShipComponentLogic.getInstance(ShipComponentBean.ETC_CARGO_HOLD, report.getCargoTonnage()));
+            addLine(table,
+                    "{colspan|4|wrap}Fittings : "+TextLogic.getString(toCountedList(fittings)));
+            String crew = report.getCrewTotal()+" total -- "+TextLogic.getString(toCountedList(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.CREW)));
+            addLine(table,
+                    "{colspan|4|wrap}Crew : "+crew);
+            addLine(table,
+                    "{colspan|4|wrap}Cost : "+FormatUtils.sCurrency(report.getCost())
+                    +"; Construction Time: "+report.getConstructionTime()+" weeks");
+            addLine(table, "---");
+            return table;
+        }
+        finally
+        {
+            ParameterizedLogic.removeContext(ship);
+        }
+    }
+
+    private static void addLine(List<List<Object>> table, Object... data)
+    {
+        List<Object> line = new ArrayList<>();
+        for (int i = 0; i < data.length; i++)
+            line.add(data[i]);
+        table.add(line);
+    }
+    
+    public static AudioMessageBean toCountedList(List<ShipComponentInstanceBean> comps)
+    {
+        List<AudioMessageBean> items = new ArrayList<>();
+        for (ShipComponentInstanceBean comp : comps)
+        {
+            if (comp.getCount() == 1)
+                items.add(comp.getComponent().getName());
+            else
+                items.add(new AudioMessageBean("BY", comp.getCount(), comp.getComponent().getName()));
+        }
+        return new AudioMessageBean(AudioMessageBean.LIST, items.toArray());
+    }
+    
+    public static String formatTable(List<List<Object>> table, String tableHints)
     {
         StringTokenizer st = new StringTokenizer(tableHints, ",");
         ColumnHint[] hints = new ColumnHint[st.countTokens()];
         for (int i = 0; st.hasMoreTokens(); i++)
             hints[i] = new ColumnHint(st.nextToken());
-        List<List<Object>> table = toTable(ship);
         for (List<Object> line : table)
         {
             int col = 0;
@@ -121,6 +222,7 @@ public class ShipTableLogic
                 {
                     int o = text.indexOf('}');
                     ColumnHint hint = new ColumnHint(text.substring(1, o));
+                    String prefix = text.substring(0, o+1);
                     text = text.substring(o + 1);
                     for (int c = 0; c < hint.colspan; c++)
                     {
@@ -128,17 +230,20 @@ public class ShipTableLogic
                         if (c > 0)
                             hint.width++;
                     }
-                    wrapLine = appendNormal(sb, wrapLine, col, text, hint);
+                    wrapLine = appendNormal(sb, wrapLine, col, text, hint, prefix);
                     col += hint.colspan;
                 }
                 else
                 {
-                    ColumnHint hint = hints[col];
-                    if (hint.decimal)
-                        appendDecimal(sb, text, hint);
-                    else
-                        wrapLine = appendNormal(sb, wrapLine, col, text, hint);
-                    col++;
+                    if (col < hints.length)
+                    {
+                        ColumnHint hint = hints[col];
+                        if (hint.decimal)
+                            appendDecimal(sb, text, hint);
+                        else
+                            wrapLine = appendNormal(sb, wrapLine, col, text, hint, "");
+                        col++;
+                    }
                 }
                 if ((wrapLine != null) && (wrapLine.size() < col))
                     wrapLine.add("");
@@ -149,7 +254,8 @@ public class ShipTableLogic
     }
 
     public static List<Object> appendNormal(StringBuffer sb,
-            List<Object> wrapLine, int col, String text, ColumnHint hint)
+            List<Object> wrapLine, int col, String text, ColumnHint hint,
+            String prefix)
     {
         if (text.length() > hint.width)
             if (hint.wrap)
@@ -161,7 +267,7 @@ public class ShipTableLogic
                         wrapLine.add("");
                 }
                 int o = text.lastIndexOf(" ", hint.width);
-                wrapLine.add(text.substring(o).trim());
+                wrapLine.add(prefix+text.substring(o).trim());
                 text = text.substring(0, o).trim();
             }
             else

@@ -346,15 +346,18 @@ public class ShipReportLogic
                 slots++;
             }
         }
+        report.setTurrets(turrets);
         report.setWeaponsByTurret(weaponsByTurret);
         report.setNumberOfTurrets(numTurrets);
         report.setWeaponSlots(slots);
         report.setWeaponSlotsUsed(used);
+        report.setWeapons(weapons);
     }
 
     public static void reportBays(ShipDesignBean ship, ShipReportBean report)
     {
         int numberOfBays = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BAY);
         report.setNumberOfBays(numberOfBays);
+        report.setBays(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.BAY));
     }
 }
