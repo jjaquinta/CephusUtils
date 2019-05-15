@@ -1,7 +1,6 @@
 package jo.clight.core.cmd;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,7 +63,6 @@ public class ExportShips
                 ShipReportBean report = ShipReportLogic.report(ship);
                 String fname = toFileName(ship, report);
                 System.out.println(fname);
-                exportText(report, fname, zos);
                 exportTable(ship, fname, zos);
                 exportPlans(ship, fname, zos);
             }
@@ -148,16 +146,6 @@ public class ExportShips
         FileUtils.writeFile(table, csvFile);
         zos.putNextEntry(new ZipEntry(fname+".csv"));
         zos.write(table);
-    }
-
-    private void exportText(ShipReportBean report, String fname, ZipOutputStream zos)
-            throws IOException
-    {
-        File textFile = new File(mShipyardFile.getParent(), fname+".txt");
-        String text = TextLogic.getString(report.getProse());
-        FileUtils.writeFile(text, textFile);
-        zos.putNextEntry(new ZipEntry(fname+".txt"));
-        StreamUtils.copy(new ByteArrayInputStream(text.getBytes()), zos);
     }
     
     private String toFileName(ShipDesignBean ship, ShipReportBean report)

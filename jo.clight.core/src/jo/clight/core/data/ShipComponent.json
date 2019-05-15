@@ -696,6 +696,7 @@
 			"params": 
 			{
 				"func$price": "comp$armor$price",
+				"func$volume": "comp$armor$volume",
 				"hullCostModifier": ".05",
 				"protection": 2
 			}
@@ -721,6 +722,7 @@
 			"params": 
 			{
 				"func$price": "comp$armor$price",
+				"func$volume": "comp$armor$volume",
 				"hullCostModifier": ".2",
 				"protection": 4
 			}
@@ -742,12 +744,62 @@
 			"price": 0,
 			"maxCopies": 20,
 			"type": "ARMOR",
+			"techLevel": 12,
+			"params": 
+			{
+				"func$price": "comp$armor$price",
+				"func$volume": "comp$armor$volume",
+				"hullCostModifier": ".3",
+				"protection": 5
+			}
+		},
+
+		{
+			"id": "armorBondedSuperdense",
+			"name": 
+			{
+				"ident": "ARMOR_BONDED_SUPERDENSE_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "ARMOR_BONDED_SUPERDENSE_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 20,
+			"type": "ARMOR",
 			"techLevel": 14,
 			"params": 
 			{
 				"func$price": "comp$armor$price",
+				"func$volume": "comp$armor$volume",
 				"hullCostModifier": ".5",
 				"protection": 6
+			}
+		},
+
+		{
+			"id": "armorStealth",
+			"name": 
+			{
+				"ident": "ARMOR_STEALTH_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "ARMOR_STEALTH_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": 1,
+			"type": "ARMOR",
+			"techLevel": 7,
+			"params": 
+			{
+				"func$price": "comp$stealth$price"
 			}
 		},
 
@@ -3135,6 +3187,30 @@
 		},
 
 		{
+			"id": "computer0",
+			"name": 
+			{
+				"ident": "COMPUTER_0_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "COMPUTER_0_DESC"
+			},
+
+			"volume": 0,
+			"price": 0.0,
+			"maxCopies": -1,
+			"type": "COMPUTER",
+			"techLevel": 0,
+			"params": 
+			{
+				"rating": "0",
+				"sensorDM": "-4"
+			}
+		},
+
+		{
 			"id": "computer1",
 			"name": 
 			{
@@ -3146,14 +3222,15 @@
 				"ident": "COMPUTER_1_DESC"
 			},
 
-			"volume": 0,
-			"price": 0.03,
+			"volume": 1,
+			"price": 0.045,
 			"maxCopies": -1,
 			"type": "COMPUTER",
 			"techLevel": 7,
 			"params": 
 			{
-				"rating": "5"
+				"rating": "1",
+				"sensorDM": "-2"
 			}
 		},
 
@@ -3169,14 +3246,15 @@
 				"ident": "COMPUTER_2_DESC"
 			},
 
-			"volume": 0,
-			"price": 0.16,
+			"volume": 2,
+			"price": 0.29,
 			"maxCopies": -1,
 			"type": "COMPUTER",
 			"techLevel": 9,
 			"params": 
 			{
-				"rating": "10"
+				"rating": "2",
+				"sensorDM": "0"
 			}
 		},
 
@@ -3192,14 +3270,15 @@
 				"ident": "COMPUTER_3_DESC"
 			},
 
-			"volume": 0,
-			"price": 2,
+			"volume": 3,
+			"price": 4,
 			"maxCopies": -1,
 			"type": "COMPUTER",
-			"techLevel": 1,
+			"techLevel": 11,
 			"params": 
 			{
-				"rating": "15"
+				"rating": "3",
+				"sensorDM": "1"
 			}
 		},
 
@@ -3215,14 +3294,15 @@
 				"ident": "COMPUTER_4_DESC"
 			},
 
-			"volume": 0,
-			"price": 5,
+			"volume": 5,
+			"price": 10,
 			"maxCopies": -1,
 			"type": "COMPUTER",
 			"techLevel": 12,
 			"params": 
 			{
-				"rating": "20"
+				"rating": "4",
+				"sensorDM": "2"
 			}
 		},
 
@@ -3238,14 +3318,15 @@
 				"ident": "COMPUTER_5_DESC"
 			},
 
-			"volume": 0,
-			"price": 10,
+			"volume": 6,
+			"price": 20,
 			"maxCopies": -1,
 			"type": "COMPUTER",
 			"techLevel": 13,
 			"params": 
 			{
-				"rating": "25"
+				"rating": "5",
+				"sensorDM": "2"
 			}
 		},
 
@@ -3261,14 +3342,15 @@
 				"ident": "COMPUTER_6_DESC"
 			},
 
-			"volume": 0,
-			"price": 20,
+			"volume": 8,
+			"price": 38,
 			"maxCopies": -1,
 			"type": "COMPUTER",
 			"techLevel": 14,
 			"params": 
 			{
-				"rating": "30"
+				"rating": "6",
+				"sensorDM": "3"
 			}
 		},
 
@@ -3284,14 +3366,15 @@
 				"ident": "COMPUTER_7_DESC"
 			},
 
-			"volume": 0,
-			"price": 30,
+			"volume": 10,
+			"price": 15,
 			"maxCopies": -1,
 			"type": "COMPUTER",
 			"techLevel": 15,
 			"params": 
 			{
-				"rating": "35"
+				"rating": "6",
+				"sensorDM": "4"
 			}
 		},
 
@@ -3320,148 +3403,6 @@
 		},
 
 		{
-			"id": "computer_fib",
-			"name": 
-			{
-				"ident": "COMPUTER_FIB_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "COMPUTER_FIB_DESC"
-			},
-
-			"volume": 0,
-			"price": 0,
-			"maxCopies": -1,
-			"type": "COMPUTER",
-			"techLevel": 7,
-			"params": 
-			{
-				"func$price": "comp$comp$fib$price",
-				"func$maxCopies": "comp$comp$fib$maxCopies"
-			}
-		},
-
-		{
-			"id": "electronics_civilian",
-			"name": 
-			{
-				"ident": "ELECTRONICS_CIV_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "ELECTRONICS_CIV_DESC"
-			},
-
-			"volume": 1,
-			"price": 0.05,
-			"maxCopies": -1,
-			"type": "ELECTRONICS",
-			"techLevel": 9,
-			"params": 
-			{
-				"dm": "-2",
-				"includes": 
-				[
-					"radar",
-					"lidar"
-				]
-			}
-		},
-
-		{
-			"id": "electronics_military",
-			"name": 
-			{
-				"ident": "ELECTRONICS_MIL_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "ELECTRONICS_MIL_DESC"
-			},
-
-			"volume": 2,
-			"price": 1,
-			"maxCopies": -1,
-			"type": "ELECTRONICS",
-			"techLevel": 10,
-			"params": 
-			{
-				"dm": "0",
-				"includes": 
-				[
-					"radar",
-					"lidar",
-					"jammers"
-				]
-			}
-		},
-
-		{
-			"id": "electronics_advanced",
-			"name": 
-			{
-				"ident": "ELECTRONICS_ADV_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "ELECTRONICS_ADV_DESC"
-			},
-
-			"volume": 3,
-			"price": 2,
-			"maxCopies": -1,
-			"type": "ELECTRONICS",
-			"techLevel": 11,
-			"params": 
-			{
-				"dm": "1",
-				"includes": 
-				[
-					"radar",
-					"lidar",
-					"densiometer",
-					"jammers"
-				]
-			}
-		},
-
-		{
-			"id": "electronics_advanced2",
-			"name": 
-			{
-				"ident": "ELECTRONICS_ADV2_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "ELECTRONICS_ADV2_DESC"
-			},
-
-			"volume": 5,
-			"price": 4,
-			"maxCopies": -1,
-			"type": "ELECTRONICS",
-			"techLevel": 12,
-			"params": 
-			{
-				"dm": "1",
-				"includes": 
-				[
-					"radar",
-					"lidar",
-					"densiometer",
-					"jammers",
-					"neural activity sensor"
-				]
-			}
-		},
-
-		{
 			"id": "stateroom",
 			"name": 
 			{
@@ -3481,29 +3422,6 @@
 			"params": 
 			{
 				"occupancy": "2"
-			}
-		},
-
-		{
-			"id": "barracks",
-			"name": 
-			{
-				"ident": "BARRACKS_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "BARRACKS_DESC"
-			},
-
-			"volume": 2,
-			"price": 0.1,
-			"maxCopies": -1,
-			"type": "STATEROOM",
-			"techLevel": 7,
-			"params": 
-			{
-				"occupancy": "1"
 			}
 		},
 
@@ -3577,25 +3495,6 @@
 		},
 
 		{
-			"id": "briefing_room",
-			"name": 
-			{
-				"ident": "BRIEFING_ROOM_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "BRIEFING_ROOM_DESC"
-			},
-
-			"volume": 10,
-			"price": 1.5,
-			"maxCopies": -1,
-			"type": "ETC",
-			"techLevel": 7
-		},
-
-		{
 			"id": "cargo_hold",
 			"name": 
 			{
@@ -3609,25 +3508,6 @@
 
 			"volume": 1,
 			"price": 0,
-			"maxCopies": -1,
-			"type": "ETC",
-			"techLevel": 7
-		},
-
-		{
-			"id": "detention_cell",
-			"name": 
-			{
-				"ident": "DETENTION_CELL_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "DETENTION_CELL_DESC"
-			},
-
-			"volume": 2,
-			"price": 0.25,
 			"maxCopies": -1,
 			"type": "ETC",
 			"techLevel": 7
@@ -3649,7 +3529,11 @@
 			"price": 1,
 			"maxCopies": 1,
 			"type": "ETC",
-			"techLevel": 7
+			"techLevel": 7,
+			"params": 
+			{
+				"func$price": "comp$scoops$price"
+			}
 		},
 
 		{
@@ -3665,13 +3549,13 @@
 			},
 
 			"volume": 1,
-			"price": 0.05,
+			"price": 0.1,
 			"maxCopies": -1,
 			"type": "ETC",
 			"techLevel": 7,
 			"params": 
 			{
-				"tonsPerDay": "20"
+				"tonsPerDay": "5"
 			}
 		},
 
@@ -3695,76 +3579,19 @@
 		},
 
 		{
-			"id": "launch_tube",
+			"id": "medlab",
 			"name": 
 			{
-				"ident": "LAUNCH_TUBE_NAME"
+				"ident": "MEDLAB_NAME"
 			},
 
 			"description": 
 			{
-				"ident": "LAUNCH_TUBE_DESC"
+				"ident": "MEDLAB_DESC"
 			},
 
-			"volume": 25,
-			"price": 12.5,
-			"maxCopies": -1,
-			"type": "ETC",
-			"techLevel": 7
-		},
-
-		{
-			"id": "library",
-			"name": 
-			{
-				"ident": "LIBRARY_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "LIBRARY_DESC"
-			},
-
-			"volume": 4,
-			"price": 4,
-			"maxCopies": -1,
-			"type": "ETC",
-			"techLevel": 7
-		},
-
-		{
-			"id": "luxuries",
-			"name": 
-			{
-				"ident": "LUXURIES_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "LUXURIES_DESC"
-			},
-
-			"volume": 1,
-			"price": 0.1,
-			"maxCopies": -1,
-			"type": "ETC",
-			"techLevel": 7
-		},
-
-		{
-			"id": "vault",
-			"name": 
-			{
-				"ident": "VAULT_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "VAULT_DESC"
-			},
-
-			"volume": 12,
-			"price": 6,
+			"volume": 8,
+			"price": 2,
 			"maxCopies": -1,
 			"type": "ETC",
 			"techLevel": 7
@@ -3782,11 +3609,14 @@
 				"ident": "HANGER_ATV_DESC"
 			},
 
-			"volume": 13,
-			"price": 2.6,
+			"volume": 10,
+			"price": 0.09,
 			"maxCopies": -1,
 			"type": "HANGER",
-			"techLevel": 7
+			"techLevel": 7,
+			"params": {
+				"unmanned": true
+			}
 		},
 
 		{
@@ -3801,27 +3631,30 @@
 				"ident": "HANGER_RAFT_DESC"
 			},
 
-			"volume": 5,
-			"price": 1,
+			"volume": 4,
+			"price": 0.6,
 			"maxCopies": -1,
 			"type": "HANGER",
-			"techLevel": 7
+			"techLevel": 7,
+			"params": {
+				"unmanned": true
+			}
 		},
 
 		{
-			"id": "hanger_cutter",
+			"id": "hanger_dropship",
 			"name": 
 			{
-				"ident": "HANGER_CUTTER_NAME"
+				"ident": "HANGER_DROPSHIP_NAME"
 			},
 
 			"description": 
 			{
-				"ident": "HANGER_CUTTER_DESC"
+				"ident": "HANGER_DROPSHIP_DESC"
 			},
 
 			"volume": 65,
-			"price": 13,
+			"price": 20.3,
 			"maxCopies": -1,
 			"type": "HANGER",
 			"techLevel": 7
@@ -3849,19 +3682,38 @@
 		},
 
 		{
-			"id": "hanger_lifeboat",
+			"id": "hanger_fighter",
 			"name": 
 			{
-				"ident": "HANGER_LIFEBOAT_NAME"
+				"ident": "HANGER_FIGHTER_NAME"
 			},
 
 			"description": 
 			{
-				"ident": "HANGER_LIFEBOAT_DESC"
+				"ident": "HANGER_FIGHTER_DESC"
 			},
 
-			"volume": 26,
-			"price": 5.2,
+			"volume": 13,
+			"price": 10.3,
+			"maxCopies": -1,
+			"type": "HANGER",
+			"techLevel": 7
+		},
+
+		{
+			"id": "hanger_gig",
+			"name": 
+			{
+				"ident": "HANGER_GIG_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "HANGER_GIG_DESC"
+			},
+
+			"volume": 13,
+			"price": 5.3,
 			"maxCopies": -1,
 			"type": "HANGER",
 			"techLevel": 7
@@ -3890,6 +3742,25 @@
 		},
 
 		{
+			"id": "hanger_launch",
+			"name": 
+			{
+				"ident": "HANGER_LAUNCH_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "HANGER_LAUNCH_DESC"
+			},
+
+			"volume": 26,
+			"price": 5.4,
+			"maxCopies": -1,
+			"type": "HANGER",
+			"techLevel": 7
+		},
+
+		{
 			"id": "hanger_pinnace",
 			"name": 
 			{
@@ -3902,7 +3773,7 @@
 			},
 
 			"volume": 52,
-			"price": 10.4,
+			"price": 17.4,
 			"maxCopies": -1,
 			"type": "HANGER",
 			"techLevel": 7
@@ -3967,8 +3838,8 @@
 				"ident": "HANGER_BOAT_DESC"
 			},
 
-			"volume": 38,
-			"price": 7.8,
+			"volume": 39,
+			"price": 17.4,
 			"maxCopies": -1,
 			"type": "HANGER",
 			"techLevel": 7
@@ -3986,27 +3857,8 @@
 				"ident": "HANGER_SHUTTLE_DESC"
 			},
 
-			"volume": 122.5,
-			"price": 24.5,
-			"maxCopies": -1,
-			"type": "HANGER",
-			"techLevel": 7
-		},
-
-		{
-			"id": "hanger_fighter",
-			"name": 
-			{
-				"ident": "HANGER_FIGHTER_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "HANGER_FIGHTER_DESC"
-			},
-
-			"volume": 13,
-			"price": 2.6,
+			"volume": 122.0,
+			"price": 32.6,
 			"maxCopies": -1,
 			"type": "HANGER",
 			"techLevel": 7
@@ -4024,7 +3876,7 @@
 				"ident": "TURRET_SINGLE_DESC"
 			},
 
-			"volume": 1,
+			"volume": 2,
 			"price": 0.2,
 			"maxCopies": -1,
 			"type": "TURRET",
@@ -4048,7 +3900,7 @@
 				"ident": "TURRET_DOUBLE_DESC"
 			},
 
-			"volume": 1,
+			"volume": 2,
 			"price": 0.5,
 			"maxCopies": -1,
 			"type": "TURRET",
@@ -4072,7 +3924,7 @@
 				"ident": "TURRET_TRIPLE_DESC"
 			},
 
-			"volume": 1,
+			"volume": 2,
 			"price": 1,
 			"maxCopies": -1,
 			"type": "TURRET",
@@ -4080,81 +3932,6 @@
 			"params": 
 			{
 				"capacity": "3",
-				"func$maxCopies": "comp$hardpoint$maxCopies"
-			}
-		},
-
-		{
-			"id": "single_popup_turret",
-			"name": 
-			{
-				"ident": "TURRET_POPUP_SINGLE_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "TURRET_POPUP_SINGLE_DESC"
-			},
-
-			"volume": 2,
-			"price": 1.2,
-			"maxCopies": -1,
-			"type": "TURRET",
-			"techLevel": 7,
-			"params": 
-			{
-				"capacity": "1",
-				"hidden": true,
-				"func$maxCopies": "comp$hardpoint$maxCopies"
-			}
-		},
-
-		{
-			"id": "double_popup_turret",
-			"name": 
-			{
-				"ident": "TURRET_POPUP_DOUBLE_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "TURRET_POPUP_DOUBLE_DESC"
-			},
-
-			"volume": 2,
-			"price": 1.5,
-			"maxCopies": -1,
-			"type": "TURRET",
-			"techLevel": 8,
-			"params": 
-			{
-				"capacity": "2",
-				"hidden": true,
-				"func$maxCopies": "comp$hardpoint$maxCopies"
-			}
-		},
-
-		{
-			"id": "triple_popup_turret",
-			"name": 
-			{
-				"ident": "TURRET_POPUP_TRIPLE_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "TURRET_POPUP_TRIPLE_DESC"
-			},
-
-			"volume": 2,
-			"price": 2,
-			"maxCopies": -1,
-			"type": "TURRET",
-			"techLevel": 9,
-			"params": 
-			{
-				"capacity": "3",
-				"hidden": true,
 				"func$maxCopies": "comp$hardpoint$maxCopies"
 			}
 		},
@@ -4171,64 +3948,14 @@
 				"ident": "TURRET_FIXED_SINGLE_DESC"
 			},
 
-			"volume": 1,
-			"price": 0.1,
+			"volume": 2,
+			"price": 0,
 			"maxCopies": -1,
 			"type": "TURRET",
 			"techLevel": 7,
 			"params": 
 			{
 				"capacity": "1",
-				"fixed": true,
-				"func$maxCopies": "comp$hardpoint$maxCopies"
-			}
-		},
-
-		{
-			"id": "double_fixed_turret",
-			"name": 
-			{
-				"ident": "TURRET_FIXED_DOUBLE_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "TURRET_FIXED_DOUBLE_DESC"
-			},
-
-			"volume": 1,
-			"price": 0.25,
-			"maxCopies": -1,
-			"type": "TURRET",
-			"techLevel": 8,
-			"params": 
-			{
-				"capacity": "2",
-				"fixed": true,
-				"func$maxCopies": "comp$hardpoint$maxCopies"
-			}
-		},
-
-		{
-			"id": "triple_fixed_turret",
-			"name": 
-			{
-				"ident": "TURRET_FIXED_TRIPLE_NAME"
-			},
-
-			"description": 
-			{
-				"ident": "TURRET_FIXED_TRIPLE_DESC"
-			},
-
-			"volume": 1,
-			"price": 0.5,
-			"maxCopies": -1,
-			"type": "TURRET",
-			"techLevel": 9,
-			"params": 
-			{
-				"capacity": "3",
 				"fixed": true,
 				"func$maxCopies": "comp$hardpoint$maxCopies"
 			}
@@ -4254,9 +3981,8 @@
 			"params": 
 			{
 				"func$maxCopies": "comp$weapon$maxCopies",
-				"optimumRange": "special",
-				"damage": "missile",
-				"attackDM": 0
+				"damage": "2D per missile",
+				"hits": "2"
 			}
 		},
 
@@ -4280,9 +4006,8 @@
 			"params": 
 			{
 				"func$maxCopies": "comp$weapon$maxCopies",
-				"optimumRange": "short",
-				"damage": "2d6",
-				"attackDM": -2
+				"damage": "1D",
+				"hits": "2"
 			}
 		},
 
@@ -4308,7 +4033,7 @@
 				"func$maxCopies": "comp$weapon$maxCopies",
 				"optimumRange": "special",
 				"damage": "special",
-				"attackDM": 0
+				"hits": "special"
 			}
 		},
 
@@ -4333,8 +4058,8 @@
 			{
 				"func$maxCopies": "comp$weapon$maxCopies",
 				"optimumRange": "long",
-				"damage": "3d6+radiation",
-				"attackDM": 0
+				"damage": "2D",
+				"hits": "1 + 1 radiation"
 			}
 		},
 
@@ -4358,9 +4083,58 @@
 			"params": 
 			{
 				"func$maxCopies": "comp$weapon$maxCopies",
-				"optimumRange": "medium",
-				"damage": "1d6",
-				"attackDM": 0
+				"damage": "1",
+				"hits": "1"
+			}
+		},
+
+		{
+			"id": "plasma_beam",
+			"name": 
+			{
+				"ident": "WEAPON_PLASMA_BEAM_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "WEAPON_PLASMA_BEAM_DESC"
+			},
+
+			"volume": 0,
+			"price": 6,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 12,
+			"params": 
+			{
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"damage": "3D",
+				"hits": "2"
+			}
+		},
+
+		{
+			"id": "fusion_beam",
+			"name": 
+			{
+				"ident": "WEAPON_FUSION_BEAM_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "WEAPON_FUSION_BEAM_DESC"
+			},
+
+			"volume": 0,
+			"price": 10,
+			"maxCopies": -1,
+			"type": "WEAPON",
+			"techLevel": 14,
+			"params": 
+			{
+				"func$maxCopies": "comp$weapon$maxCopies",
+				"damage": "4D",
+				"hits": "3"
 			}
 		},
 
@@ -4383,8 +4157,8 @@
 			"techLevel": 6,
 			"params": 
 			{
-				"optimumRange": "special",
-				"damage": "Launches 12 missiles",
+				"damage": "2D per missile",
+				"hits": "2 per missile",
 				"func$maxCopies": "comp$hardpoint$maxCopies"
 			}
 		},
@@ -4408,8 +4182,8 @@
 			"techLevel": 8,
 			"params": 
 			{
-				"optimumRange": "long",
-				"damage": "6d6+radiation",
+				"hits": "2 + 1 radiation",
+				"damage": "6D",
 				"func$maxCopies": "comp$hardpoint$maxCopies"
 			}
 		},
@@ -4433,8 +4207,8 @@
 			"techLevel": 11,
 			"params": 
 			{
-				"optimumRange": "long",
-				"damage": "5d6+radiation",
+				"hits": "3 + 1 radiation",
+				"damage": "Ignores armor",
 				"func$maxCopies": "comp$hardpoint$maxCopies"
 			}
 		},
@@ -4452,16 +4226,40 @@
 			},
 
 			"volume": 50,
-			"price": 8,
+			"price": 80,
 			"maxCopies": -1,
 			"type": "BAY",
 			"techLevel": 12,
 			"params": 
 			{
 				"func$maxCopies": "comp$bay$maxCopies",
-				"optimumRange": "medium",
-				"damage": "5d6",
-				"func$maxCopies": "comp$hardpoint$maxCopies"
+				"hits": "3",
+				"damage": "6D"
+			}
+		},
+
+		{
+			"id": "gravitic_lance",
+			"name": 
+			{
+				"ident": "BAY_GRAVITIC_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "BAY_GRAVITIC_DESC"
+			},
+
+			"volume": 50,
+			"price": 100,
+			"maxCopies": -1,
+			"type": "BAY",
+			"techLevel": 15,
+			"params": 
+			{
+				"func$maxCopies": "comp$bay$maxCopies",
+				"hits": "5",
+				"damage": "8D"
 			}
 		},
 
@@ -4501,6 +4299,213 @@
 			"maxCopies": -1,
 			"type": "SCREENS",
 			"techLevel": 12
+		},
+
+		{
+			"id": "crew_captain",
+			"name": 
+			{
+				"ident": "CREW_CAPTAIN_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_CAPTAIN_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 6000,
+				"requires": "leadership-1"
+			}
+		},
+
+		{
+			"id": "crew_sensor",
+			"name": 
+			{
+				"ident": "CREW_SENSOR_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_SENSOR_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 3000,
+				"requires": "computer-1"
+			}
+		},
+
+		{
+			"id": "crew_medic",
+			"name": 
+			{
+				"ident": "CREW_MEDIC_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_MEDIC_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 3000,
+				"requires": "medicine-1"
+			}
+		},
+
+		{
+			"id": "crew_engineer",
+			"name": 
+			{
+				"ident": "CREW_ENGINEER_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_ENGINEER_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 4000,
+				"requires": "engineering-1"
+			}
+		},
+
+		{
+			"id": "crew_purser",
+			"name": 
+			{
+				"ident": "CREW_PURSER_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_PURSER_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 3000,
+				"requires": "admin-1"
+			}
+		},
+
+		{
+			"id": "crew_gunner",
+			"name": 
+			{
+				"ident": "CREW_GUNNER_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_GUNNER_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 1000,
+				"requires": "gunnery-1"
+			}
+		},
+
+		{
+			"id": "crew_security",
+			"name": 
+			{
+				"ident": "CREW_SECURITY_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_SECURITY_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 1000,
+				"requires": "gun combat-1"
+			}
+		},
+
+		{
+			"id": "crew_steward",
+			"name": 
+			{
+				"ident": "CREW_STEWARD_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_STEWARD_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 1000,
+				"requires": "steward-1"
+			}
+		},
+
+		{
+			"id": "crew_pilot",
+			"name": 
+			{
+				"ident": "CREW_PILOT_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_PILOT_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 6000,
+				"requires": "piloting-1"
+			}
 		}
 	]
 }

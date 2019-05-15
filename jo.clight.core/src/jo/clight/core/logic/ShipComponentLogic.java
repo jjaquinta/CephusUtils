@@ -11,10 +11,8 @@ import org.json.simple.JSONObject;
 
 public class ShipComponentLogic
 {
-
-    public ShipComponentLogic()
-    {
-    }
+    private static final Map<String,ShipComponentBean> mIndex = new HashMap<>();
+    private static final Map<String,List<ShipComponentBean>> mIndexType = new HashMap<>();
 
     private static void init()
     {
@@ -22,7 +20,7 @@ public class ShipComponentLogic
             return;
         try
         {
-            JSONObject json = JSONUtils.readJSON("resource://jo/cephus/core/data/ShipComponent.json");
+            JSONObject json = JSONUtils.readJSON("resource://jo/clight/core/data/ShipComponent.json");
             JSONArray components = (JSONArray)json.get("shipComponents");
             for(int i = 0; i < components.size(); i++)
             {
@@ -86,7 +84,14 @@ public class ShipComponentLogic
         return types;
     }
 
-    private static final Map<String,ShipComponentBean> mIndex = new HashMap<>();
-    private static final Map<String,List<ShipComponentBean>> mIndexType = new HashMap<>();
-
+    public static List<ShipComponentInstanceBean> expandInstances(List<ShipComponentInstanceBean> compressed)
+    {
+        List<ShipComponentInstanceBean> expanded = new ArrayList<>();
+        for (ShipComponentInstanceBean comp : compressed)
+        {
+            for (int i = 0; i < comp.getCount(); i++)
+                expanded.add(getInstance(comp.getComponentID(), 1));
+        }
+        return expanded;
+    }
 }

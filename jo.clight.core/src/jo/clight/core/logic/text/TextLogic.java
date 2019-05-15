@@ -126,6 +126,6 @@ public class TextLogic
     static 
     {
         LOCAL = Locale.getDefault();
-        RESOURCES = ResourceBundle.getBundle("jo/cephus/core/logic/text/Text", LOCAL);
+        RESOURCES = ResourceBundle.getBundle("jo/clight/core/logic/text/Text", LOCAL);
     }
 }

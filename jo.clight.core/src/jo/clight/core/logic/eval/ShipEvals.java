@@ -81,6 +81,24 @@ public class ShipEvals
 
         }
 );
+        ParameterizedLogic.addEval("comp$armor$volume", new IParamEval() {
+
+            public Object getParameterizedValue(Object base, Object hardCoded)
+            {
+                return ShipEvals.doArmorVolume((ShipComponentBean)base, hardCoded);
+            }
+
+        }
+);
+        ParameterizedLogic.addEval("comp$stealth$price", new IParamEval() {
+
+            public Object getParameterizedValue(Object base, Object hardCoded)
+            {
+                return ShipEvals.doStealthPrice((ShipComponentBean)base, hardCoded);
+            }
+
+        }
+);
         ParameterizedLogic.addEval("comp$weapon$maxCopies", new IParamEval() {
 
             public Object getParameterizedValue(Object base, Object hardCoded)
@@ -117,6 +135,16 @@ public class ShipEvals
 
         }
 );
+        ParameterizedLogic.addEval("comp$scoops$price", new IParamEval() {
+
+            public Object getParameterizedValue(Object base, Object hardCoded)
+            {
+                return ShipEvals.doScoopsPrice((ShipComponentBean)base, hardCoded);
+            }
+
+        }
+);
+        
     }
 
     private static ShipDesignBean getShip()
@@ -135,7 +163,7 @@ public class ShipEvals
     private static Object doBridgePrice(ShipComponentBean base, Object hardCoded)
     {
         int disp = ShipDesignLogic.getHullDisplacement(getShip());
-        double factor = Math.min(1, disp / 100);
+        double factor = Math.max(1, disp / 100);
         return Double.valueOf(factor * 0.5D);
     }
 
@@ -201,6 +229,18 @@ public class ShipEvals
         return Double.valueOf(price * hullCostModifier);
     }
 
+    private static Object doArmorVolume(ShipComponentBean base, Object hardCoded)
+    {
+        int disp = ShipDesignLogic.getHullDisplacement(getShip());
+        return disp*0.05;
+    }
+
+    private static Object doStealthPrice(ShipComponentBean base, Object hardCoded)
+    {
+        int disp = ShipDesignLogic.getHullDisplacement(getShip());
+        return disp*0.1;
+    }
+
     private static Object doWeaponMaxCopies(ShipComponentBean base, Object hardCoded)
     {
         int weaponSlots = 0;
@@ -259,4 +299,12 @@ public class ShipEvals
         return max;
     }
 
+
+    private static Object doScoopsPrice(ShipComponentBean base, Object hardCoded)
+    {
+        ShipComponentInstanceBean config = ShipDesignLogic.getFirstInstance(getShip(), ShipComponentBean.CONFIG);
+        if ((config != null) && "configStreamlined".equals(config.getComponentID()))
+            return 0;
+        return hardCoded;
+    }
 }

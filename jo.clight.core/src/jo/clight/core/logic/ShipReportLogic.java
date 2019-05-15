@@ -1,16 +1,15 @@
 package jo.clight.core.logic;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jo.audio.util.model.data.AudioMessageBean;
 import jo.clight.core.data.ShipComponentBean;
 import jo.clight.core.data.ShipComponentInstanceBean;
 import jo.clight.core.data.ShipDesignBean;
 import jo.clight.core.data.ShipReportBean;
-import jo.clight.core.logic.text.TextLogic;
+import jo.util.utils.obj.BooleanUtils;
 import jo.util.utils.obj.IntegerUtils;
 
 public class ShipReportLogic
@@ -22,46 +21,30 @@ public class ShipReportLogic
             ParameterizedLogic.addContext(ship);
             ShipReportBean report = new ShipReportBean();
             report.setShip(ship);
-            report.setTechLevel(findMaxTech(ship.getComponents()));
-            report.setHullDisplacement(
-                    ShipDesignLogic.getHullDisplacement(ship));
-            report.setHullDamageValue(report.getHullDisplacement() / 50);
-            report.setStructureDamageValue(report.getHullDisplacement() / 50);
-            report.setFuelTonnage(
-                    (int)ShipDesignLogic.volumeAllInstances(ship, "FUEL"));
+            report.setTechLevel(ShipDesignLogic.findMaxTech(ship));
+            reportHull(ship, report);
+            report.setFuelTonnage((int)ShipDesignLogic.volumeAllInstances(ship, "FUEL"));
             reportPower(ship, report);
-            int compRating = reportComputer(ship, report);
-            reportJump(ship, report, compRating);
+            reportComputer(ship, report);
+            reportJump(ship, report);
             reportManeuver(ship, report);
             reportRefinery(ship, report);
-            reportSensors(ship, report);
-            report.setNumberOfStaterooms(
-                    ShipDesignLogic.countAllInstances(ship, "$stateroom"));
-            report.setNumberOfBerths(
-                    ShipDesignLogic.countAllInstances(ship, "$lowberth"));
-            report.setNumberOfHardpoints(
-                    Math.max(1, report.getHullDisplacement() / 100));
-            report.setFireControlTonnage(report.getNumberOfHardpoints());
-            report.setCargoTonnage(
-                    ShipDesignLogic.countAllInstances(ship, "$cargo_hold"));
+            reportAccomodation(ship, report);
             reportTurrets(ship, report);
+            reportBays(ship, report);
             reportScreens(ship, report);
             reportHangers(ship, report);
-            reportHullDetails(ship, report);
             reportPersonnel(ship, report);
             reportCosts(ship, report);
-            reportAdditionalComponents(ship, report);
+        
             int space = 0;
             for (ShipComponentInstanceBean comp : ship.getComponents())
                 space += comp.getVolume()*comp.getCount();
-            space += report.getFireControlTonnage();
             if (space > 0)
-                report.getErrors().add("Overrun: Ship can only hold "+report.getHullDisplacement()+"t; contains "+space+"t too much.");
+                report.addError(ShipComponentBean.HULL, "Overrun: Ship can only hold "+report.getHullDisplacement()+"t; contains "+space+"t too much.");
             report.setHullUsed(report.getHullDisplacement() + space);
-            report.setCargoTonnage(report.getCargoTonnage() - space);
+            report.setCargoTonnage(ShipDesignLogic.countAllInstances(ship, ShipComponentBean.ETC_CARGO_HOLD) - space);
             checkErrors(ship, report);
-            
-            reportProse(ship, report);
             
             return report;
         }
@@ -71,101 +54,122 @@ public class ShipReportLogic
         }
     }
 
+    public static void reportAccomodation(ShipDesignBean ship,
+            ShipReportBean report)
+    {
+        report.setNumberOfStaterooms(
+                ShipDesignLogic.countAllInstances(ship, ShipComponentBean.STATEROOM_));
+        report.setNumberOfBerths(
+                ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BERTH_LOWBERTH));
+        report.setNumberOfEmergencyBerths(
+                ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BERTH_EMERGENCY_LOWBERTH));
+        report.setFireControlTonnage(ShipDesignLogic.countAllInstances(ship, ShipComponentBean.TURRET));
+    }
+
+    public static void reportHull(ShipDesignBean ship, ShipReportBean report)
+    {
+        List<ShipComponentInstanceBean> hulls = ShipDesignLogic.getAllInstances(ship, ShipComponentBean.HULL);
+        if (hulls.size() == 0)
+            report.addError(ShipComponentBean.HULL, "No hull: ship must include a hull");
+        else if (hulls.size() > 1)
+            report.addError(ShipComponentBean.HULL, "Multiple hulls: ship must include a single hull");
+        else
+            report.setHull(hulls.get(0));
+        List<ShipComponentInstanceBean> configs = ShipDesignLogic.getAllInstances(ship, ShipComponentBean.CONFIG);
+        if (configs.size() == 0)
+            report.addError(ShipComponentBean.CONFIG, "No config: ship must include a hull configuration");
+        else if (configs.size() > 1)
+            report.addError(ShipComponentBean.CONFIG, "Multiple config: ship must include a single hull configuration");
+        else
+            report.setConfig(configs.get(0));
+        report.setHullDisplacement(ShipDesignLogic.getHullDisplacement(ship));
+        List<ShipComponentInstanceBean> armors = ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ARMOR);
+        int armorRating = 0;
+        for (ShipComponentInstanceBean armor : armors)
+            if (armor.getComponentID().equals(ShipComponentBean.ARMOR_STEALTH))
+                report.setStealth(armor);
+            else if (report.getArmor() != null)
+                report.addError(armor.getComponentID(), "Multiple armor: ship must only have one type of armor");
+            else
+            {
+                report.setArmor(armor);
+                int rating = IntegerUtils.parseInt(armor.getComponent().getParams().get("protection"));
+                armorRating += rating*armor.getCount();
+            }
+        report.setArmorRating(armorRating);
+        report.setNumberOfHardpoints(Math.max(1, report.getHullDisplacement() / 100));        
+    }
+
     public static void checkErrors(ShipDesignBean ship, ShipReportBean report)
     {
+        if (report.getPowerCode().compareTo(report.getJumpCode()) < 0)
+            report.addError(ShipComponentBean.PPLANT, "Underpowered. Power plant '"+report.getPowerCode()+"' is less than jump drive '"+report.getJumpCode()+"'");
+        if (report.getCompRating() < report.getJumpNumber())
+            report.addError(ShipComponentBean.COMPUTER, "Computer has rating of "+report.getCompRating()+", but it needs "+report.getJumpNumber()+" to control jump-"+report.getJumpNumber());
+        if (report.getPowerCode().compareTo(report.getManeuverCode()) < 0)
+            report.addError(ShipComponentBean.PPLANT, "Underpowered. Power plant '"+report.getPowerCode()+"' is less than maneuver drive '"+report.getManeuverCode()+"'");
         // check bridge
         ShipComponentBean bridge = ShipDesignLogic.findHighestNumberParam(ship, ShipComponentBean.BRIDGE, "tonsSupported");
         if (bridge == null)
-            report.getErrors().add("No bridge: A bridge is required for all starships.");
+            report.addError(ShipComponentBean.BRIDGE, "No bridge: A bridge is required for all starships.");
         else
         {
             int tonsSupported = IntegerUtils.parseInt(bridge.getParams().get("tonsSupported"));
             if (report.getHullDisplacement() > tonsSupported)
-                report.getErrors().add("Small bridge: This bridge can only support up to "+tonsSupported+" tons");
+                report.addError(ShipComponentBean.BRIDGE, "Small bridge: This bridge can only support up to "+tonsSupported+" tons");
         }
-        // check electronics
-        ShipComponentInstanceBean elec = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.ELECTRONICS);
-        if (elec == null)
-            report.getErrors().add("No electronics: An electronics package must be installed.");
         // check turrets
-        int turrets = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.TURRET);
-        int bays = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BAY);
+        int turrets = report.getNumberOfTurrets();
+        int bays = report.getNumberOfBays();
         report.setNumberOfHardpointsUsed(turrets + bays);
         if (turrets + bays > report.getNumberOfHardpoints())
-            report.getErrors().add("Too many weapons: Ship only has "+report.getNumberOfHardpoints()+" hard points but has "+turrets+" turrets and "+bays+" bays");
-    }
-
-    public static void reportProse(ShipDesignBean ship, ShipReportBean report)
-    {
-        report.setProse(new AudioMessageBean(AudioMessageBean.GROUP));
-        report.getProse().addToGroup(new AudioMessageBean("USD_PROLOGUE", report.getTechLevel(), ship.getShipName()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE1", report.getHullDisplacement(), report.getHullDamageValue(),
-                report.getStructureDamageValue(), ship.getShipName(), ship.getShipFunction()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE2", report.getJumpCode(), report.getManeuverCode(),
-                report.getPowerCode(), report.getJumpNumber(), report.getThrustNumber()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE3", report.getFuelTonnage(), report.getWeeksofPower(),
-                report.getNumberOfJumps(), report.getJumpNumber()));
-        report.getProse().addToGroup(report.getFuelUsageNotes());
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE4", report.getComputerModel()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE5", report.getSensorsType(), 
-                report.getSensorsDM()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE6", report.getNumberOfStaterooms(), report.getNumberOfBerths()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE7", report.getNumberOfHardpoints(), report.getFireControlTonnage()));
-        if (report.getTurrets().getArgs().length > 0)
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE8", report.getTurrets()));
-        if (report.getNumberOfScreens() > 0)
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE9", report.getNumberOfScreens(), report.getScreens()));
-        if (report.getNumberOfHangers() > 0)
-            report.getProse().addToGroup(new AudioMessageBean("USD_LINE10", report.getNumberOfHangers(), report.getHangers()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE11", report.getCargoTonnage()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE12", report.getHullConfiguration(), report.getArmorType(),
-                report.getArmorRating()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE13", report.getAdditionalComponents()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE14", report.getCrewTotal(), report.getCrewPositions()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE15", report.getPassengersTotal(), report.getNumberOfBerths()));
-        report.getProse().addToGroup(new AudioMessageBean("USD_LINE16", FormatUtils.sCurrency(report.getCost()*1000000*.9), report.getConstructionTime()));
-    }
-
-    public static void reportHullDetails(ShipDesignBean ship,
-            ShipReportBean report)
-    {
-        ShipComponentInstanceBean config = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.CONFIG);
-        if (config != null)
-            report.setHullConfiguration(config.getComponent().getName());
-        else
-            report.getErrors().add("No configuration set.");
-        ShipComponentInstanceBean armor = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.ARMOR);
-        if (armor != null)
+            report.addError(ShipComponentBean.HULL, "Too many weapons: Ship only has "+report.getNumberOfHardpoints()+" hard points but has "+turrets+" turrets and "+bays+" bays");
+        // check crew
+        for (String pos : report.getCrewNeeded().keySet())
         {
-            report.setArmorType(armor.getComponent().getName());
-            report.setArmorRating(IntegerUtils.parseInt(armor.getComponent().getParams().get("protection")));
+            int expected = report.getCrewNeeded().get(pos);
+            int actual = report.getCrewHired().containsKey(pos) ? report.getCrewHired().get(pos) : 0;
+            if (actual < expected)
+                report.addError(pos, "Not enough crew: Ship only has "+actual+" "+pos+" but needs "+expected);
         }
+        int crewTotal = report.getCrewTotal();
+        if (ship.getRoles().contains(ShipDesignBean.ROLE_MILITARY))
+            crewTotal = (crewTotal + 1)/2;
+        int pass = report.getNumberOfStaterooms() - crewTotal;
+        if (pass < 0)
+            report.addError(ShipComponentBean.STATEROOM, "Insufficient staterooms. Need at least "+crewTotal+" for crew, only have "+report.getNumberOfStaterooms());
     }
 
     public static void reportPersonnel(ShipDesignBean ship,
             ShipReportBean report)
     {
         //Map<String,Integer> crew = ShipDesignLogic.getMaximumCrew(ship);
-        Map<String,Integer> crew = ShipDesignLogic.getMinimumCrew(ship);
+        Map<String,Integer> crewNeeded = ShipDesignLogic.getCrew(ship);
+        Map<String,Integer> crewHired = new HashMap<>();
         int crewTotal = 0;
-        report.setCrewPositions(new AudioMessageBean(AudioMessageBean.LIST));
-        for (String position : crew.keySet())
+        for (ShipComponentInstanceBean crew : ShipDesignLogic.getAllInstances(ship, ShipComponentBean.CREW))
         {
-            int quan = crew.get(position);
-            if (quan <= 0)
-                continue;
-            crewTotal += quan;
-            if (quan == 1)
-                report.getCrewPositions().addToGroup(new AudioMessageBean(position));
-            else
-                report.getCrewPositions().addToGroup(new AudioMessageBean("BY", new AudioMessageBean(position), quan));
+            int c = crew.getCount();
+            crewTotal += c;
+            if (crewHired.containsKey(crew.getComponentID()))
+                c += crewHired.get(crew.getComponentID());
+            crewHired.put(crew.getComponentID(), c);
         }
         report.setCrewTotal(crewTotal);
-        int pass = report.getNumberOfStaterooms() - crewTotal;
-        if (pass < 0)
-            report.getErrors().add("Insufficient staterooms. Need at least "+crewTotal+" for crew, only have "+report.getNumberOfStaterooms());
-        else if (pass > 0)
-            report.setPassengersTotal(pass*2);
+        int stateroomsNeeded = crewTotal;
+        if (ship.getRoles().contains(ShipDesignBean.ROLE_MILITARY))
+            stateroomsNeeded = (stateroomsNeeded + 1)/2;
+        int pass = report.getNumberOfStaterooms() - stateroomsNeeded;
+        if (pass > 0)
+        {
+            report.setPassengersTotal(pass);
+            int numStewards = pass/3;
+            if (numStewards == 0)
+                numStewards = 1;
+            crewNeeded.put(ShipComponentBean.CREW_STEWARD, numStewards);
+        }
+        report.setCrewNeeded(crewNeeded);
+        report.setCrewHired(crewHired);
     }
 
     public static void reportCosts(ShipDesignBean ship, ShipReportBean report)
@@ -174,114 +178,70 @@ public class ShipReportLogic
         for (ShipComponentInstanceBean comp : ship.getComponents())
             cost += comp.getPrice()*comp.getCount();
         report.setCost(cost);
-        ShipComponentInstanceBean hull = ShipDesignLogic.getHull(ship);
-        if (hull == null)
-            report.getErrors().add("No hull present");
-        else
+        ShipComponentInstanceBean hull = report.getHull();
+        if (hull != null)
             report.setConstructionTime(IntegerUtils.parseInt(hull.getComponent().getParams().get("constructionTime")));
-    }
-
-    public static void reportAdditionalComponents(ShipDesignBean ship,
-            ShipReportBean report)
-    {
-        report.setAdditionalComponents(new AudioMessageBean(AudioMessageBean.LIST));
-        for (ShipComponentInstanceBean comp : ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC))
-        {
-            switch (comp.getComponentID())
-            {
-                case "cargo_hold":
-                //case "fuel_processor":
-                //case "launch_tube":
-                    break;
-                default:
-                    if (comp.getCount() == 1)
-                        report.getAdditionalComponents().addToGroup(comp.getComponent().getName());
-                    else
-                        report.getAdditionalComponents().addToGroup(new AudioMessageBean("BY", comp.getComponent().getName(), comp.getCount()));
-            }
-        }
-    }
-
-    public static void reportSensors(ShipDesignBean ship, ShipReportBean report)
-    {
-        ShipComponentBean sensor = ShipDesignLogic.findHighestTech(ship,
-                ShipComponentBean.ELECTRONICS);
-        if (sensor != null)
-        {
-            report.setSensorsType(sensor.getName());
-            report.setSensorsDM(
-                    Integer.parseInt(sensor.getParams().getString("dm")));
-        }
-        report.setNumberOfSensors(ShipDesignLogic.countAllInstances(ship, ShipComponentBean.ELECTRONICS));
     }
 
     public static void reportRefinery(ShipDesignBean ship,
             ShipReportBean report)
     {
         double refinery = ShipDesignLogic.volumeAllInstances(ship,
-                "$fuel_processor");
+                ShipComponentBean.ETC_FUEL_PROCESSOR);
         if (refinery > 0.0D)
         {
             int tonsPerDay = (int)(20D * refinery);
-            report.setFuelUsageNotes(AudioMessageBean.group(new Object[] {
-                    report.getFuelUsageNotes(),
-                    new AudioMessageBean("FUEL_REFINERY_CAN_REFINE",
-                            new Object[] { Integer.valueOf(tonsPerDay) }) }));
+            report.setRefineTonsPerDay(tonsPerDay);
         }
     }
 
     public static void reportPower(ShipDesignBean ship, ShipReportBean report)
     {
-        ShipComponentBean power = ShipDesignLogic.findHighestStringParam(ship,
+        ShipComponentInstanceBean power = ShipDesignLogic.findHighestStringParam(ship,
                 ShipComponentBean.PPLANT, "driveCode");
+        if (power == null)
+            report.addError(ShipComponentBean.PPLANT, "No power plant: ship must have a power plant");
+        else
+            report.setPowerPlant(power);
         String powCode;
         if (power == null)
             powCode = " ";
         else
-            powCode = power.getParams().getString("driveCode");
+            powCode = power.getComponent().getParams().getString("driveCode");
         report.setPowerCode(powCode);
     }
 
-    public static int reportComputer(ShipDesignBean ship, ShipReportBean report)
+    public static void reportComputer(ShipDesignBean ship, ShipReportBean report)
     {
-        ShipComponentBean comp = ShipDesignLogic.findHighestStringParam(ship,
+        ShipComponentInstanceBean comp = ShipDesignLogic.findHighestStringParam(ship,
                 ShipComponentBean.COMPUTER, "rating");
-        int compRating = 0;
         if (comp == null)
         {
-            report.getErrors().add("No computer installed.");
-            report.setComputerModel(null);
+            report.addError(ShipComponentBean.COMPUTER, "No computer installed.");
         }
         else
         {
-            compRating = IntegerUtils
-                    .parseInt(comp.getParams().getString("rating"));
-            report.setComputerModel(comp.getName());
+            report.setComputer(comp);
+            int compRating = IntegerUtils
+                    .parseInt(comp.getComponent().getParams().getString("rating"));
+            int sensorDM = IntegerUtils
+                    .parseInt(comp.getComponent().getParams().getString("sensorDM"));
             List<ShipComponentInstanceBean> bis = ShipDesignLogic
-                    .getAllInstances(ship, "$computer_bis");
+                    .getAllInstances(ship, ShipComponentBean.COMPUTER_BIS);
             if (bis.size() > 0)
             {
-                report.setComputerModel(AudioMessageBean
-                        .group(new Object[] { report.getComputerModel(),
-                                ((ShipComponentInstanceBean)bis.get(0))
-                                        .getComponent().getName() }));
-                compRating += 5;
+                report.setComputerBis(bis.get(0));
+                compRating++;
             }
-            List<ShipComponentInstanceBean> fib = ShipDesignLogic
-                    .getAllInstances(ship, "$computer_fib");
-            if (fib.size() > 0)
-                report.setComputerModel(AudioMessageBean
-                        .group(new Object[] { report.getComputerModel(),
-                                ((ShipComponentInstanceBean)fib.get(0))
-                                        .getComponent().getName() }));
+            report.setCompRating(compRating);
+            report.setSensorDM(sensorDM);
         }
-        return compRating;
     }
 
-    public static ShipComponentBean reportJump(ShipDesignBean ship,
-            ShipReportBean report, int compRating)
+    public static void reportJump(ShipDesignBean ship,
+            ShipReportBean report)
     {
-        ShipComponentBean jump = ShipDesignLogic.findHighestStringParam(ship,
+        ShipComponentInstanceBean jump = ShipDesignLogic.findHighestStringParam(ship,
                 ShipComponentBean.JDRIVE, "driveCode");
         if (jump == null)
         {
@@ -291,66 +251,44 @@ public class ShipReportLogic
         }
         else
         {
-            String jumpCode = jump.getParams().getString("driveCode");
+            report.setJumpDrive(jump);
+            String jumpCode = jump.getComponent().getParams().getString("driveCode");
             report.setJumpCode(jumpCode);
             report.setJumpNumber(ShipDesignLogic.getDrivePerformance(jumpCode,
                     report.getHullDisplacement()));
-            String powCode = report.getPowerCode();
-            if (powCode.compareTo(jumpCode) < 0)
-                report.getErrors()
-                        .add((new StringBuilder("Underpowered. Power plant '"))
-                                .append(powCode)
-                                .append("' is less than jump drive '")
-                                .append(jumpCode).append("'").toString());
             int singleJump = Math.max(1,
                     (report.getHullDisplacement() * report.getJumpNumber())
                             / 10);
+            report.setSingleJumpFuel(singleJump);
             int numberOfJumps = report.getFuelTonnage() / singleJump;
             report.setNumberOfJumps(numberOfJumps);
-            if (compRating / 5 < report.getJumpNumber())
-                report.getErrors()
-                        .add((new StringBuilder("Computer has rating of "))
-                                .append(compRating).append(", but it needs ")
-                                .append(report.getJumpNumber() * 5)
-                                .append(" to control jump-")
-                                .append(report.getJumpNumber()).toString());
         }
-        return jump;
     }
 
     public static void reportManeuver(ShipDesignBean ship,
             ShipReportBean report)
     {
-        ShipComponentBean man = ShipDesignLogic.findHighestStringParam(ship,
+        ShipComponentInstanceBean man = ShipDesignLogic.findHighestStringParam(ship,
                 ShipComponentBean.MDRIVE, "driveCode");
         if (man == null)
         {
             report.setThrustNumber(0);
             report.setWeeksofPower(0);
-            report.setFuelUsageNotes(null);
             report.setManeuverCode(" ");
         }
         else
         {
-            String manCode = man.getParams().getString("driveCode");
+            report.setManDrive(man);
+            String manCode = man.getComponent().getParams().getString("driveCode");
             report.setManeuverCode(manCode);
             report.setThrustNumber(ShipDesignLogic.getDrivePerformance(manCode,
                     report.getHullDisplacement()));
             int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(manCode);
-            int singleJump = Math.max(1,
-                    (report.getHullDisplacement() * report.getJumpNumber())
-                            / 10);
+            int singleJump = report.getSingleJumpFuel();
             int jumpVolume = singleJump*report.getNumberOfJumps();
             int weeksofPower = (report.getFuelTonnage() - jumpVolume) / fuelPerWeek;
             report.setWeeksofPower(weeksofPower);
-            if (report.getPowerCode().compareTo(manCode) < 0)
-                report.getErrors()
-                        .add((new StringBuilder("Underpowered. Power plant '"))
-                                .append(report.getPowerCode())
-                                .append("' is less than maneuver drive '")
-                                .append(manCode).append("'").toString());
-            report.setFuelUsageNotes(new AudioMessageBean("POWER_PLANT_USES",
-                    new Object[] { Integer.valueOf(fuelPerWeek) }));
+            report.setFuelPerWeek(fuelPerWeek);
         }
     }
 
@@ -358,17 +296,14 @@ public class ShipReportLogic
     {
         List<ShipComponentInstanceBean> hangers = ShipDesignLogic
                 .getAllInstances(ship, ShipComponentBean.HANGER);
-        List<AudioMessageBean> hangersDesc = new ArrayList<>();
         int numberOfHangers = 0;
         for (ShipComponentInstanceBean hanger : hangers)
         {
-            AudioMessageBean hangerDesc = new AudioMessageBean("BY",
-                    new Object[] { hanger.getComponent().getName(), Integer.valueOf(hanger.getCount()) });
-            hangersDesc.add(hangerDesc);
-            numberOfHangers++;
+            boolean unmanned = BooleanUtils.parseBoolean(hanger.getComponent().getParams().get("unmanned"));
+            if (unmanned)
+                numberOfHangers += hanger.getCount();
         }
-
-        report.setHangers(TextLogic.compress(hangersDesc));
+        report.setHangers(hangers);
         report.setNumberOfHangers(numberOfHangers);
     }
 
@@ -376,74 +311,50 @@ public class ShipReportLogic
     {
         List<ShipComponentInstanceBean> screens = ShipDesignLogic
                 .getAllInstances(ship, ShipComponentBean.SCREENS);
-        List<AudioMessageBean> screenDesc = new ArrayList<>();
         int numberOfScreens = 0;
-        for (Iterator<ShipComponentInstanceBean> iterator = screens
-                .iterator(); iterator.hasNext();)
+        for (ShipComponentInstanceBean screen : screens)
         {
-            ShipComponentInstanceBean screen = iterator.next();
-            for (int i = 0; i < screen.getCount(); i++)
-            {
-                screenDesc.add(screen.getComponent().getName());
-                numberOfScreens++;
-            }
+            numberOfScreens += screen.getCount();
         }
-        report.setScreens(TextLogic.compress(screenDesc));
+        report.setScreens(screens);
         report.setNumberOfScreens(numberOfScreens);
     }
 
     public static void reportTurrets(ShipDesignBean ship, ShipReportBean report)
     {
-        List<ShipComponentInstanceBean> turrets = ShipDesignLogic
-                .getAllInstances(ship, ShipComponentBean.TURRET);
-        List<ShipComponentInstanceBean> weapons = ShipDesignLogic
-                .getAllInstances(ship, ShipComponentBean.WEAPON);
-        int used = 0;
-        for (int i = 0; i < weapons.size(); i++)
-        {
-            ShipComponentInstanceBean weapon = (ShipComponentInstanceBean)weapons
-                    .get(i);
-            used += weapon.getCount();
-            for (int j = 1; j < weapon.getCount(); j++)
-            {
-                weapons.add(i, weapon);
-                i++;
-            }
-        }
-
-        List<AudioMessageBean> turretsDesc = new ArrayList<>();
+        List<ShipComponentInstanceBean> turrets = ShipDesignLogic.getAllInstances(ship, ShipComponentBean.TURRET);
+        List<ShipComponentInstanceBean> allTurrets = ShipComponentLogic.expandInstances(turrets);
+        List<ShipComponentInstanceBean> weapons = ShipDesignLogic.getAllInstances(ship, ShipComponentBean.WEAPON);
+        List<ShipComponentInstanceBean> allWeapons = ShipComponentLogic.expandInstances(weapons);
+        int numTurrets = allTurrets.size();
+        ShipComponentInstanceBean[][] weaponsByTurret = new ShipComponentInstanceBean[allTurrets.size()][];
+        Iterator<ShipComponentInstanceBean> w = allWeapons.iterator();
         int slots = 0;
-        for (ShipComponentInstanceBean turret : turrets)
+        int used = 0;
+        for (int i = 0; i < allTurrets.size(); i++)
         {
-            int capacity = IntegerUtils.parseInt(
-                    turret.getComponent().getParams().get("capacity"));
-            for (int i = 0; i < turret.getCount(); i++)
+            ShipComponentInstanceBean turret = allTurrets.get(i);
+            int capacity = IntegerUtils.parseInt(turret.getComponent().getParams().get("capacity"));
+            weaponsByTurret[i] = new ShipComponentInstanceBean[capacity];
+            for (int j = 0; j < weaponsByTurret[i].length; j++)
             {
-                slots += capacity;
-                List<AudioMessageBean> contents = new ArrayList<>();
-                for (int j = 0; j < capacity && weapons.size() > 0; j++)
+                if (w.hasNext())
                 {
-                    contents.add((weapons.get(0)).getComponent().getName());
-                    weapons.remove(0);
+                    weaponsByTurret[i][j] = w.next();
+                    used++;
                 }
-
-                AudioMessageBean turretDesc = AudioMessageBean
-                        .group(new Object[] { turret.getComponent().getName(),
-                                TextLogic.compress(contents) });
-                turretsDesc.add(turretDesc);
+                slots++;
             }
-
         }
-        report.setTurrets(TextLogic.compress(turretsDesc));
+        report.setWeaponsByTurret(weaponsByTurret);
+        report.setNumberOfTurrets(numTurrets);
         report.setWeaponSlots(slots);
         report.setWeaponSlotsUsed(used);
     }
 
-    private static int findMaxTech(List<ShipComponentInstanceBean> components)
+    public static void reportBays(ShipDesignBean ship, ShipReportBean report)
     {
-        int tl = 0;
-        for (ShipComponentInstanceBean component : components)
-            tl = Math.max(tl, component.getTechLevel());
-        return tl;
+        int numberOfBays = ShipDesignLogic.countAllInstances(ship, ShipComponentBean.BAY);
+        report.setNumberOfBays(numberOfBays);
     }
 }

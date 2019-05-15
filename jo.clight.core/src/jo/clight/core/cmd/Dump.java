@@ -10,9 +10,9 @@ import jo.clight.core.data.plan.PlanItem;
 import jo.clight.core.data.plan.ShipPlanBean;
 import jo.clight.core.logic.ShipComponentLogic;
 import jo.clight.core.logic.ShipReportLogic;
+import jo.clight.core.logic.ShipTableLogic;
 import jo.clight.core.logic.plan.ShipPlanLogic;
 import jo.clight.core.logic.text.TextLogic;
-import jo.util.utils.obj.StringUtils;
 
 public class Dump
 {
@@ -28,7 +28,7 @@ public class Dump
         for(String type : ShipComponentLogic.getTypes())
         {
             List<ShipComponentBean> comps = ShipComponentLogic.getComponentsByType(type);
-            System.out.println((new StringBuilder("  ")).append(type).append(" x ").append(comps.size()).toString());
+            System.out.println("public static final String "+type.toUpperCase()+" = \""+type+"\";");
             for(ShipComponentBean comp : comps)
             {
                 String name = TextLogic.getString(comp.getName());
@@ -37,16 +37,27 @@ public class Dump
                 String desc = TextLogic.getString(comp.getDescription());
                 if(desc == null)
                     System.out.println((new StringBuilder("    No text for ")).append(comp.getDescription().toJSON()).toString());
+                String ident = comp.getID();
+                if (ident.toUpperCase().startsWith(type.toUpperCase()))
+                {
+                    ident = ident.substring(type.length());
+                    if (ident.startsWith("_"))
+                        ident = ident.substring(1);
+                }
+                System.out.println("public static final String "+comp.getType().toUpperCase()+"_"+ident.toUpperCase()+" = \""+comp.getID()+"\";");
             }
         }
         // ship build
-        ShipDesignBean ship = constructCorvette();
+        ShipDesignBean ship = constructDesignExample();
         ShipReportBean report = ShipReportLogic.report(ship);
-        for (String e : report.getErrors())
+        for (String e : report.getAllErrors())
             System.out.println("  "+e);
+        System.out.println(ShipTableLogic.toTableText(ship, "0,40|wrap,0|right,0.2,0.2"));
+        /*
         String prose = TextLogic.getString(report.getProse());
         prose = StringUtils.wrap(prose, 80, "\r\n");
         System.out.println(prose);
+        */
         // test residuals
         ArrayList<PlanItem> contents = new ArrayList<PlanItem>();
         for (int configuration = ShipPlanBean.HULL_SPHERE; configuration <= ShipPlanBean.HULL_BOX; configuration++)
@@ -67,51 +78,33 @@ public class Dump
         }
     }
 
-    public static ShipDesignBean constructAsteroidMiner()
+    public static ShipDesignBean constructDesignExample()
     {
         ShipDesignBean ship = new ShipDesignBean();
-        ship.setShipName("Asteroid Miner");
-        ship.setShipFunction("frequently used to exploit the abundant riches found in planetoid belts");
-        ship.getComponents().add(ShipComponentLogic.getInstance("hull200", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("jdriveA", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("mdriveA", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("pplantA", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("fuel", 44));
-        ship.getComponents().add(ShipComponentLogic.getInstance("computer2", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("electronics_civilian", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("stateroom", 3));
-        ship.getComponents().add(ShipComponentLogic.getInstance("lowberth", 5));
-        ship.getComponents().add(ShipComponentLogic.getInstance("configStandard", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("armorTitanium", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("hanger_escape", 3));
-        ship.getComponents().add(ShipComponentLogic.getInstance("fuel_processor", 3));
-        return ship;
-    }
-
-    public static ShipDesignBean constructCorvette()
-    {
-        ShipDesignBean ship = new ShipDesignBean();
-        ship.setShipName("Corvette");
+        ship.setShipName("Military Transport");
         ship.setShipFunction("an example of a frigate commonly found in operation within an interstellar polity");
-        ship.getComponents().add(ShipComponentLogic.getInstance("hull300", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("jdriveC", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("mdriveJ", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("pplantJ", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("fuel", 96));
-        ship.getComponents().add(ShipComponentLogic.getInstance("computer3", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("computer_fib", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("electronics_advanced", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("stateroom", 5));
-        ship.getComponents().add(ShipComponentLogic.getInstance("emergency_lowberth", 5));
-        ship.getComponents().add(ShipComponentLogic.getInstance("triple_turret", 3));
-        ship.getComponents().add(ShipComponentLogic.getInstance("missile_rack", 6));
-        ship.getComponents().add(ShipComponentLogic.getInstance("beam_laser", 3));
-        ship.getComponents().add(ShipComponentLogic.getInstance("configStandard", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("armorCrystaliron", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("armory", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("detention_cell", 4));
-        ship.getComponents().add(ShipComponentLogic.getInstance("hanger_escape", 3));
-        ship.getComponents().add(ShipComponentLogic.getInstance("fuel_processor", 5));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.HULL_300, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.CONFIG_STREAMLINED, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.ARMOR_CRYSTALIRON, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.JDRIVE_C, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.MDRIVE_C, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.PPLANT_C, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.FUEL_, 72));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.BRIDGE_20, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.COMPUTER_2, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.TURRET_TRIPLE_TURRET, 3));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.WEAPON_BEAM_LASER, 3));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.WEAPON_PULSE_LASER, 3));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.WEAPON_SANDCASTER_RACK, 3));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.STATEROOM_, 8));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.BERTH_LOWBERTH, 20));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.HANGER_ESCAPE, 16));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.ETC_FUEL_PROCESSOR, 4));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.CREW_PILOT, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.CREW_SENSOR, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.CREW_ENGINEER, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.CREW_MEDIC, 1));
+        ship.getComponents().add(ShipComponentLogic.getInstance(ShipComponentBean.CREW_GUNNER, 3));
         return ship;
     }
 }

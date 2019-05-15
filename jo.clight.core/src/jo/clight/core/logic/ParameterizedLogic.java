@@ -3,11 +3,16 @@ package jo.clight.core.logic;
 import java.util.*;
 
 import jo.clight.core.data.IParamEval;
+import jo.clight.core.logic.eval.ShipEvals;
 
 public class ParameterizedLogic
 {
     private static Map<Thread,List<Object>> mContextCache = new HashMap<>();
     private static Map<String,IParamEval> mEvaluators = new HashMap<>();
+    static
+    {
+        ShipEvals.init();
+    }
 
     public static void addContext(Object context)
     {
