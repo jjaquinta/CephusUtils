@@ -1,6 +1,6 @@
 package jo.clight.shipyard.ui.steps;
 
-import jo.clight.shipyard.logic.ShipEditLogic;
+import jo.clight.core.data.ShipComponentBean;
 import jo.clight.shipyard.ui.ctrl.SpinnerPanel;
 
 @SuppressWarnings("serial")
@@ -19,7 +19,8 @@ public class Step13Panel extends SpinnerPanel
     @Override
     protected String[] getShipComponents()
     {
-        return new String[] { ShipEditLogic.WEAPON_MISSILE, ShipEditLogic.WEAPON_PULSE, 
-                ShipEditLogic.WEAPON_SAND, ShipEditLogic.WEAPON_PARTICLE, ShipEditLogic.WEAPON_BEAM};
+        return new String[] { ShipComponentBean.WEAPON_MISSILE_RACK, ShipComponentBean.WEAPON_PULSE_LASER, 
+                ShipComponentBean.WEAPON_SANDCASTER_RACK, ShipComponentBean.WEAPON_PARTICLE_BEAM, ShipComponentBean.WEAPON_BEAM_LASER,
+                ShipComponentBean.WEAPON_PLASMA_BEAM, ShipComponentBean.WEAPON_FUSION_BEAM};
     }
 }

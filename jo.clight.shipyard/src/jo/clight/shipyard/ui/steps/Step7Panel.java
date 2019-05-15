@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.border.TitledBorder;
 
-import jo.clight.shipyard.logic.ShipEditLogic;
+import jo.clight.core.data.ShipComponentBean;
 import jo.clight.shipyard.ui.ctrl.ComputerChooser;
 import jo.clight.shipyard.ui.ctrl.ShipComponentCheck;
 
@@ -13,7 +13,6 @@ import jo.clight.shipyard.ui.ctrl.ShipComponentCheck;
 public class Step7Panel extends JComponent
 {
     private ComputerChooser    mComputer;
-    private ShipComponentCheck mFIB;
     private ShipComponentCheck mBIS;
 
     public Step7Panel()
@@ -26,17 +25,15 @@ public class Step7Panel extends JComponent
     private void initInstantiate()
     {
         mComputer = new ComputerChooser();
-        mFIB = new ShipComponentCheck("FIB", ShipEditLogic.COMPUTER_FIB);
-        mBIS = new ShipComponentCheck("BIS", ShipEditLogic.COMPUTER_BIS);
+        mBIS = new ShipComponentCheck("BIS", ShipComponentBean.COMPUTER_BIS);
     }
 
     private void initLayout()
     {
         setBorder(new TitledBorder("Computer"));
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(2, 1));
         add(mComputer);
         add(mBIS);
-        add(mFIB);
     }
 
     private void initLink()

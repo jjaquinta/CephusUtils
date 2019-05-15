@@ -1,6 +1,7 @@
 package jo.clight.shipyard.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -9,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import jo.clight.core.data.ShipReportBean;
-import jo.clight.core.logic.text.TextLogic;
+import jo.clight.core.logic.ShipTableLogic;
 import jo.clight.shipyard.data.RuntimeBean;
 import jo.clight.shipyard.logic.RuntimeLogic;
 
@@ -35,6 +36,7 @@ public class ReportPanel extends JComponent
         mClient.setEditable(false);
         mClient.setLineWrap(true);
         mClient.setWrapStyleWord(true);
+        mClient.setFont(new Font("Monospaced", Font.PLAIN, 12));
     }
 
     private void initLayout()
@@ -62,6 +64,9 @@ public class ReportPanel extends JComponent
         if (report == null)
             mClient.setText("");
         else
-            mClient.setText(TextLogic.getString(report.getProse()));
+        {
+            String table = ShipTableLogic.formatTable(ShipTableLogic.toShipSheet(report), "25,25,25,25");
+            mClient.setText(table);
+        }
     }
 }

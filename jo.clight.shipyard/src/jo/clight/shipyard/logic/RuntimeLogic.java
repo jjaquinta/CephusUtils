@@ -11,8 +11,7 @@ import org.json.simple.JSONObject;
 
 import jo.audio.util.JSONUtils;
 import jo.clight.core.data.ShipDesignBean;
-import jo.clight.core.logic.ShipComponentLogic;
-import jo.clight.core.logic.ShipDesignLogic;
+import jo.clight.core.logic.ShipLibraryLogic;
 import jo.clight.core.logic.ShipReportLogic;
 import jo.clight.core.logic.eval.ShipEvals;
 import jo.clight.shipyard.data.RuntimeBean;
@@ -35,6 +34,7 @@ public class RuntimeLogic
         mRuntime.addPropertyChangeListener("ship.components", pcl);
         mRuntime.addPropertyChangeListener("ship.shipName", pcl);
         mRuntime.addPropertyChangeListener("ship.shipFunction", pcl);
+        mRuntime.addPropertyChangeListener("ship.shipRoles", pcl);
     }
     
     public static void shutdown()
@@ -153,23 +153,15 @@ public class RuntimeLogic
         mRuntime.getShips().remove(ship);
         mRuntime.fireMonotonicPropertyChange("ships", mRuntime.getShips());
         mRuntime.setAnyChanges(true);
-        setStatus("Delted "+ship.getShipName());
+        setStatus("Deleted "+ship.getShipName());
     }
     
     public static void newShip()
     {
-        ShipDesignBean ship = new ShipDesignBean();
+        ShipDesignBean ship = ShipLibraryLogic.constructDesignExample();
         ship.setShipID(String.valueOf(System.currentTimeMillis()));
         ship.setShipName("Lollipop");
         ship.setShipFunction("is a sweet trip to the candy shop.");
-        ship.getComponents().add(ShipComponentLogic.getInstance("hull100", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("configStandard", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("pplantA", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("fuel", ShipDesignLogic.getMinFuel("A")));
-        ship.getComponents().add(ShipComponentLogic.getInstance("bridge10", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("computer1", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("electronics_civilian", 1));
-        ship.getComponents().add(ShipComponentLogic.getInstance("stateroom", 3));
         mRuntime.getShips().add(ship);
         mRuntime.fireMonotonicPropertyChange("ships", mRuntime.getShips());
         mRuntime.setShip(ship);

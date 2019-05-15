@@ -13,7 +13,6 @@ import jo.clight.core.data.ShipReportBean;
 import jo.clight.core.logic.FormatUtils;
 import jo.clight.core.logic.ShipDesignLogic;
 import jo.clight.shipyard.logic.RuntimeLogic;
-import jo.clight.shipyard.logic.ShipEditLogic;
 import jo.clight.shipyard.ui.ctrl.DesignStatPanel;
 import jo.clight.shipyard.ui.ctrl.ReportStatPanel;
 import jo.clight.shipyard.ui.ctrl.ShipComponentSpinner;
@@ -23,7 +22,6 @@ public class Step9Panel extends JComponent
 {
     private ShipComponentSpinner     mStaterooms;
     private ShipComponentSpinner     mBerths;
-    private ShipComponentSpinner     mBarracks;
     private ShipComponentSpinner     mEmergency;
     private ReportStatPanel          mCrewStats;
     private DesignStatPanel          mCostStats;
@@ -37,7 +35,7 @@ public class Step9Panel extends JComponent
 
     private void initInstantiate()
     {
-        mStaterooms = new ShipComponentSpinner("Staterooms:", ShipEditLogic.STATEROOM) { @Override
+        mStaterooms = new ShipComponentSpinner("Staterooms:", ShipComponentBean.STATEROOM_) { @Override
             protected int getMin()
             {
                 ShipReportBean report = RuntimeLogic.getInstance().getReport();
@@ -45,9 +43,8 @@ public class Step9Panel extends JComponent
                 return min;
             }
         };
-        mBerths = new ShipComponentSpinner("Low Berths:", ShipEditLogic.LOWBERTH);
-        mBarracks = new ShipComponentSpinner("Barracks:", ShipEditLogic.BARRACKS);
-        mEmergency = new ShipComponentSpinner("Emergency Berths:", ShipEditLogic.EMERGENCY_LOWBERTH);
+        mBerths = new ShipComponentSpinner("Low Berths:", ShipComponentBean.BERTH_LOWBERTH);
+        mEmergency = new ShipComponentSpinner("Emergency Berths:", ShipComponentBean.BERTH_EMERGENCY_LOWBERTH);
         mCostStats = new DesignStatPanel("Cost:", new DesignStatPanel.IDesignStat() {            
             @Override
             public String getStat(ShipDesignBean ship)
@@ -69,10 +66,9 @@ public class Step9Panel extends JComponent
     {
         setBorder(new TitledBorder("Accomodation"));
         JPanel client = new JPanel();
-        client.setLayout(new GridLayout(4, 1));
+        client.setLayout(new GridLayout(3, 1));
         client.add(mStaterooms);
         client.add(mBerths);
-        client.add(mBarracks);
         client.add(mEmergency);
         
         JPanel footer = new JPanel();

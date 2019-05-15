@@ -50,8 +50,8 @@ public class Step5Panel extends JComponent
     {
         mWeeksOfPower = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
         mNumberOfJumps = new JSpinner(new SpinnerNumberModel(0, 0, null, 1));
-        mFuelScoops = new ShipComponentCheck(null, ShipEditLogic.FUEL_SCOOPS);
-        mFuelProcessors = new ShipComponentSpinner(null, ShipEditLogic.FUEL_PROCESSOR);
+        mFuelScoops = new ShipComponentCheck(null, ShipComponentBean.ETC_FUEL_SCOOPS);
+        mFuelProcessors = new ShipComponentSpinner(null, ShipComponentBean.ETC_FUEL_PROCESSOR);
         mFuelStats = new ReportStatPanel("Tankage:", new ReportStatPanel.IReportStat() {            
             @Override
             public String getStat(ShipReportBean report)
@@ -141,8 +141,8 @@ public class Step5Panel extends JComponent
             ShipComponentInstanceBean config = ShipDesignLogic.getFirstInstance(mRuntime.getShip(), ShipComponentBean.CONFIG);
             if ((config == null) || "configDistributed".equals(config.getComponentID()))
             {
-                if (ShipEditLogic.getSingletonCount(ShipEditLogic.FUEL_SCOOPS) > 0)
-                    ShipEditLogic.setSingletonCount(ShipEditLogic.FUEL_SCOOPS, 0);
+                if (ShipEditLogic.getSingletonCount(ShipComponentBean.ETC_FUEL_SCOOPS) > 0)
+                    ShipEditLogic.setSingletonCount(ShipComponentBean.ETC_FUEL_SCOOPS, 0);
                 mFuelScoops.setEnabled(false);
             }
             else if ("configStandard".equals(config.getComponentID()))
@@ -151,8 +151,8 @@ public class Step5Panel extends JComponent
             }
             else if ("configStreamlined".equals(config.getComponentID()))
             {
-                if (ShipEditLogic.getSingletonCount(ShipEditLogic.FUEL_SCOOPS) == 0)
-                    ShipEditLogic.setSingletonCount(ShipEditLogic.FUEL_SCOOPS, 1);
+                if (ShipEditLogic.getSingletonCount(ShipComponentBean.ETC_FUEL_SCOOPS) == 0)
+                    ShipEditLogic.setSingletonCount(ShipComponentBean.ETC_FUEL_SCOOPS, 1);
                 mFuelScoops.setEnabled(false);
             }
         }

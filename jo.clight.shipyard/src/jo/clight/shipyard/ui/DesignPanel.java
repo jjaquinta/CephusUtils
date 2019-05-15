@@ -10,6 +10,7 @@ import jo.clight.shipyard.ui.steps.Step12Panel;
 import jo.clight.shipyard.ui.steps.Step13Panel;
 import jo.clight.shipyard.ui.steps.Step14Panel;
 import jo.clight.shipyard.ui.steps.Step15Panel;
+import jo.clight.shipyard.ui.steps.Step16Panel;
 import jo.clight.shipyard.ui.steps.Step1Panel;
 import jo.clight.shipyard.ui.steps.Step2Panel;
 import jo.clight.shipyard.ui.steps.Step3Panel;
@@ -17,7 +18,6 @@ import jo.clight.shipyard.ui.steps.Step4Panel;
 import jo.clight.shipyard.ui.steps.Step5Panel;
 import jo.clight.shipyard.ui.steps.Step6Panel;
 import jo.clight.shipyard.ui.steps.Step7Panel;
-import jo.clight.shipyard.ui.steps.Step8Panel;
 import jo.clight.shipyard.ui.steps.Step9Panel;
 
 @SuppressWarnings("serial")
@@ -31,7 +31,6 @@ public class DesignPanel extends JPanel
     private Step5Panel  mStep5;
     private Step6Panel  mStep6;
     private Step7Panel  mStep7;
-    private Step8Panel  mStep8;
     private Step9Panel  mStep9;
     private Step10Panel mStep10;
     private Step11Panel mStep11;
@@ -39,6 +38,7 @@ public class DesignPanel extends JPanel
     private Step13Panel mStep13;
     private Step14Panel mStep14;
     private Step15Panel mStep15;
+    private Step16Panel mStep16;
 
     public DesignPanel()
     {
@@ -57,7 +57,6 @@ public class DesignPanel extends JPanel
         mStep5 = new Step5Panel();
         mStep6 = new Step6Panel();
         mStep7 = new Step7Panel();
-        mStep8 = new Step8Panel();
         mStep9 = new Step9Panel();
         mStep10 = new Step10Panel();
         mStep11 = new Step11Panel();
@@ -65,27 +64,11 @@ public class DesignPanel extends JPanel
         mStep13 = new Step13Panel();
         mStep14 = new Step14Panel();
         mStep15 = new Step15Panel();
+        mStep16 = new Step16Panel();
     }
 
     private void initLayout()
     {
-//        setLayout(new GridLayout(16, 1));
-//        add(mStep0);
-//        add(mStep1);
-//        add(mStep2);
-//        add(mStep3);
-//        add(mStep4);
-//        add(mStep5);
-//        add(mStep6);
-//        add(mStep7);
-//        add(mStep8);
-//        add(mStep9);
-//        add(mStep10);
-//        add(mStep11);
-//        add(mStep12);
-//        add(mStep13);
-//        add(mStep14);
-//        add(mStep15);
         setLayout(new TableLayout("fill=h ipadx=20"));
         add("1,+", mStep0);
         add("1,+", mStep1);
@@ -95,7 +78,6 @@ public class DesignPanel extends JPanel
         add("1,+", mStep5);
         add("1,+", mStep6);
         add("1,+", mStep7);
-        add("1,+", mStep8);
         add("1,+", mStep9);
         add("1,+", mStep10);
         add("1,+", mStep11);
@@ -103,6 +85,7 @@ public class DesignPanel extends JPanel
         add("1,+", mStep13);
         add("1,+", mStep14);
         add("1,+", mStep15);
+        add("1,+", mStep16);
     }
 
     private void initLink()

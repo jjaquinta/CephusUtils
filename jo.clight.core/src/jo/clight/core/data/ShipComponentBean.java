@@ -282,7 +282,7 @@ public class ShipComponentBean extends CephusBean
 
     public double getPrice()
     {
-        return ((Double)get("price", Double.valueOf(mPrice))).doubleValue();
+        return ((Number)get("price", Double.valueOf(mPrice))).doubleValue();
     }
 
     public void setPrice(double price)

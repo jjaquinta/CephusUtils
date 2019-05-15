@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -97,8 +98,9 @@ public class ErrorPanel extends JComponent
         else
         {
             StringBuffer text = new StringBuffer();
-            for (String err : report.getErrors())
-                text.append(err + "\r\n");
+            for (List<String> errs : report.getErrors().values())
+                for (String err : errs)
+                    text.append(err + "\r\n");
             mClient.setText(text.toString());
             mHull.setMinimum(0);
             mHull.setMaximum(report.getHullDisplacement());

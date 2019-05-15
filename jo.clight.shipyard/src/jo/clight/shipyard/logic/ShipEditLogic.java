@@ -16,66 +16,12 @@ import jo.util.utils.obj.IntegerUtils;
 
 public class ShipEditLogic
 {
-    // specials (singleton count)
-    public static final String VAULT = "$vault";
-    public static final String LUXURIES = "$luxuries";
-    public static final String LIBRARY = "$library";
-    public static final String LAB = "$lab";
-    public static final String FUEL_PROCESSOR = "$fuel_processor";
-    public static final String DETENTION_CELL = "$detention_cell";
-    public static final String BRIEFING_ROOM = "$briefing_room";
-    public static final String ARMORY = "$armory";
-    public static final String COMPUTER_FIB = "$computer_fib";
-    public static final String COMPUTER_BIS = "$computer_bis";
-    public static final String TURRET_SINGLE = "$single_turret";
-    public static final String TURRET_DOUBLE = "$double_turret";
-    public static final String TURRET_TRIPLE = "$triple_turret";
-    public static final String TURRET_POPUP_SINGLE = "$single_popup_turret";
-    public static final String TURRET_POPUP_DOUBLE = "$double_popup_turret";
-    public static final String TURRET_POPUP_TRIPLE = "$triple_popup_turret";
-    public static final String TURRET_FIXED_SINGLE = "$single_fixed_turret";
-    public static final String TURRET_FIXED_DOUBLE = "$double_fixed_turret";
-    public static final String TURRET_FIXED_TRIPLE = "$triple_fixed_turret";
-    public static final String BAY_MISSILE = "$missile_bank";
-    public static final String BAY_PARTICLE = "$particle_bay";
-    public static final String BAY_MESON = "$meson_gun";
-    public static final String BAY_FUSION = "$fusion_gun";
-    public static final String WEAPON_MISSILE = "$missile_rack";
-    public static final String WEAPON_PULSE = "$pulse_laser";
-    public static final String WEAPON_SAND = "$sandcaster_rack";
-    public static final String WEAPON_PARTICLE = "$particle_beam";
-    public static final String WEAPON_BEAM = "$beam_laser";
-    public static final String MESON_SCREEN = "$meson_screen";
-    public static final String NUCLEAR_DAMPER = "$nuclear_damper";
-
-    public static final String HANGER_ATV = "$hanger_atv";
-    public static final String HANGER_RAFT = "$hanger_raft";
-    public static final String HANGER_CUTTER = "$hanger_cutter";
-    public static final String HANGER_ESCAPE = "$hanger_escape";
-    public static final String HANGER_LIFEBOAT = "$hanger_lifeboat";
-    public static final String HANGER_DRONE_MINING = "$hanger_drone_mining";
-    public static final String HANGER_PINNACE = "$hanger_pinnace";
-    public static final String HANGER_DRONE_PROBE = "$hanger_drone_probe";
-    public static final String HANGER_DRONE_REPAIR = "$hanger_drone_repair";
-    public static final String HANGER_BOAT = "$hanger_boat";
-    public static final String HANGER_SHUTTLE = "$hanger_shuttle";
-    public static final String HANGER_FIGHTER = "$hanger_fighter";
-
-    // accomodation (singleton count)
-    public static final String BARRACKS = "$barracks";
-    public static final String EMERGENCY_LOWBERTH = "$emergency_lowberth";
-    public static final String LOWBERTH = "$lowberth";
-    public static final String STATEROOM = "$stateroom";
-
-    // booleans
-    public static final String FUEL_SCOOPS = "$fuel_scoops";
-
     public static final Set<String> COMPUTER_IDS = new HashSet<>();
     public static final List<ShipComponentBean> COMPUTERS = new ArrayList<>();
     static
     {
         for (ShipComponentBean comp : ShipComponentLogic.getComponentsByType(ShipComponentBean.COMPUTER))
-            if (!comp.getID().endsWith("_fib") && !comp.getID().endsWith("_bis"))
+            if (!comp.getID().endsWith("_bis"))
             {
                 COMPUTERS.add(comp);
                 COMPUTER_IDS.add("$"+comp.getID());
@@ -308,16 +254,6 @@ public class ShipEditLogic
         RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.components", ship.getComponents());
     }
 
-    public static ShipComponentBean getElectronics()
-    {
-        return getSingletonType(ShipComponentBean.ELECTRONICS);
-    }
-
-    public static void setElectronics(ShipComponentBean item)
-    {
-        setSingletonType(item, ShipComponentBean.ELECTRONICS);
-    }
-
     public static void setShipName(String shipName)
     {
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
@@ -340,6 +276,28 @@ public class ShipEditLogic
             ship.setShipFunction(shipFunction);
             RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.shipFunction", ship.getShipFunction());
         }
+    }
+
+    public static boolean getShipRole(String role)
+    {
+        ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
+        if (ship == null)
+            return false;
+        return ship.getRoles().contains(role);
+    }
+
+    public static void setShipRole(String role, boolean selected)
+    {
+        ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
+        if (ship == null)
+            return;
+        if (ship.getRoles().contains(role) == selected)
+            return;
+        if (selected)
+            ship.getRoles().add(role);
+        else
+            ship.getRoles().remove(role);
+        RuntimeLogic.getInstance().fireMonotonicPropertyChange("ship.shipRoles", ship.getRoles());
     }
 
 }

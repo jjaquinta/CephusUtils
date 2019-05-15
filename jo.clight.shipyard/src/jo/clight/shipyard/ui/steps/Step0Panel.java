@@ -6,6 +6,7 @@ import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import jo.clight.core.data.ShipDesignBean;
 import jo.clight.shipyard.data.RuntimeBean;
 import jo.clight.shipyard.logic.RuntimeLogic;
 import jo.clight.shipyard.logic.ShipEditLogic;
@@ -25,6 +27,7 @@ public class Step0Panel extends JComponent
 
     private JTextField  mName;
     private JTextArea   mDesc;
+    private JCheckBox   mMilitary;
     
     public Step0Panel()
     {
@@ -33,6 +36,7 @@ public class Step0Panel extends JComponent
         initLink();
         doNewName();
         doNewDesc();
+        doNewRoles();
     }
 
     private void initInstantiate()
@@ -41,6 +45,7 @@ public class Step0Panel extends JComponent
         mDesc = new JTextArea();
         mDesc.setLineWrap(true);
         mDesc.setWrapStyleWord(true);
+        mMilitary = new JCheckBox("Military");
     }
 
     private void initLayout()
@@ -60,6 +65,7 @@ public class Step0Panel extends JComponent
         client.setLayout(new BorderLayout());
         client.add("North", line1);
         client.add("Center", line2);
+        client.add("South", mMilitary);
         
         setLayout(new BorderLayout());
         add("Center", client);
@@ -82,6 +88,13 @@ public class Step0Panel extends JComponent
                 doActionDesc();
             }
         });
+        mMilitary.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                doActionMilitary();
+            }
+        });
         // data to UI        
         mRuntime.addUIPropertyChangeListener("ship.shipName",
                 new PropertyChangeListener() {
@@ -99,6 +112,14 @@ public class Step0Panel extends JComponent
                         doNewDesc();
                     }
                 });
+        mRuntime.addUIPropertyChangeListener("ship.shipRoles",
+                new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt)
+                    {
+                        doNewRoles();
+                    }
+                });
     }
     
     private void doActionName()
@@ -109,6 +130,11 @@ public class Step0Panel extends JComponent
     private void doActionDesc()
     {
         ShipEditLogic.setShipFunction(mDesc.getText());
+    }
+    
+    private void doActionMilitary()
+    {
+        ShipEditLogic.setShipRole(ShipDesignBean.ROLE_MILITARY, mMilitary.isSelected());
     }
     
     private void doNewName()
@@ -125,5 +151,13 @@ public class Step0Panel extends JComponent
             mDesc.setText("");
         else
             mDesc.setText(mRuntime.getShip().getShipFunction());
+    }
+    
+    private void doNewRoles()
+    {
+        if (mRuntime.getShip() == null)
+            mMilitary.setSelected(false);
+        else
+            mMilitary.setSelected(ShipEditLogic.getShipRole(ShipDesignBean.ROLE_MILITARY));
     }
 }

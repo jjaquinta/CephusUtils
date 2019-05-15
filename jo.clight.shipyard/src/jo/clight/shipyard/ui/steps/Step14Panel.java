@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.border.TitledBorder;
 
-import jo.clight.shipyard.logic.ShipEditLogic;
+import jo.clight.core.data.ShipComponentBean;
 import jo.clight.shipyard.ui.ctrl.ShipComponentCheck;
 
 @SuppressWarnings("serial")
@@ -23,8 +23,8 @@ public class Step14Panel extends JComponent
 
     private void initInstantiate()
     {
-        mMesonScreen = new ShipComponentCheck(null, ShipEditLogic.MESON_SCREEN);
-        mNuclearDamper = new ShipComponentCheck(null, ShipEditLogic.NUCLEAR_DAMPER);
+        mMesonScreen = new ShipComponentCheck(null, ShipComponentBean.SCREENS_MESON_SCREEN);
+        mNuclearDamper = new ShipComponentCheck(null, ShipComponentBean.SCREENS_NUCLEAR_DAMPER);
     }
 
     private void initLayout()
