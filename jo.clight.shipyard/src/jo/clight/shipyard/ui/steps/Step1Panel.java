@@ -5,9 +5,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JComponent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import jo.clight.core.data.ShipComponentBean;
+import jo.clight.core.data.ShipComponentInstanceBean;
 import jo.clight.core.data.ShipDesignBean;
 import jo.clight.core.logic.FormatUtils;
 import jo.clight.core.logic.ShipDesignLogic;
@@ -28,6 +33,7 @@ public class Step1Panel extends JComponent
     private HullChooser mHull;
     private ConfigChooser mConfig;
     private ArmorChooser mArmor;
+    private JSpinner     mArmorThickness;
     private DesignStatPanel mCost;
     
     public Step1Panel()
@@ -43,6 +49,7 @@ public class Step1Panel extends JComponent
         mHull = new HullChooser();
         mConfig = new ConfigChooser();
         mArmor = new ArmorChooser();
+        mArmorThickness = new JSpinner(new SpinnerNumberModel(0, 0, 20, 1));
         mCost = new DesignStatPanel("Cost:", new DesignStatPanel.IDesignStat() {
             @Override
             public String getStat(ShipDesignBean ship)
@@ -54,6 +61,7 @@ public class Step1Panel extends JComponent
 
     private void initLayout()
     {
+        mArmor.add("East", mArmorThickness);
         setBorder(new TitledBorder("Hull"));
         setLayout(new GridLayout(4, 1));
         add(mHull);
@@ -86,6 +94,13 @@ public class Step1Panel extends JComponent
                 doActionArmor();
             }
         });
+        mArmorThickness.addChangeListener(new ChangeListener() {            
+            @Override
+            public void stateChanged(ChangeEvent e)
+            {
+                doActionArmorThickness();
+            }
+        });
         // data to UI        
         mRuntime.addPropertyChangeListener("ship.components",
                 new PropertyChangeListener() {
@@ -114,8 +129,20 @@ public class Step1Panel extends JComponent
     private void doActionArmor()
     {
         ShipComponentBean armor = mArmor.getComponent();
-        if (armor != ShipEditLogic.getArmor())
-            ShipEditLogic.setArmor(armor);
+        if (!mArmor.isSelected(ShipEditLogic.getArmor()))
+            ShipEditLogic.setArmor(armor, ((Number)mArmorThickness.getValue()).intValue());
+    }
+    
+    private void doActionArmorThickness()
+    {
+        int count  = ((Number)mArmorThickness.getValue()).intValue();
+        ShipComponentInstanceBean armor = ShipEditLogic.getArmor();
+        if ((armor == null) || (count != armor.getCount()))
+        {
+            ShipComponentBean a = mArmor.getComponent();
+            if (a != null)
+                ShipEditLogic.setArmor(a, count);
+        }
     }
     
     private void doNewComponents()
@@ -124,7 +151,8 @@ public class Step1Panel extends JComponent
         {
             mHull.setComponent(null);
             mConfig.setComponent(null);
-            mArmor.setComponent(null);
+            mArmor.setComponent((ShipComponentBean)null);
+            mArmorThickness.setValue(0);
         }
         else
         {
@@ -134,9 +162,12 @@ public class Step1Panel extends JComponent
             ShipComponentBean config = ShipEditLogic.getConfig();
             if (config != mConfig.getComponent())
                 mConfig.setComponent(config);
-            ShipComponentBean armor = ShipEditLogic.getArmor();
-            if (armor != mArmor.getComponent())
+            ShipComponentInstanceBean armor = ShipEditLogic.getArmor();
+            if (!mArmor.isSelected(armor))
                 mArmor.setComponent(armor);
+            if (armor != null)
+                if (!mArmorThickness.getValue().equals(armor.getCount()))
+                    mArmorThickness.setValue(armor.getCount());                    
         }
     }
     

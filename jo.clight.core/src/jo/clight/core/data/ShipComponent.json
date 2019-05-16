@@ -3791,8 +3791,8 @@
 				"ident": "HANGER_DRONE_PROBE_DESC"
 			},
 
-			"volume": 1,
-			"price": 0.2,
+			"volume": 0.2,
+			"price": 0.04,
 			"maxCopies": -1,
 			"type": "HANGER",
 			"techLevel": 7,
@@ -4505,6 +4505,29 @@
 			"params": {
 				"salary": 6000,
 				"requires": "piloting-1"
+			}
+		},
+
+		{
+			"id": "crew_scientist",
+			"name": 
+			{
+				"ident": "CREW_SCIENTIST_NAME"
+			},
+
+			"description": 
+			{
+				"ident": "CREW_SCIENTIST_DESC"
+			},
+
+			"volume": 0,
+			"price": 0,
+			"maxCopies": -1,
+			"type": "CREW",
+			"techLevel": 0,
+			"params": {
+				"salary": 4000,
+				"requires": "science-1"
 			}
 		}
 	]

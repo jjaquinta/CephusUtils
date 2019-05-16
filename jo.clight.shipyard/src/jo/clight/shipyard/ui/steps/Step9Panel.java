@@ -40,6 +40,8 @@ public class Step9Panel extends JComponent
             {
                 ShipReportBean report = RuntimeLogic.getInstance().getReport();
                 int min = report.getCrewTotal();
+                if (report.getShip().getRoles().contains(ShipDesignBean.ROLE_DOUBLEOCCUPANCY))
+                    min /= 2;
                 return min;
             }
         };

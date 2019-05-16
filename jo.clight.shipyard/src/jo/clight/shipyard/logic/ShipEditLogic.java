@@ -124,14 +124,16 @@ public class ShipEditLogic
     public static void setHull(ShipComponentBean item)
     {
         setSingletonType(item, ShipComponentBean.HULL);
+        double disp = Math.abs(item.getVolume());
+        ShipComponentBean bestBridge = null;
         for (ShipComponentBean bridge : ShipComponentLogic.getComponentsByType(ShipComponentBean.BRIDGE))
         {
             int tonsSupported = IntegerUtils.parseInt(bridge.getParams().get("tonsSupported"));
-            if (tonsSupported >= item.getVolume())
-            {
-                setSingletonType(bridge, ShipComponentBean.BRIDGE);
-            }
+            if (tonsSupported >= disp)
+                if ((bestBridge == null) || (bestBridge.getVolume() > bridge.getVolume()))
+                    bestBridge = bridge;
         }
+        setSingletonType(bestBridge, ShipComponentBean.BRIDGE);
     }
 
     public static ShipComponentBean getConfig()
@@ -144,14 +146,19 @@ public class ShipEditLogic
         setSingletonType(item, ShipComponentBean.CONFIG);
     }
 
-    public static ShipComponentBean getArmor()
+    public static ShipComponentInstanceBean getArmor()
     {
-        return getSingletonType(ShipComponentBean.ARMOR);
+        ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
+        if (ship == null)
+            return null;
+        return ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.ARMOR);
     }
 
-    public static void setArmor(ShipComponentBean item)
+    public static void setArmor(ShipComponentBean item, int count)
     {
         setSingletonType(item, ShipComponentBean.ARMOR);
+        if (item != null)
+            setSingletonCount(item.getID(), count);
     }
 
     public static ShipComponentBean getManeuver()

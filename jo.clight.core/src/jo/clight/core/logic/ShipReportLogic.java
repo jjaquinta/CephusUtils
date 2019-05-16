@@ -133,7 +133,7 @@ public class ShipReportLogic
                 report.addError(pos, "Not enough crew: Ship only has "+actual+" "+pos+" but needs "+expected);
         }
         int crewTotal = report.getCrewTotal();
-        if (ship.getRoles().contains(ShipDesignBean.ROLE_MILITARY))
+        if (ship.getRoles().contains(ShipDesignBean.ROLE_DOUBLEOCCUPANCY))
             crewTotal = (crewTotal + 1)/2;
         int pass = report.getNumberOfStaterooms() - crewTotal;
         if (pass < 0)
@@ -157,10 +157,10 @@ public class ShipReportLogic
         }
         report.setCrewTotal(crewTotal);
         int stateroomsNeeded = crewTotal;
-        if (ship.getRoles().contains(ShipDesignBean.ROLE_MILITARY))
+        if (ship.getRoles().contains(ShipDesignBean.ROLE_DOUBLEOCCUPANCY))
             stateroomsNeeded = (stateroomsNeeded + 1)/2;
         int pass = report.getNumberOfStaterooms() - stateroomsNeeded;
-        if (pass > 0)
+        if ((pass > 0) && !ship.getRoles().contains(ShipDesignBean.ROLE_MILITARY))
         {
             report.setPassengersTotal(pass);
             int numStewards = pass/3;
@@ -190,7 +190,7 @@ public class ShipReportLogic
                 ShipComponentBean.ETC_FUEL_PROCESSOR);
         if (refinery > 0.0D)
         {
-            int tonsPerDay = (int)(20D * refinery);
+            int tonsPerDay = (int)(5 * refinery);
             report.setRefineTonsPerDay(tonsPerDay);
         }
     }
@@ -256,9 +256,7 @@ public class ShipReportLogic
             report.setJumpCode(jumpCode);
             report.setJumpNumber(ShipDesignLogic.getDrivePerformance(jumpCode,
                     report.getHullDisplacement()));
-            int singleJump = Math.max(1,
-                    (report.getHullDisplacement() * report.getJumpNumber())
-                            / 10);
+            int singleJump = Math.max(1, (report.getHullDisplacement()*report.getJumpNumber())/10);
             report.setSingleJumpFuel(singleJump);
             int numberOfJumps = report.getFuelTonnage() / singleJump;
             report.setNumberOfJumps(numberOfJumps);

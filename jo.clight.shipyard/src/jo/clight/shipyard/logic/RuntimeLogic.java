@@ -3,14 +3,21 @@ package jo.clight.shipyard.logic;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import jo.audio.util.JSONUtils;
 import jo.clight.core.data.ShipDesignBean;
+import jo.clight.core.data.ShipReportBean;
+import jo.clight.core.logic.ParameterizedLogic;
+import jo.clight.core.logic.ShipExportLogic;
 import jo.clight.core.logic.ShipLibraryLogic;
 import jo.clight.core.logic.ShipReportLogic;
 import jo.clight.core.logic.eval.ShipEvals;
@@ -85,9 +92,9 @@ public class RuntimeLogic
             setError(e);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
-    public static void save()
+    private static void saveShipsTo(OutputStream os) throws IOException
     {
         JSONObject library = new JSONObject();
         library.put("date", (new Date()).toString());
@@ -97,9 +104,16 @@ public class RuntimeLogic
             ships.add(ship.toJSON());
         if (mRuntime.getShip() != null)
             library.put("selected", mRuntime.getShip().getShipID());
+        os.write(library.toJSONString().getBytes());
+    }
+    
+    public static void save()
+    {
         try
         {
-            JSONUtils.writeJSON(mRuntime.getFile(), library);
+            FileOutputStream fos = new FileOutputStream(mRuntime.getFile());
+            saveShipsTo(fos);
+            fos.close();
             mRuntime.setAnyChanges(false);
             setStatus("Saved "+mRuntime.getShips().size()+" ships to "+mRuntime.getFile().getName());
         }
@@ -113,6 +127,54 @@ public class RuntimeLogic
     {
         mRuntime.setFile(file);
         save();
+    }
+    
+    public static void export()
+    {
+        File file = mRuntime.getFile();
+        String fname = file.getName();
+        int o = fname.lastIndexOf('.');
+        if (o > 0)
+            fname = fname.substring(0, o)+".zip";
+        file = new File(file.getParentFile(), fname);
+        exportAs(file);
+    }
+    
+    public static void exportAs(File file)
+    {
+        String baseName = file.getName();
+        int o = baseName.lastIndexOf('.');
+        if (o > 0)
+            baseName = baseName.substring(0, o);
+        try
+        {
+            ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file));
+            zos.putNextEntry(new ZipEntry(baseName+".json"));
+            saveShipsTo(zos);
+            for (ShipDesignBean ship : mRuntime.getShips())
+            {
+                try
+                {
+                    ParameterizedLogic.addContext(ship);
+                    ShipReportBean report = ShipReportLogic.report(ship);
+                    String fname = ShipExportLogic.toFileName(ship, report);
+                    System.out.println(fname);
+                    ShipExportLogic.exportSheets(report, fname, null, zos);
+                    ShipExportLogic.exportTable(ship, fname, null, zos);
+                    ShipExportLogic.exportPlans(ship, fname, null, zos);
+                }
+                finally
+                {
+                    ParameterizedLogic.removeContext(ship);
+                }
+            }
+            zos.close();
+            setStatus("Saved "+mRuntime.getShips().size()+" ships to "+file.getName());
+        }
+        catch (IOException e)
+        {
+            setError(e);
+        }
     }
     
     public static void setError(Throwable t)

@@ -1,6 +1,7 @@
 package jo.clight.shipyard.ui.steps;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
@@ -28,6 +29,7 @@ public class Step0Panel extends JComponent
     private JTextField  mName;
     private JTextArea   mDesc;
     private JCheckBox   mMilitary;
+    private JCheckBox   mDoubleOccupancy;
     
     public Step0Panel()
     {
@@ -46,6 +48,7 @@ public class Step0Panel extends JComponent
         mDesc.setLineWrap(true);
         mDesc.setWrapStyleWord(true);
         mMilitary = new JCheckBox("Military");
+        mDoubleOccupancy = new JCheckBox("Double Occupancy");
     }
 
     private void initLayout()
@@ -61,11 +64,16 @@ public class Step0Panel extends JComponent
         line2.add("West", new JLabel("Purpose:"));
         line2.add("Center", mDesc);
         
+        JPanel line3 = new JPanel();
+        line3.setLayout(new GridLayout(1, 2));
+        line3.add(mMilitary);
+        line3.add(mDoubleOccupancy);
+        
         JPanel client = new JPanel();
         client.setLayout(new BorderLayout());
         client.add("North", line1);
         client.add("Center", line2);
-        client.add("South", mMilitary);
+        client.add("South", line3);
         
         setLayout(new BorderLayout());
         add("Center", client);
@@ -93,6 +101,13 @@ public class Step0Panel extends JComponent
             public void focusLost(FocusEvent e)
             {
                 doActionMilitary();
+            }
+        });
+        mDoubleOccupancy.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e)
+            {
+                doActionDoubleOccupancy();
             }
         });
         // data to UI        
@@ -137,6 +152,11 @@ public class Step0Panel extends JComponent
         ShipEditLogic.setShipRole(ShipDesignBean.ROLE_MILITARY, mMilitary.isSelected());
     }
     
+    private void doActionDoubleOccupancy()
+    {
+        ShipEditLogic.setShipRole(ShipDesignBean.ROLE_DOUBLEOCCUPANCY, mDoubleOccupancy.isSelected());
+    }
+    
     private void doNewName()
     {
         if (mRuntime.getShip() == null)
@@ -156,8 +176,14 @@ public class Step0Panel extends JComponent
     private void doNewRoles()
     {
         if (mRuntime.getShip() == null)
+        {
             mMilitary.setSelected(false);
+            mDoubleOccupancy.setSelected(false);
+        }
         else
+        {
             mMilitary.setSelected(ShipEditLogic.getShipRole(ShipDesignBean.ROLE_MILITARY));
+            mDoubleOccupancy.setSelected(ShipEditLogic.getShipRole(ShipDesignBean.ROLE_DOUBLEOCCUPANCY));
+        }
     }
 }

@@ -16,6 +16,8 @@ public class ParameterizedLogic
 
     public static void addContext(Object context)
     {
+        if (context == null)
+            return;
         synchronized (mContextCache)
         {
             List<Object> contexts = (List<Object>)mContextCache.get(Thread.currentThread());
@@ -31,6 +33,8 @@ public class ParameterizedLogic
 
     public static void removeContext(Object context)
     {
+        if (context == null)
+            return;
         synchronized (mContextCache)
         {
             List<Object> contexts = (List<Object>)mContextCache.get(Thread.currentThread());

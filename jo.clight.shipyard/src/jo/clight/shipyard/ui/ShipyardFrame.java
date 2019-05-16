@@ -28,6 +28,8 @@ public class ShipyardFrame extends JFrame
     private JMenuItem         mOpen;
     private JMenuItem         mSave;
     private JMenuItem         mSaveAs;
+    private JMenuItem         mExport;
+    private JMenuItem         mExportAs;
     private JMenuItem         mExit;
     private ShipyardPanel     mClient;
 
@@ -50,6 +52,8 @@ public class ShipyardFrame extends JFrame
         mOpen = new JMenuItem("Open...");
         mSave = new JMenuItem("Save");
         mSaveAs = new JMenuItem("Save As...");
+        mExport = new JMenuItem("Export");
+        mExportAs = new JMenuItem("Export As...");
         mExit = new JMenuItem("Exit");
     }
 
@@ -60,6 +64,8 @@ public class ShipyardFrame extends JFrame
         mFile.add(mOpen);
         mFile.add(mSave);
         mFile.add(mSaveAs);
+        mFile.add(mExport);
+        mFile.add(mExportAs);
         mFile.add(mExit);
         setJMenuBar(mMenuBar);
     }
@@ -97,6 +103,20 @@ public class ShipyardFrame extends JFrame
             public void actionPerformed(ActionEvent e)
             {
                 doSaveAs();
+            }
+        });
+        mExport.addActionListener(new ActionListener() {            
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                doExport();
+            }
+        });
+        mExportAs.addActionListener(new ActionListener() {            
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                doExportAs();
             }
         });
         mExit.addActionListener(new ActionListener() {            
@@ -156,7 +176,7 @@ public class ShipyardFrame extends JFrame
     
     private void doSaveAs()
     {
-        FileDialog fd = new FileDialog(this, "Save Narrative", FileDialog.SAVE);
+        FileDialog fd = new FileDialog(this, "Save Shipyard", FileDialog.SAVE);
         if (mRuntime.getFile() != null)
             fd.setDirectory(mRuntime.getFile().getParent());
         else
@@ -172,6 +192,52 @@ public class ShipyardFrame extends JFrame
         try
         {
             RuntimeLogic.saveAs(new File(fileName));
+        }
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(this, e.toString(), "Error writing "+fileName, JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void doExport()
+    {
+        if (mRuntime.getFile() == null)
+            doExportAs();
+        else
+            try
+            {
+                RuntimeLogic.export();
+            }
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(this, e.getLocalizedMessage(), "Error exporting "+mRuntime.getFile(), JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
+    private void doExportAs()
+    {
+        FileDialog fd = new FileDialog(this, "Export Shipyard", FileDialog.SAVE);
+        if (mRuntime.getFile() != null)
+            fd.setDirectory(mRuntime.getFile().getParent());
+        else
+            fd.setDirectory(System.getProperty("user.home"));
+        if (mRuntime.getFile() != null)
+        {
+            String fname = mRuntime.getFile().getName();
+            int o = fname.lastIndexOf('.');
+            if (o > 0)
+                fname = fname.substring(0, o)+".zip";
+            fd.setFile(fname);
+        }    
+        else
+            fd.setFile("shipyard.zip");
+        fd.setVisible(true);
+        if (fd.getDirectory() == null)
+            return;
+        String fileName = fd.getDirectory()+System.getProperty("file.separator")+fd.getFile();
+        try
+        {
+            RuntimeLogic.exportAs(new File(fileName));
         }
         catch (Exception e)
         {

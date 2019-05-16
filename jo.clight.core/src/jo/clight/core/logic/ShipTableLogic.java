@@ -144,10 +144,15 @@ public class ShipTableLogic
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.STATEROOM));
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.BERTH));
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.HANGER));
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC_ARMORY));
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC_FUEL_SCOOPS));
             if (report.getCargoTonnage() > 0)
                 fittings.add(ShipComponentLogic.getInstance(ShipComponentBean.ETC_CARGO_HOLD, report.getCargoTonnage()));
+            String fittingsText = TextLogic.getString(toCountedList(fittings));
+            if (report.getRefineTonsPerDay() > 0)
+                fittingsText += ", fuel processor ("+FormatUtils.sTons(report.getRefineTonsPerDay())+")";
             addLine(table,
-                    "{colspan|4|wrap}Fittings : "+TextLogic.getString(toCountedList(fittings)));
+                    "{colspan|4|wrap}Fittings : "+fittingsText);
             String crew = report.getCrewTotal()+" total -- "+TextLogic.getString(toCountedList(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.CREW)));
             addLine(table,
                     "{colspan|4|wrap}Crew : "+crew);
