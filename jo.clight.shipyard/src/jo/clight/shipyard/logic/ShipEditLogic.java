@@ -207,14 +207,14 @@ public class ShipEditLogic
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
             return;
-        String manCode = report.getManeuverCode();
-        int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(manCode);
+        int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(report.getPowerCode());
         int singleJump = Math.max(1,
                 (report.getHullDisplacement() * report.getJumpNumber())
                         / 10);
         int jumpVolume = singleJump*report.getNumberOfJumps();
         //int weeksofPower = (report.getFuelTonnage() - jumpVolume) / fuelPerWeek;
         int desiredTonnage = weeks*fuelPerWeek + jumpVolume;
+        //System.out.println("weeks="+weeks+", fuelPerWeek="+fuelPerWeek+", jumpVolume="+jumpVolume+", desiredTonnage="+desiredTonnage);
         
         ShipComponentInstanceBean fuelInst = ShipDesignLogic.getFirstInstance(ship, ShipComponentBean.FUEL);
         if (fuelInst == null)
@@ -242,8 +242,7 @@ public class ShipEditLogic
         ShipDesignBean ship = RuntimeLogic.getInstance().getShip();
         if (ship == null)
             return;
-        String manCode = report.getManeuverCode();
-        int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(manCode);
+        int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(report.getPowerCode());
         int weeksOfPower = report.getWeeksofPower();
         int singleJump = Math.max(1,
                 (report.getHullDisplacement() * report.getJumpNumber())

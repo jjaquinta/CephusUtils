@@ -43,8 +43,7 @@ public class Step4Panel extends JComponent
             @Override
             public String getStat(ShipReportBean report)
             {
-                String manCode = report.getManeuverCode();
-                int perWeek = ShipDesignLogic.getFuelPerWeek(manCode);
+                int perWeek = ShipDesignLogic.getFuelPerWeek(report.getPowerCode());
                 return FormatUtils.sTons(perWeek)+"/wk";
             }
         });

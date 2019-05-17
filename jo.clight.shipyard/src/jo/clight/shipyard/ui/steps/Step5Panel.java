@@ -130,8 +130,8 @@ public class Step5Panel extends JComponent
         else
         {
             ShipReportBean report = mRuntime.getReport();
-            int minFuelTons = ShipDesignLogic.getMinFuel(report.getManeuverCode());
-            int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(report.getManeuverCode());
+            int minFuelTons = ShipDesignLogic.getMinFuel(report.getPowerCode());
+            int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(report.getPowerCode());
             int minWeeks = (fuelPerWeek == 0) ? 0 : minFuelTons/fuelPerWeek;
             int val = Math.max(minWeeks, report.getWeeksofPower());
             mWeeksOfPower

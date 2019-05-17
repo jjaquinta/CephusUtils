@@ -281,7 +281,7 @@ public class ShipReportLogic
             report.setManeuverCode(manCode);
             report.setThrustNumber(ShipDesignLogic.getDrivePerformance(manCode,
                     report.getHullDisplacement()));
-            int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(manCode);
+            int fuelPerWeek = ShipDesignLogic.getFuelPerWeek(report.getPowerCode());
             int singleJump = report.getSingleJumpFuel();
             int jumpVolume = singleJump*report.getNumberOfJumps();
             int weeksofPower = (report.getFuelTonnage() - jumpVolume) / fuelPerWeek;

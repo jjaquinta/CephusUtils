@@ -95,16 +95,21 @@ public class ShipExportLogic
             throws IOException
     {
         List<List<Object>> shipSheet = ShipTableLogic.toShipSheet(report);
-        String text = ShipTableLogic.formatTable(shipSheet, "20,20,20,20");
+        String text = ShipTableLogic.formatTextTable(shipSheet, "20,20,20,20");
+        String html = "<html>\r\n<body>\r\n>"+ShipTableLogic.formatHTMLTable(shipSheet)+"</body>\r\n</html>\r\n";
         if (dir != null)
         {
             File txtFile = new File(dir, fname+"_sheet_ship.txt");
             FileUtils.writeFile(text, txtFile);
+            File htmlFile = new File(dir, fname+"_sheet_ship.html");
+            FileUtils.writeFile(html, htmlFile);
         }
         if (zos != null)
         {
             zos.putNextEntry(new ZipEntry(fname+"_sheet_ship.txt"));
             zos.write(text.getBytes());
+            zos.putNextEntry(new ZipEntry(fname+"_sheet_ship.html"));
+            zos.write(html.getBytes());
         }
     }
 
@@ -112,16 +117,21 @@ public class ShipExportLogic
             throws IOException
     {
         List<List<Object>> designSheet = ShipTableLogic.toDesignSheet(report.getShip());
-        String text = ShipTableLogic.formatTable(designSheet, "0,40|wrap,0|right,0.2,0.2");
+        String text = ShipTableLogic.formatTextTable(designSheet, "0,40|wrap,0|right,0.2,0.2");
+        String html = "<html>\r\n<body>\r\n>"+ShipTableLogic.formatHTMLTable(designSheet)+"</body>\r\n</html>\r\n";
         if (dir != null)
         {
             File txtFile = new File(dir, fname+"_sheet_design.txt");
             FileUtils.writeFile(text, txtFile);
+            File htmlFile = new File(dir, fname+"_sheet_design.html");
+            FileUtils.writeFile(html, htmlFile);
         }
         if (zos != null)
         {
             zos.putNextEntry(new ZipEntry(fname+"_sheet_design.txt"));
             zos.write(text.getBytes());
+            zos.putNextEntry(new ZipEntry(fname+"_sheet_design.html"));
+            zos.write(html.getBytes());
         }
     }
 

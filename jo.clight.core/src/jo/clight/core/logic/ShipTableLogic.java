@@ -76,7 +76,11 @@ public class ShipTableLogic
             addLine(table, "{colspan|4|wrap}The "+ship.getShipName()+" "+ship.getShipFunction());
             addLine(table, "---");
             String tonnage = "Tonnage: "+report.getHullDisplacement();
-            String armor = "Armor: "+report.getArmorRating();
+            String armor = "Armor: ";
+            if (report.getArmorRating() > 0)
+                armor += String.valueOf(report.getArmorRating());
+            else
+                armor += "none";
             if (report.getArmor() != null)
                 armor += " " + TextLogic.getString(report.getArmor().getComponent().getName());
             String config = "";
@@ -137,6 +141,8 @@ public class ShipTableLogic
                     armament += "; ";
                 armament += TextLogic.getString(toCountedList(report.getWeapons()));
             }
+            if (armament.length() == 0)
+                armament = "none";
             addLine(table,
                     computer+" computer",
                     "{colspan|3|wrap}Armament : "+armament);
@@ -144,7 +150,9 @@ public class ShipTableLogic
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.STATEROOM));
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.BERTH));
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.HANGER));
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.SCREENS));
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC_ARMORY));
+            fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC_LAB));
             fittings.addAll(ShipDesignLogic.getAllInstances(ship, ShipComponentBean.ETC_FUEL_SCOOPS));
             if (report.getCargoTonnage() > 0)
                 fittings.add(ShipComponentLogic.getInstance(ShipComponentBean.ETC_CARGO_HOLD, report.getCargoTonnage()));
@@ -189,7 +197,7 @@ public class ShipTableLogic
         return new AudioMessageBean(AudioMessageBean.LIST, items.toArray());
     }
     
-    public static String formatTable(List<List<Object>> table, String tableHints)
+    public static String formatTextTable(List<List<Object>> table, String tableHints)
     {
         StringTokenizer st = new StringTokenizer(tableHints, ",");
         ColumnHint[] hints = new ColumnHint[st.countTokens()];
@@ -257,6 +265,41 @@ public class ShipTableLogic
         }
         return sb.toString();
     }
+    
+    public static String formatHTMLTable(List<List<Object>> table)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append("<table>\r\n");
+        for (int row = 0; row < table.size(); row++)
+        {
+            List<Object> line = table.get(row);
+            if (handleSpecialHTMLLine(sb, line))
+                continue;
+            sb.append("<tr>");
+            for (int i = 0; i < line.size(); i++)
+            {
+                String text = line.get(i).toString();
+                if (text.startsWith("{"))
+                {
+                    int o = text.indexOf('}');
+                    ColumnHint hint = new ColumnHint(text.substring(1, o));
+                    text = text.substring(o + 1);
+                    sb.append("<td colspan=\""+hint.colspan+"\">");
+                    sb.append(text);
+                    sb.append("</td>");
+                }
+                else
+                {
+                    sb.append("<td>");
+                    sb.append(text);
+                    sb.append("</td>");
+                }
+            }
+            sb.append("</tr>\r\n");
+        }
+        sb.append("</table>\r\n");
+        return sb.toString();
+    }
 
     public static List<Object> appendNormal(StringBuffer sb,
             List<Object> wrapLine, int col, String text, ColumnHint hint,
@@ -306,6 +349,23 @@ public class ShipTableLogic
                 right = StringUtils.spaceSuffix(right, hint.widthDecimalRight);
             sb.append("|"+left+"."+right);
         }
+    }
+
+    private static boolean handleSpecialHTMLLine(StringBuffer sb, List<Object> line)
+    {
+        if (line.size() != 1)
+            return false;
+        if ("---".equals(line.get(0)))
+        {
+            sb.append("<hr/>\r\n");
+            return true;
+        }
+        if ("===".equals(line.get(0)))
+        {
+            sb.append("<hr/>\r\n");
+            return true;
+        }
+        return false;
     }
 
     private static boolean handleSpecialLine(StringBuffer sb, List<Object> line, int fullWidth)

@@ -55,8 +55,8 @@ public class Dump
             System.out.println("  "+e);
         List<List<Object>> designSheet = ShipTableLogic.toDesignSheet(ship);
         List<List<Object>> shipSheet = ShipTableLogic.toShipSheet(report);
-        System.out.println(ShipTableLogic.formatTable(designSheet, "0,40|wrap,0|right,0.2,0.2"));
-        System.out.println(ShipTableLogic.formatTable(shipSheet, "20,20,20,20"));
+        System.out.println(ShipTableLogic.formatTextTable(designSheet, "0,40|wrap,0|right,0.2,0.2"));
+        System.out.println(ShipTableLogic.formatTextTable(shipSheet, "20,20,20,20"));
         /*
         String prose = TextLogic.getString(report.getProse());
         prose = StringUtils.wrap(prose, 80, "\r\n");

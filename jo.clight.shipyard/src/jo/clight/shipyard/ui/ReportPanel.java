@@ -96,9 +96,9 @@ public class ReportPanel extends JComponent
         {
             String table;
             if (mShip.isSelected())
-                table = ShipTableLogic.formatTable(ShipTableLogic.toShipSheet(report), "25,25,25,25");
+                table = ShipTableLogic.formatTextTable(ShipTableLogic.toShipSheet(report), "25,25,25,25");
             else
-                table = ShipTableLogic.formatTable(ShipTableLogic.toDesignSheet(report.getShip()), "0,40|wrap,0|right,0.2,0.2");
+                table = ShipTableLogic.formatTextTable(ShipTableLogic.toDesignSheet(report.getShip()), "0,40|wrap,0|right,0.2,0.2");
             mClient.setText(table);
         }
     }
