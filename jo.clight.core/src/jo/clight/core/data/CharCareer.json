@@ -1,0 +1,340 @@
+{
+	"careers": [
+		{
+			"id": "AGENT",
+			"qualification": "INT 6+",
+			"survival": "INT 6+",
+			"advancement": "EDU 7+",
+			"reEnlistment": "6+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 10000, 20000, 50000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 INT", "Weapon", "Contact", "+1 SOC", "High Passage", "Low Passage"
+			],
+			"rankBonus" : [
+				"INVESTIGATION-1", "", "", "", "ADMIN-1", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 DEX", "+1 END", "+1 INT", "+1 EDU", "ATHLETICS", "CAROUSING"
+			],
+			"service" : [
+				"ADMIN", "COMPUTER", "STREETWISE", "INVESTIGATION", "LEADERSHIP", "STEALTH"
+			],
+			"specialist" : [
+				"GUN_COMBAT", "MELEE_COMBAT", "INVESTIGATION", "LEADERSHIP", "DRIVING", "RECON"
+			],
+			"advancedEducation" : [
+				"ADMIN", "COMPUTER", "LIAISON", "SCIENCE", "MEDICINE", "LEADERSHIP"
+			]
+		},
+		{
+			"id": "ARMY",
+			"qualification": "END 5+",
+			"survival": "END 5+",
+			"advancement": "EDU 8+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 10000, 20000, 50000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 INT", "Weapon", "Mid Passage", "Weapon", "High Passage", "+1 SOC"
+			],
+			"rankBonus" : [
+				"GUN_COMBAT-1", "LEADERSHIP-1", "", "", "", "", "SOC +1"
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "+1 END", "ATHLETICS", "MELEE_COMBAT", "CAROUSING"
+			],
+			"service" : [
+				"REPAIR", "GUN_COMBAT", "GUNNERY", "MELEE_COMBAT", "RECON", "DRIVING"
+			],
+			"specialist" : [
+				"COMPUTER", "DEMOLITIONS", "GUN_COMBAT", "MELEE_COMBAT", "SURVIVAL", "GROUND_VEHICLE"
+			],
+			"advancedEducation" : [
+				"ADMIN", "COMPUTER", "JACK_O_TRADES", "MEDICINE", "LEADERSHIP", "TACTICS"
+			]
+		},
+		{
+			"id": "BELTER",
+			"qualification": "INT 4+",
+			"survival": "DEX 7+",
+			"advancement": "INT 6+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 5000, 10000, 50000, 100000, 250000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 INT", "Vacc Suit", "Mid Passage", "+1 EDU", "Prospector", "Explorer's Society"
+			],
+			"rankBonus" : [
+				"ZERO_G-1", "", "", "", "ADMIN-1", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "ATHLETICS", "JACK_O_TRADES", "MELEE_COMBAT", "CAROUSING"
+			],
+			"service" : [
+				"REPAIR", "DEMOLITIONS", "PILOTING", "COMPUTERS", "ZERO_G", "REPAIR"
+			],
+			"specialist" : [
+				"ENGINEERING", "COMPUTERS", "REPAIR", "SCIENCE", "ZERO_G", "REPAIR"
+			],
+			"advancedEducation" : [
+				"ADMIN", "MEDICINE", "SCIENCE", "ENGINEERING", "GRAV_VEHICLE", "LIAISON"
+			]
+		},
+		{
+			"id": "COLONIST",
+			"qualification": "END 5+",
+			"survival": "END 5+",
+			"advancement": "EDU 8+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 5000, 5000, 10000, 20000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 INT", "Weapon", "Mid Passage", "Mid Passage", "High Passage", "+1 SOC"
+			],
+			"rankBonus" : [
+				"SURVIVAL-1", "", "", "LIAISON-1", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "+1 END", "+1 INT", "ATHLETICS", "CAROUSING"
+			],
+			"service" : [
+				"REPAIR", "GUN_COMBAT", "ANIMALS", "MELEE_COMBAT", "SURVIVAL", "DRIVING"
+			],
+			"specialist" : [
+				"RECON", "LEADERSHIP", "JACK_O_TRADES", "WATERCRAFT", "ANIMALS", "GRAV_VEHICLE"
+			],
+			"advancedEducation" : [
+				"LIAISON", "SCIENCE", "MEDICINE", "COMPUTER", "ADMIN", "AIRCRAFT"
+			]
+		},
+		{
+			"id": "ELITE",
+			"qualification": "SOC=10",
+			"survival": "INT 5+",
+			"advancement": "INT 8+",
+			"reEnlistment": "6+",
+			"musteringOutCash" : [
+				2000, 10000, 20000, 40000, 50000, 100000, 200000
+			],
+			"musteringOutMaterials" : [
+				"Contact", "+1 EDU", "+1 SOC", "High Passage", "+1 INT", "Explorer's Society", "Yacht"
+			],
+			"rankBonus" : [
+				"ADMIN-1", "", "", "LIAISON-1", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 SOC", "+1 DEX", "+1 END", "MELEE_COMBAT", "ATHLETICS", "CAROUSING"
+			],
+			"service" : [
+				"ADMIN", "LIAISON", "CAROUSING", "ATHLETICS", "LEADERSHIP", "GRAV_VEHICLE"
+			],
+			"specialist" : [
+				"ADMIN", "DECEPTION", "CAROUSING", "ATHLETICS", "LIAISON", "JACK_O_TRADES"
+			],
+			"advancedEducation" : [
+				"ADMIN", "MEDICINE", "COMPUTER", "LIAISON", "CAROUSING", "SCIENCE"
+			]
+		},
+		{
+			"id": "MARINE",
+			"qualification": "INT 6+",
+			"survival": "END 7+",
+			"advancement": "SOC 6+",
+			"reEnlistment": "6+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 10000, 20000, 50000, 50000
+			],
+			"musteringOutMaterials" : [
+				"+1 EDU", "Weapon", "Mid Passage", "+1 SOC", "High Passage", "Explorer's Society", "+1 EDU"
+			],
+			"rankBonus" : [
+				"GUN_COMBAT-1", "LEADERSHIP-1", "", "TACTICS-1", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "+1 END", "+1 INT", "+1 EDU", "CAROUSING"
+			],
+			"service" : [
+				"HEAVY_WEAPONS", "ATHLETICS", "GUN_COMBAT", "GUNNERY", "MELEE_COMBAT", "ZERO_G"
+			],
+			"specialist" : [
+				"REPAIR", "DEMOLITIONS", "LEADERSHIP", "SURVIVAL", "RECON", "GRAV_VEHICLE"
+			],
+			"advancedEducation" : [
+				"ADMIN", "COMPUTER", "PILOTING", "MEDICINE", "SCIENCE", "TACTICS"
+			]
+		},
+		{
+			"id": "MERCHANT",
+			"qualification": "INT 4+",
+			"survival": "INT 5+",
+			"advancement": "EDU 8+",
+			"reEnlistment": "4+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 20000, 20000, 50000, 100000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 EDU", "Weapon", "Contact", "High Passage", "Explorer's Society", "Free Trader"
+			],
+			"rankBonus" : [
+				"STEWARD-1", "", "", "PILOT-1", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "ATHLETICS", "ZERO_G", "MELEE_COMBAT", "CAROUSING"
+			],
+			"service" : [
+				"REPAIR", "LIAISON", "GUN_COMBAT", "ADMIN", "STREETWISE", "STEWARD"
+			],
+			"specialist" : [
+				"LIAISON", "GUNNERY", "JACK_O_TRADES", "MEDICINE", "ENGINEERING", "PILOTING"
+			],
+			"advancedEducation" : [
+				"ADMIN", "ENGINEERING", "MEDICINE", "COMPUTERS", "SCIENCE", "TACTICS"
+			]
+		},
+		{
+			"id": "NAVY",
+			"qualification": "INT 6+",
+			"survival": "INT 6+",
+			"advancement": "EDU 7+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 10000, 20000, 50000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 EDU", "Weapon", "Mid Passage", "+1 SOC", "High Passage", "Explorer's Society"
+			],
+			"rankBonus" : [
+				"ZERO_G-1", "LEADERSHIP-1", "", "TACTICS-1", "", "", "+1 SOC"
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "ATHLETICS", "+1 INT", "+1 EDU", "CAROUSING"
+			],
+			"service" : [
+				"REPAIR", "ENGINEERING", "GUN_COMBAT", "GUNNERY", "MELEE_COMBAT", "ZERO_G"
+			],
+			"specialist" : [
+				"JACK_O_TRADES", "REPAIR", "ENGINEERING", "LEADERSHIP", "PILOTING", "JACK_O_TRADES"
+			],
+			"advancedEducation" : [
+				"ADMIN", "COMPUTER", "ENGINEERING", "MEDICINE", "SCIENCE", "TACTICS"
+			]
+		},
+		{
+			"id": "PIRATE",
+			"qualification": "DEX 5+",
+			"survival": "DEX 7+",
+			"advancement": "INT 6+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 20000, 50000, 100000, 250000
+			],
+			"musteringOutMaterials" : [
+				"+1 INT", "Weapon", "High Passage", "+1 SOC", "High Passage", "Corsair", "+1 INT"
+			],
+			"rankBonus" : [
+				"MELEE_COMBAT-1", "", "PILOTING-1", "", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "+1 END", "MELEE_COMBAT", "DECEPTION", "CAROUSING"
+			],
+			"service" : [
+				"STREETWISE", "REPAIR", "GUN_COMBAT", "MELEE_COMBAT", "STEALTH", "RECON"
+			],
+			"specialist" : [
+				"ZERO_G", "COMPUTER", "ENGINEERING", "GUNERY", "TACTICS", "PILOTING"
+			],
+			"advancedEducation" : [
+				"COMPUTER", "INVESTIGATION", "JACK_O_TRADES", "MEDICINE", "ADMIN", "SCIENCE"
+			]
+		},
+		{
+			"id": "ROGUE",
+			"qualification": "DEX 5+",
+			"survival": "DEX 5+",
+			"advancement": "INT 8+",
+			"reEnlistment": "4+",
+			"musteringOutCash" : [
+				1000, 5000, 5000, 5000, 10000, 20000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 INT", "Weapon", "Contact", "Weapon", "Mid Passage", "+1 SOC"
+			],
+			"rankBonus" : [
+				"STREETWISE-1", "", "GUN_COMBAT-1", "", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "+1 INT", "ATHLETICS", "MELEE_COMBAT", "CAROUSING"
+			],
+			"service" : [
+				"STREETWISE", "REPAIR", "GUN_COMBAT", "DECEPTION", "STEALTH", "RECON"
+			],
+			"specialist" : [
+				"COMPUTER", "REPAIR", "CAROUSING", "ADMIN", "RECON", "DECEPTION"
+			],
+			"advancedEducation" : [
+				"SURVIVAL", "ENGINEERING", "JACK_O_TRADES", "MEDICINE", "INVESTIGATION", "TACTICS"
+			]
+		},
+		{
+			"id": "SCHOLAR",
+			"qualification": "EDU 6+",
+			"survival": "INT 4+",
+			"advancement": "EDU 9+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 10000, 20000, 50000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Contact", "+1 EDU", "+1 INT", "Mid Passage", "+1 SOC", "High Passage", "Research Vessel"
+			],
+			"rankBonus" : [
+				"ADMIN-1", "", "", "LIAISON-1", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "+1 END", "+1 INT", "+1 EDU", "CAROUSING"
+			],
+			"service" : [
+				"ADMIN", "COMPUTER", "MEDICINE", "LIAISON", "INVESTIGATION", "SCIENCE"
+			],
+			"specialist" : [
+				"SURVIVAL", "ADMIN", "MEDICINE", "SCIENCE", "REPAIR", "CAROUSING"
+			],
+			"advancedEducation" : [
+				"PILOTING", "COMPUTER", "ENGINEERING", "MEDICINE", "JACK_O_TRADES", "SCIENCE"
+			]
+		},
+		{
+			"id": "SCOUT",
+			"qualification": "INT 6+",
+			"survival": "END 7+",
+			"advancement": "INT 6+",
+			"reEnlistment": "5+",
+			"musteringOutCash" : [
+				1000, 5000, 10000, 10000, 20000, 50000, 50000
+			],
+			"musteringOutMaterials" : [
+				"Low Passage", "+1 INT", "Weapon", "Mid Passage", "Vacc Suit", "Scout Ship", "Explorer's Society"
+			],
+			"rankBonus" : [
+				"PILOTING-1", "", "", "SCIENCE-1", "", "", ""
+			],
+			"personalDevelopment" : [
+				"+1 STR", "+1 DEX", "ATHLETICS", "JACK_O_TRADES", "+1 EDU", "MELEE_COMBAT"
+			],
+			"service" : [
+				"REPAIR", "COMPUTER", "GUN_COMBAT", "GUNNERY", "RECON", "PILOTING"
+			],
+			"specialist" : [
+				"ENGINEERING", "GUNNERY", "SCIENCE", "PILOTING", "INVESTIGATION", "STEALTH"
+			],
+			"advancedEducation" : [
+				"ADMIN", "COMPUTER", "GRAV_VEHICLE", "MEDICINE", "SCIENCE", "TACTICS"
+			]
+		}
+	]
+}

@@ -15,10 +15,10 @@ import jo.clight.core.logic.ShipTableLogic;
 import jo.clight.core.logic.plan.ShipPlanLogic;
 import jo.clight.core.logic.text.TextLogic;
 
-public class Dump
+public class DumpShips
 {
 
-    public Dump()
+    public DumpShips()
     {
     }
 
