@@ -1,0 +1,166 @@
+openapi: "3.0.0"
+info:
+  title: "Cephus Adventure API"
+  description: "This API is for programmatic access to various back end utilities for Cephus Adventure."
+  version: "1.0.0"
+  termsOfService: "https://www.ocean-of-storms.com/core"
+  contact:
+    email: "jo@111george.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    
+servers:
+  - url: "http://api.111george.com/api/cephus/adventure"
+    description: Main production server
+  - url: "http://staging-api.111george.com/api/cephus/adventure"
+    description: Development server
+
+paths:
+  /v1:
+    post:
+      summary: "API Entry Point"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+components:
+  responses:
+    UnauthorizedError:
+      description: Autentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+  schemas:
+    Request:
+      type: object
+      properties:
+        auth:
+          $ref: "#/components/schemas/Auth"
+        op:
+          $ref: "#/components/schemas/Operation"
+        data:
+          $ref: "#/components/schemas/Data"
+    Response:
+      type: object
+      properties:
+        op:
+          $ref: "#/components/schemas/Operation"
+        data:
+          $ref: "#/components/schemas/Data"
+    Auth:
+      type: object
+      required:
+        - authname
+        - authpassword
+      properties:
+        authname:
+          type: "string"
+        authpassword:
+          type: "string"
+    Operation:
+      type: object
+      required:
+        - domain
+        - operation
+      properties:
+        domain:
+          type: "string"
+        operation:
+          type: "string"
+    Data:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/CephusSkill"
+        - $ref: "#/components/schemas/CephusCareer"
+    User:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        email:
+          type: "string"
+        password:
+          type: "string"
+    CephusSkill:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        description:
+          type: "string"
+        type:
+          type: "string"
+          enum:
+            - statistic
+            - ability
+            - item
+            - benefit
+        owner:
+          type: "string"
+    CephusCareer:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        description:
+          type: "string"
+        owner:
+          type: "string"
+        qualification:
+          type: "string"
+        survival:
+          type: "string"
+        advancement:
+          type: "string"
+        reEnlistment:
+          type: "string"
+        musteringOutCash:
+          type: "array"
+          items:
+            type: "integer"
+            format: "int64"
+        musteringOutMaterials:
+          type: "array"
+          items:
+            type: "string"
+        rankBonus:
+          type: "array"
+          items:
+            type: "string"
+        rankDescription:
+          type: "array"
+          items:
+            type: "string"
+        personalDevelopment:
+          type: "array"
+          items:
+            type: "string"
+        service:
+          type: "array"
+          items:
+            type: "string"
+        specialist:
+          type: "array"
+          items:
+            type: "string"
+        advancedEducation:
+          type: "array"
+          items:
+            type: "string"
+        

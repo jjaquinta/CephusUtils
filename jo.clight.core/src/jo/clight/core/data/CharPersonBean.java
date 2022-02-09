@@ -160,7 +160,7 @@ public class CharPersonBean extends CephusBean implements IJSONAble
     public int getSkill(String skill)
     {
         if (mSkills.containsKey(skill))
-            return mSkills.get(skill);
+            return IntegerUtils.parseInt(mSkills.get(skill));
         else
             return 0;
     }
@@ -195,7 +195,7 @@ public class CharPersonBean extends CephusBean implements IJSONAble
         if (StringUtils.isTrivial(id))
             return;
         if (mSkills.containsKey(id))
-            mSkills.put(id, mSkills.get(id) + amnt);
+            mSkills.put(id, getSkill(id) + amnt);
         else
             mSkills.put(id, amnt);
     }

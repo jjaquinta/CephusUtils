@@ -89,6 +89,7 @@ public class CharCareerLogic
     
     public static String getBestCareer(String skill, Random rnd)
     {
+        init();
         Map<String, Integer> ranks = mBestCareerIndex.get(skill);
         int total = mBestCareerTotals.get(skill);
         int roll = rnd.nextInt(total);

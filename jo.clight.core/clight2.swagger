@@ -1,0 +1,480 @@
+openapi: "3.0.0"
+info:
+  title: "Cephus Adventure API"
+  description: "This API is for programmatic access to various back end utilities for Cephus Adventure."
+  version: "1.0.0"
+  termsOfService: "https://www.ocean-of-storms.com/core"
+  contact:
+    email: "jo@111george.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    
+servers:
+  - url: "http://api.111george.com/api/cephus/adventure"
+    description: Main production server
+  - url: "http://staging-api.111george.com/api/cephus/adventure"
+    description: Development server
+
+tags:
+  - name: "user"
+    description: "User maintenance functions"
+  - name: "career"
+    description: "Career definitions"
+  - name: "skill"
+    description: "Skill definitions"
+paths:
+  /user:
+    post:
+      tags:
+        - "user"
+      summary: "Creates a new user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid parameter"
+  /user/{id}:
+    get:
+      tags:
+        - "user"
+      summary: "Retrieves a user's info"
+      description: "Retrieves the details of a single user"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the user to retrieve"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    patch:
+      tags:
+        - "user"
+      summary: "Updates a user's info"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the user to retrieve"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+        - "user"
+      summary: "Deletes a user"
+      description: "Removes the entry for a user"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the user to delete"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /skills:
+    get:
+      tags:
+        - "skill"
+      summary: "Retrieves a list of skills"
+      description: "Lists all the skills currently defined by the system"
+      parameters:
+        - name: "owner"
+          in: "query"
+          required: false
+          description: "Filter list by the given owner"
+          schema:
+            type: "string"
+        - name: "type"
+          in: "query"
+          required: false
+          description: "Filter list by the given type"
+          schema:
+            type: "string"
+            enum:
+              - statistic
+              - ability
+              - item
+              - benefit
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/CephusSkill"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+        - "skill"
+      summary: "Creates a new skill"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CephusSkill"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CephusSkill"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /skills/{id}:
+    get:
+      tags:
+        - "skill"
+      summary: "Retrieves a skill"
+      description: "Retrieves the details of a single skill"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the skill to retrieve"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CephusSkill"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    patch:
+      tags:
+        - "skill"
+      summary: "Updates a skill"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the skill to retrieve"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CephusSkill"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CephusSkill"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+        - "skill"
+      summary: "Deletes a skill"
+      description: "Removes the entry for a skill"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the skill to delete"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /careers:
+    get:
+      tags:
+        - "career"
+      summary: "Retrieves a list of careers"
+      description: "Lists all the careers currently defined by the system"
+      parameters:
+        - name: "owner"
+          in: "query"
+          required: false
+          description: "Filter list by the given owner"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/CephusCareer"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+        - "career"
+      summary: "Creates a new career"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CephusCareer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CephusCareer"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /careers/{id}:
+    get:
+      tags:
+        - "career"
+      summary: "Retrieves a career"
+      description: "Retrieves the details of a single career"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the career to retrieve"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CephusCareer"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    patch:
+      tags:
+        - "career"
+      summary: "Updates a career"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the career to retrieve"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CephusCareer"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CephusCareer"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+        - "skill"
+      summary: "Deletes a career"
+      description: "Removes the entry for a career"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "the ID of the career to delete"
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid parameter"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+components:
+  responses:
+    UnauthorizedError:
+      description: Autentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+  schemas:
+    Auth:
+      type: "object"
+      properties:
+        authname:
+          type: "string"
+        authpassword:
+          type: "string"
+    User:
+      allOf:
+        - $ref: "#/components/schemas/Auth"
+        - type: "object"
+          properties:
+            name:
+              type: "string"
+            email:
+              type: "string"
+            password:
+              type: "string"
+    CephusSkill:
+      allOf:
+        - $ref: "#/components/schemas/Auth"
+        - type: "object"
+          properties:
+            id:
+              type: "string"
+            name:
+              type: "string"
+            description:
+              type: "string"
+            type:
+              type: "string"
+              enum:
+                - statistic
+                - ability
+                - item
+                - benefit
+            owner:
+              type: "string"
+    CephusCareer:
+      allOf:
+        - $ref: "#/components/schemas/Auth"
+        - type: "object"
+          properties:
+            id:
+              type: "string"
+            name:
+              type: "string"
+            description:
+              type: "string"
+            owner:
+              type: "string"
+            qualification:
+              type: "string"
+            survival:
+              type: "string"
+            advancement:
+              type: "string"
+            reEnlistment:
+              type: "string"
+            musteringOutCash:
+              type: "array"
+              items:
+                type: "integer"
+                format: "int64"
+            musteringOutMaterials:
+              type: "array"
+              items:
+                type: "string"
+            rankBonus:
+              type: "array"
+              items:
+                type: "string"
+            rankDescription:
+              type: "array"
+              items:
+                type: "string"
+            personalDevelopment:
+              type: "array"
+              items:
+                type: "string"
+            service:
+              type: "array"
+              items:
+                type: "string"
+            specialist:
+              type: "array"
+              items:
+                type: "string"
+            advancedEducation:
+              type: "array"
+              items:
+                type: "string"
+            
